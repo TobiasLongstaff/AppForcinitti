@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,12 +20,12 @@
             <input type="button" value="Clientes">
         </a>
         <!-- PRODUCTOS -->
-        <form class="productos" metod="post" action="buscar-productos.php">
+        <form class="productos" metod="POST" action="buscar-productos.php">
             <div class="label-productos">
                 <span>Productos</span>                
             </div>
             <input class="textbox-productos" type="search" name="search">
-            <input type="submit" value="Buscar">            
+            <button type="submit">Buscar</button>            
         </form>
         <!-- INFORMACION -->
         <div class="informacion">
