@@ -1,0 +1,90 @@
+body
+{
+    margin: 0;
+    font-family: 'Roboto Thin', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;   
+    color: #707070;
+}
+
+.contenido
+{
+    padding: 10%;
+    display: grid;
+    grid-template-rows: 100px 200px 40px;
+    grid-template-areas: "titulo"
+                         "contenido"
+                         "boton";
+}
+
+.titulo
+{
+    display: flex;
+    justify-content: center;
+    grid-area: titulo;
+    font-size: 25px;
+}
+
+.formulario h2
+{
+    font-size: 15px;
+}
+
+.formulario input
+{
+    border-radius: 20px;
+    border-color: #AFBDA2;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 15px;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #707070;
+}
+
+.formulario
+{
+    grid-area: contenido;
+    
+}
+
+.leable_usuario
+{
+    font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-left: 30px;
+}
+
+.textbox_usuario
+{
+    display: flex;
+    justify-content: center;
+}
+
+.leable_contraseña
+{
+    font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-left: 30px;
+}
+
+.textbox_contraseña
+{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 32px;
+}
+
+.boton
+{
+    display: grid;
+    grid-area: boton;
+}
+
+.boton input
+{    
+    border-radius: 5px;
+    border-style: none;
+    background-color: #88C051;
+    font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    font-size: 20px;
+    font-family: 'Roboto Light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

@@ -1,0 +1,207 @@
+body
+{
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto Medium', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #707070;
+}
+
+.contenido
+{
+    display: grid;
+    grid-template-columns: none;
+    grid-template-rows: 90px 40px 73px 76px 75px 75px 125px;
+    grid-template-areas: "titulo"
+                         "clientes"
+                         "productos"
+                         "informacion"
+                         "condicion-iva"
+                         "entrega"
+                         "botones";
+    padding: 0 7% ;
+}
+
+.contenido input
+{
+    border-radius: 15px;
+    border-color: #AFBDA2;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 15px;
+    height: 22px;
+    padding: 5px 10px;
+    color: #707070;
+    
+}
+
+                /* TITULO */
+
+.titulo
+{
+    grid-area: titulo;
+    display: flex;
+    align-items: flex-end;
+}
+
+.titulo h2
+{
+    font-family: 'Roboto thin', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 25px;
+    color: #707070;    
+}
+
+                /* BOTON DE CLIENTES  */
+
+.clientes
+{
+    grid-area: clientes;
+    display: grid;
+}
+
+.boton
+{
+    text-decoration: none;
+}
+
+.boton input, button
+{
+    background-color: #88C051;
+    border: 0;
+    border-radius: 5px;
+    color: white;
+    font-size: 20px;
+    height: 40px;
+    font-family: 'Roboto light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+                /* PRODUCTOS */
+.productos
+{
+    grid-area: productos;
+    margin-top: 5%;
+}
+
+.textbox-productos
+{
+    width: 172px;
+    padding: 5px;
+}
+                /* INFORMACION */
+.informacion
+{
+    grid-area: informacion;
+}
+
+.leables
+{
+    display: flex;
+    margin-top: 5%;
+    margin-bottom: 7px;
+    padding-right: 13px;
+    justify-content: space-between;
+}
+
+.contenedor-textbox
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+.textbox-cantidad
+{
+    width: 45px;
+}
+
+.textbox-precio
+{
+    width: 90px;
+}
+
+.textbox-descuento
+{
+    width: 55px;
+}
+
+                /* IVA */
+
+.textbox-iva
+{
+    width: 30px;
+}
+
+.condicion-iva
+{
+    grid-area: condicion-iva;
+    margin-top: 5%;
+}
+
+.leable-iva
+{
+    margin-bottom: 7px;
+}
+
+                /* ENTREGA */
+
+.entrega
+{
+    margin-top: 5%;
+    grid-area: entrega;
+}
+
+.leables-entrega
+{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 7px;    
+}
+
+.textbox-entrega
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+.leable-2
+{
+    padding-right: 17px;
+}
+
+.textbox-entrega input
+{
+    width: 120px;
+}
+
+                /* BOTONES */
+
+.botones
+{
+    margin-top: 5%;
+    grid-area: botones;
+    display: flex;
+    align-items: flex-end;
+    margin-left: 100px;
+}
+
+.botones button
+{
+    width: 100px;
+    height: 90px;
+} 
+
+.boton-2
+{
+    padding-left: 10px;
+}
+
+.boton-2 input
+{
+    background-color: white;
+    border-color: #88C051;
+    color: #88C051;
+    font-size: 20px;
+    font-family: 'Roboto light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 10px;
+    width: 100px;
+    height: 90px;
+    padding: 0;
+}
+

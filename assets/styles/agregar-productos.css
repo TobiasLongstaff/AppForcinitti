@@ -1,0 +1,62 @@
+body
+{
+    margin: 0;
+    font-family: 'Roboto medium', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;   
+    color: #707070;
+}
+
+.titulo h2
+{
+    font-family: 'Roboto light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 25px;
+}
+
+.contenido
+{
+    padding: 10%;
+}
+
+span
+{
+    padding: 10px;
+}
+
+input[type="text"]
+{
+
+    border-radius: 15px;
+    border-color: #AFBDA2;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 15px;
+    height: 22px;
+    padding: 5px 10px;
+    color: #707070;
+}
+
+input[type="button"]
+{
+    background-color: white;
+    border-color: #88C051;
+    color: #88C051;
+    font-size: 20px;
+    font-family: 'Roboto light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 10px;
+    border-style: solid;
+    width: 100px;
+    height: 90px;
+    padding: 0;
+}
+
+input[type="submit"]
+{
+    background-color: #88C051;
+    border: 0;
+    border-radius: 5px;
+    color: white;
+    font-size: 20px;
+    width: 100px;
+    height: 90px;
+    font-family: 'Roboto light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
