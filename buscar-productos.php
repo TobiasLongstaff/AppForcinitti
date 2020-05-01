@@ -2,11 +2,8 @@
 
     require ('database.php');
 
-    $buscar = '';
-    if(isset($_POST['search']))
-    {
-        $buscar = $_POST['search'];        
-    }
+    $buscar = $_POST["search"];       
+
     $conecta = mysqli_connect($server, $nombre, $password, $database);
     if (mysqli_connect_errno())
     {

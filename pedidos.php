@@ -12,7 +12,7 @@
     <title>Pedidos</title>
 </head>
 <body>
-    <div class="contenido">
+    <form class="contenido" method="POST" action="">
         <div class="titulo">
             <h2>Pedidos</h2>
         </div>
@@ -20,7 +20,7 @@
             <input type="button" value="Clientes">
         </a>
         <!-- PRODUCTOS -->
-        <form class="productos" metod="POST" action="buscar-productos.php">
+        <form class="productos" method="POST" action="buscar-productos.php">
             <div class="label-productos">
                 <span>Productos</span>                
             </div>
@@ -69,6 +69,6 @@
                 <input type="button" value="Ver Lista">
             </a>            
         </div>
-    </div>
+    </form>
 </body>
 </html>
