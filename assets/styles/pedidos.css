@@ -21,6 +21,11 @@ body
     padding: 0 7% ;
 }
 
+input [type="search" i]
+{
+    height: 40px;
+}
+
 .contenido input
 {
     border-radius: 15px;

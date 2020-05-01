@@ -20,15 +20,13 @@
             <input type="button" value="Clientes">
         </a>
         <!-- PRODUCTOS -->
-        <div class="productos">
+        <form class="productos" metod="post" action="buscar-productos.php">
             <div class="label-productos">
                 <span>Productos</span>                
             </div>
-            <input class="textbox-productos" type="text" name="" id="">
-            <a class="boton" href="buscar-productos.php">
-                <input type="button" value="Buscar">            
-            </a>            
-        </div>
+            <input class="textbox-productos" type="search" name="search">
+            <input type="submit" value="Buscar">            
+        </form>
         <!-- INFORMACION -->
         <div class="informacion">
             <div class="leables">

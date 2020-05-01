@@ -3,14 +3,36 @@
     include 'database.php';
 
     $message = '';
-    
-    $descripcion = isset($_POST["descripcion"]);
-    $precioMinorista = isset($_POST['precioMinorista']);
-    $precioMayorista = isset($_POST['precioMayorista']);
-    $precioMasivo = isset($_POST['precioMasivo']);
-    $codigo = isset($_POST['codigo']);
-    $iva = isset($_POST['iva']);
-
+    $descripcion = '';
+    $precioMinorista = '';
+    $precioMayorista = '';
+    $precioMasivo = '';
+    $codigo = '';
+    $iva = '';
+    if(isset($_POST['descripcion']))
+    {
+        $descripcion = $_POST['descripcion'];
+    }
+    if(isset($_POST['precioMinorista']))
+    {
+        $precioMinorista = $_POST['precioMinorista'];
+    }
+    if(isset($_POST['precioMayorista']))
+    {
+        $precioMayorista = $_POST['precioMayorista'];        
+    }
+    if(isset($_POST['precioMasivo']))
+    {
+        $precioMasivo = $_POST['precioMasivo'];
+    }
+    if(isset($_POST['codigo']))
+    {
+        $codigo = $_POST['codigo'];
+    }
+    if(isset($_POST['iva']))
+    {
+        $iva = $_POST['iva'];
+    }
     $sql = "INSERT INTO productos (descripcion, precioMinorista, precioMayorista, precioMasivo, iva, codigo) VALUES ('$descripcion', '$precioMinorista', '$precioMayorista', '$precioMasivo', $iva, '$codigo')";
     $resultado = mysqli_query($conexion,$sql);
     if (!$resultado)

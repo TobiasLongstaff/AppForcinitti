@@ -1,8 +1,41 @@
 <?php
 
-    require 'database.php';
-?>
+    require ('database.php');
 
+    $buscar = '';
+    if(isset($_POST['search']))
+    {
+        $buscar = $_POST['search'];        
+    }
+    $conecta = mysqli_connect($server, $nombre, $password, $database);
+    if (mysqli_connect_errno())
+    {
+        echo "error flaco";
+        exit();
+    }
+    mysqli_select_db($conecta, $database) or die ('el otro error');
+    mysqli_set_charset($conecta, 'utf8');
+    $query = "SELECT * FROM productos WHERE descripcion LIKE '%".$buscar."%' LIMIT 6";
+    $resultado = mysqli_query($conecta, $query);
+
+    if ($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+    {
+        echo $fila['descripcion'];
+        echo "<br>";
+        echo $fila['precioMinorista'];
+        echo "<br>";
+        echo $fila['precioMayorista'];
+        echo "<br>";
+        echo $fila['precioMasivo'];
+        echo "<br>";
+        echo $fila['iva'];
+        echo "<br>";
+        echo $fila['codigo'];
+        echo "<br>";
+    }
+    mysqli_close($conecta);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,20 +48,17 @@
     <title>Buscar Productos</title>
 </head>
 <body>
-    <?php if(!empty($message)):?>
-    <p><?=$message?></p>
-    <?php endif; ?>
     <div class="contenido">
         <div class="titulo">
             <h2>Buscar Productos</h2>
         </div>
-        <div class="productos">
+        <form accion="" method="POST" class="productos">
             <div class="leable-productos">
                 <span>Productos</span>                
             </div>
-            <input type="text">
+            <input type="text" name="descripcion">
             <button>Buscar</button>
-        </div>
+        </form>
         <div class="tabla-precios">
             <div class="cabecera">
                 <span>Precios</span>
