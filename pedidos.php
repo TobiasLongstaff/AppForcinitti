@@ -16,7 +16,7 @@
         <div class="titulo">
             <h2>Pedidos</h2>
         </div>
-        <a class="boton clientes" href="#">
+        <a class="boton clientes" href="clientes.php">
             <input type="button" value="Clientes">
         </a>
         <!-- PRODUCTOS -->

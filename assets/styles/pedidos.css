@@ -20,11 +20,6 @@ body
                          "botones";
     padding: 0 7% ;
 }
-/* 
-input [type="search"]
-{
-    height: 40px;
-} */
 
 .contenido input
 {
@@ -33,10 +28,8 @@ input [type="search"]
     border-style: solid;
     border-width: 1px;
     font-size: 15px;
-    height: 22px;
     padding: 5px 10px;
     color: #707070;
-    
 }
 
                 /* TITULO */
@@ -89,6 +82,7 @@ input [type="search"]
 {
     width: 172px;
     padding: 5px;
+    height: 2.2em;
 }
                 /* INFORMACION */
 .informacion
