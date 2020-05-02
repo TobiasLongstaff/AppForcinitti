@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">   
-    <link rel="stylesheet" href="/assets/styles/lista.css">
+    <link rel="stylesheet" href="assets/styles/lista.css">
     <title>Lista</title>
 </head>
 <body>
@@ -28,17 +28,14 @@
                 <td>prueba</td>
                 <td>prueba</td>
             </tr>
-            <tr>
-                <td>prueba</td>
-                <td>prueba</td>
-                <td>prueba</td>
-            </tr>
-            <tr>
-                <td>prueba</td>
-                <td>prueba</td>
-                <td>prueba</td>
-            </tr>
         </table>
+        <div class="botones">
+            <input type="submit" value="Agregar">
+            <input type="submit" value="Eliminar">
+            <a href="pedidos.php">
+                <input type="button" value="Salir">                
+            </a>
+        </div>
     </div>
 </body>
 </html>

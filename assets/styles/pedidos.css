@@ -20,11 +20,11 @@ body
                          "botones";
     padding: 0 7% ;
 }
-
-input [type="search" i]
+/* 
+input [type="search"]
 {
     height: 40px;
-}
+} */
 
 .contenido input
 {

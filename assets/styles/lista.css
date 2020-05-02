@@ -13,21 +13,25 @@ body
 
 table
 {
-    border: 1px solid #88C051;
+    border-radius: 0.25em;
     border-collapse: collapse;
     width: 100%;
     background-color: #88C051;
     color: white;
 }
 
-th
+.titulo h2, th
 {
     font-family: 'Roboto thin', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  
 }
 
+.titulo
+{
+    margin-bottom: 40px;
+}
+
 td, th 
 {
-    border: 1px solid #88C051;
     text-align: left;
     padding: 8px;
 }
@@ -37,3 +41,29 @@ tr:nth-child(even)
     color: #707070;
     background-color: white
 }
+
+.botones
+{
+    position: fixed;
+    justify-content: space-between;
+    padding: 10px 0 20px 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    text-align: center;
+    background-color: white;
+}
+
+.botones input
+{
+    background-color: #88C051;
+    border: 0;
+    border-radius: 5px;
+    color: white;
+    font-size: 18px;
+    height: 35px;
+    width: 90px;
+    font-family: 'Roboto light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+

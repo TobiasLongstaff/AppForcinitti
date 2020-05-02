@@ -12,7 +12,7 @@
     <title>Pedidos</title>
 </head>
 <body>
-    <form class="contenido" method="POST" action="">
+    <div class="contenido" method="POST" action="">
         <div class="titulo">
             <h2>Pedidos</h2>
         </div>
@@ -36,10 +36,10 @@
                 <span>IVA</span>                
             </div>
             <div class="contenedor-textbox">
-                <input class="textbox-cantidad" type="text" name="" id="">
-                <input class="textbox-precio" type="text" name="" id="">
-                <input class="textbox-descuento" type="text" name="" id="">
-                <input class="textbox-iva" type="text" name="" id="">                 
+                <input class="textbox-cantidad" type="text" name="">
+                <input class="textbox-precio" type="text" name="">
+                <input class="textbox-descuento" type="text" name="">
+                <input class="textbox-iva" type="text" name="">                 
             </div>   
         </div>
         <!-- CONDICION IVA -->
@@ -47,7 +47,7 @@
             <div class="leable-iva">
                 <span>Condicion IVA</span>                
             </div>
-            <input type="text" name="" id="">            
+            <input type="text" name="">            
         </div>
         <!-- ENTREGA -->
         <div class="entrega">
@@ -56,19 +56,19 @@
                 <span class="leable-2">Fecha de Entrega</span>                
             </div>
             <div class="textbox-entrega">
-                <input type="text" name="" id="">
-                <input type="text" name="" id="">                      
+                <input type="text" name="">
+                <input type="text" name="">                      
             </div>
         </div>
         <!-- BOTONES -->
         <div class="botones">
-            <a class="boton" href="#">
+            <a class="boton" href="lista.php">
                 <button class="">Agregar Producto</button>
             </a>
-            <a class="boton-2" href="#">
+            <a class="boton-2" href="lista.php">
                 <input type="button" value="Ver Lista">
             </a>            
         </div>
-    </form>
+    </div>
 </body>
 </html>
