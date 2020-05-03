@@ -9,12 +9,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/styles/clientes.css">
-    <title>Document</title>
+    <title>Informacion del cliente</title>
 </head>
 <body>
     <div class="contenido">
         <div class="titulo">
-            <h2>Clientes</h2>
+            <h2>Informacion del cliente</h2>
         </div>            
         <span>Clientes</span>
         <form class="clientes" action="">

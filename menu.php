@@ -52,17 +52,17 @@
             <a href="pedidos.php">
                 <input type="button" value="Pedidos">                
             </a>
-            <a href="">
+            <a href="lista.php">
                 <input type="button" value="Gestionar Pedidos">                
             </a>
             <a href="agregar-productos.php">
                 <input type="button" value="Agregar Producto">                
             </a>
-            <a href="">
-                <input type="button" value=" ">                
+            <a href="cliente.php">
+                <input type="button" value="Clientes">                
             </a>
-            <a href="">
-                <input type="button" value=" ">                  
+            <a href="productos.php">
+                <input type="button" value="Productos">                  
             </a>
             <div class="linea"></div> 
         </div>
