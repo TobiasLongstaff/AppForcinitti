@@ -42,13 +42,11 @@
     <div class="contenido">
         <div class="titulo">
             <h2>Buscar Productos</h2>
-        </div>
+        </div>                
+        <span>Productos</span>    
         <form accion="buscar-productos.php" method="POST" class="productos">
-            <div class="leable-productos">
-                <span>Productos</span>                
-            </div>
-            <input type="search" name="search" value="<?php echo $buscar;?>">
-            <input type="submit" value="Buscar">
+            <input class="text-productos" type="search" name="search" value="<?php echo $buscar;?>">
+            <input class="boton-buscar" type="submit" value="Buscar">
         </form>
         <div class="tabla-precios">
             <div class="cabecera">

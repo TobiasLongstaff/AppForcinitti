@@ -20,7 +20,7 @@
             <input type="button" value="Clientes">
         </a>
         <!-- PRODUCTOS -->
-        <form class="productos" method="POST" action="buscar-productos.php">
+        <form class="productos" method="POST" action="productos.php">
             <div class="label-productos">
                 <span>Productos</span>                
             </div>

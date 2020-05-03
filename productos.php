@@ -1,3 +1,19 @@
+<?php
+    require ('database.php');
+
+    $buscar = $_POST["search"]; 
+    $destino = "productos.php";      
+
+    $conecta = mysqli_connect($server, $nombre, $password, $database);
+    if (mysqli_connect_errno())
+    {
+        echo "Error al conectar la base de datos";
+        exit();
+    }
+    mysqli_select_db($conecta, $database) or die ('Error al conectar');
+    mysqli_set_charset($conecta, 'utf8');
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -12,61 +28,59 @@
         <div class="titulo">
             <h2>Productos</h2>
         </div>
-        <table>
-            <tr>        
-                <th></th>
-                <th>Código</th>
-                <th>Descripcion</th>
-            </tr>
-            <?php include "database.php";
-            $conecta = mysqli_connect($server, $nombre, $password, $database);
-            if (mysqli_connect_errno())
-            {
-                echo "Error al conectar la base de datos";
-                exit();
-            }
-            mysqli_select_db($conecta, $database) or die ('Error al conectar');
-            mysqli_set_charset($conecta, 'utf8');
-            $sql="SELECT * FROM productos";
-            $resultado = mysqli_query($conecta, $sql);
-            while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
-            {
-                echo "<tr onclick='seleccionar(this,1)' >";
-                echo "<td><input type='checkbox' name='check[]' value='1' id='chk1'>";
-                echo "<td>"; echo $filas['codigo']; echo "</td>";
-                echo "<td>"; echo $filas['descripcion']; echo "</td>";
-                echo "</tr>";
-            }
-            ?>
-        </table>
-        <div class="botones">
-            <a href="agregar-productos.php">
-                <input type="submit" value="Agregar">                
-            </a>
-            <input type="submit" value="Eliminar">
-            <a href="menu.php">
-                <input type="button" value="Salir">                
-            </a>
-        </div>
+        <span>Productos</span>
+        <form method="POST" action="<?php echo $destino;?>">
+            <div class="productos">
+                <input class="text" type="search" name="search" value="<?php echo $buscar;?>">
+                <input class="boton-buscar" type="submit"  value="Buscar">                
+            </div>
+            <table>
+                <tr>        
+                    <th></th>
+                    <th>Código</th>
+                    <th>Descripcion</th>
+                </tr>
+                <?php
+                    if($buscar == '')
+                    {
+                        $sql="SELECT * FROM productos";
+                        $resultado = mysqli_query($conecta, $sql);
+
+                        while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+                        {
+                            echo "<tr>";
+                            echo "<td>";
+                            echo "<td>"; echo $filas['codigo']; echo "</td>";
+                            echo "<td>"; echo $filas['descripcion']; echo "</td>";
+                            echo "</tr>";
+                        }
+                        mysqli_close($conecta);  
+                    }
+                    else
+                    {
+                        $query = "SELECT * FROM productos WHERE descripcion LIKE '$buscar%'";
+                        $resultado = mysqli_query($conecta, $query);
+
+                        while ($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+                        {
+                            echo "<tr>";
+                            echo "<td>";
+                            echo "<td>"; echo $codigo = $fila['codigo']; echo "</td>";             
+                            echo "<td>"; echo $nombre = $fila['descripcion']; echo "</td>";
+                            echo "</tr>";
+                        }
+                        mysqli_close($conecta);        
+                    }
+                ?>
+            </table>
+            <div class="botones">
+                <input type="submit" value="Agregar">
+                <input type="submit" value="Mas Info.">
+                <a href="pedidos.php">
+                    <input type="button" value="Salir">                        
+                </a>
+            </div>
+        </form>
     </div>
-    <script>
-        function seleccionar(tr,value)
-        {
-            $(function()
-            {
-                if($("chk"+value).attr("checked") == "checked")
-                {
-                    $("#chk"+value).removeAttr("checked");
-                    $(tr).css("background-color","#ffffff");
-                }
-                else
-                {
-                    $("#chk"+value).attr("checked","true");
-                    $("#chk"+value).prop("checked","true");
-                    $(tr).css("background-color","#BEDAE8");
-                }
-            })
-        }
-    </script>
 </body>
 </html>

@@ -30,6 +30,42 @@ table
     margin-bottom: 40px;
 }
 
+
+.productos
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+
+.text
+{
+    border-radius: 15px;
+    border-color: #AFBDA2;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 15px;
+    height: 2.2em;
+    padding: 5px 10px;
+    width: 250px;
+    color: #707070;
+}
+
+.boton-buscar
+{
+    background-color: #88C051;
+    border: 0;
+    padding: 0;
+    border-radius: 5px;
+    color: white;
+    font-size: 13px;
+    height: 40px;
+    width: 47px;
+    font-family: 'Roboto light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-left: 10px;
+}
+
 td, th 
 {
     text-align: left;

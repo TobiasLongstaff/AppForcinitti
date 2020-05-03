@@ -16,20 +16,36 @@ body
     font-size: 25px;
 }
 
-.productos
+.productos 
 {
     margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
 }
 
-.productos input
+.boton-buscar
+{
+    background-color: #88C051;
+    border: 0;
+    padding: 0;
+    border-radius: 5px;
+    color: white;
+    font-size: 15px;
+    width: 67px;
+    height: 33px;
+    font-family: 'Roboto light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-left: 10px;
+}
+
+.text-productos
 {
     border-radius: 15px;
     border-color: #AFBDA2;
     border-style: solid;
     border-width: 1px;
     font-size: 15px;
-    height: 22px;
-    width: 170px;
+    height: 2.2em;
+    width: 250px;
     padding: 5px 10px;
     color: #707070;
 }
@@ -82,7 +98,7 @@ a
     text-decoration: none;
 }
 
-a input
+a input 
 {
     background-color: white;
     border-color: #88C051;
