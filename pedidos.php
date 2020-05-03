@@ -1,3 +1,34 @@
+<?php
+
+    require ('database.php');   
+
+    $conecta = mysqli_connect($server, $nombre, $password, $database);
+    if (mysqli_connect_errno())
+    {
+        echo "Error al conectar la base de datos";
+        exit();
+    }
+    mysqli_select_db($conecta, $database) or die ('Error al conectar');
+    mysqli_set_charset($conecta, 'utf8');
+    $id = $_GET['id'];
+
+    if (!empty($id))
+    {
+        $sql = "SELECT * FROM productos WHERE id = $id";
+        // $resultado = mysqli_query($conn, $query);
+    
+        $resultado = mysqli_query($conecta, $sql);
+
+        // if($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+        if(mysqli_num_rows($resultado) == 1)     
+        {
+            $filas = mysqli_fetch_array($resultado);
+            $nombre = $filas['descripcion'];
+            $precio = $filas['precioMinorista'];
+            $iva = $filas['iva'];
+        }
+    }
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -24,7 +55,7 @@
             <div class="label-productos">
                 <span>Productos</span>                
             </div>
-            <input class="textbox-productos" type="search" name="search">
+            <input class="textbox-productos" type="search" name="search" value="<?php echo $nombre;?>">
             <button type="submit">Buscar</button>            
         </form>
         <!-- INFORMACION -->
@@ -36,10 +67,10 @@
                 <span>IVA</span>                
             </div>
             <div class="contenedor-textbox">
-                <input class="textbox-cantidad" type="text" name="">
-                <input class="textbox-precio" type="text" name="">
-                <input class="textbox-descuento" type="text" name="">
-                <input class="textbox-iva" type="text" name="">                 
+                <input class="textbox-cantidad" type="text">
+                <input class="textbox-precio" type="text" value="<?php echo $precio;?>$">
+                <input class="textbox-descuento" type="text">
+                <input class="textbox-iva" type="text" value="<?php echo $iva;?>%">                 
             </div>   
         </div>
         <!-- CONDICION IVA -->
