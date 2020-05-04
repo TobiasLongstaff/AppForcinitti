@@ -72,13 +72,23 @@
                         $query = "SELECT * FROM productos WHERE descripcion LIKE '%".$buscar."%' LIMIT 400";
                         $resultado = mysqli_query($conecta, $query);
 
-                        while ($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+                        while ($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
                         {
-                            echo "<tr>";
-                            echo "<td>"; echo $codigo = $fila['codigo']; echo "</td>";             
-                            echo "<td>"; echo $nombre = $fila['descripcion']; echo "</td>";
-                            echo "<td><input type='button' value='E'></td>";
-                            echo "</tr>";
+                ?>
+                            <tr>
+                                <td> 
+                                    <?php echo $filas['codigo'];?> 
+                                </td>
+                                <td> 
+                                    <?php echo $filas['descripcion'];?> 
+                                </td>
+                                <td>
+                                    <a href="pedidos.php?id=<?php echo $filas['id'];?>"> 
+                                        <input type="button" value="Agregar">
+                                    </a>
+                                </td>
+                            </tr>
+                <?php
                         }
                         mysqli_close($conecta);        
                     }

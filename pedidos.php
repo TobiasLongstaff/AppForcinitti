@@ -2,6 +2,10 @@
 
     require ('database.php');   
 
+    $nombre = "";
+    $precio = "";
+    $iva = "";
+
     $conecta = mysqli_connect($server, $nombre, $password, $database);
     if (mysqli_connect_errno())
     {
@@ -10,16 +14,13 @@
     }
     mysqli_select_db($conecta, $database) or die ('Error al conectar');
     mysqli_set_charset($conecta, 'utf8');
-    $id = $_GET['id'];
 
-    if (!empty($id))
-    {
+    // if (!empty($id))
+    if(isset($_GET['id']))
+    {    
+        $id = $_GET['id'];
         $sql = "SELECT * FROM productos WHERE id = $id";
-        // $resultado = mysqli_query($conn, $query);
-    
         $resultado = mysqli_query($conecta, $sql);
-
-        // if($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
         if(mysqli_num_rows($resultado) == 1)     
         {
             $filas = mysqli_fetch_array($resultado);
@@ -47,7 +48,7 @@
         <div class="titulo">
             <h2>Pedidos</h2>
         </div>
-        <a class="boton clientes" href="clientes.php">
+        <a class="boton clientes" href="cliente.php">
             <input type="button" value="Clientes">
         </a>
         <!-- PRODUCTOS -->

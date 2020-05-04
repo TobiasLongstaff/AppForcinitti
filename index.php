@@ -35,7 +35,6 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="assets/styles/style.css">
     <link rel="stylesheet" href="assets/styles/login.css">
     <title>AppPrueba</title>
 </head>
