@@ -1,7 +1,11 @@
 <?php
     require ('database.php');
 
-    $buscar = $_POST["search"];         
+    $buscar = "";
+    if(isset($_POST["search"]))
+    {
+        $buscar = $_POST["search"];          
+    }
 
     $conecta = mysqli_connect($server, $nombre, $password, $database);
     if (mysqli_connect_errno())
@@ -11,6 +15,47 @@
     }
     mysqli_select_db($conecta, $database) or die ('Error al conectar');
     mysqli_set_charset($conecta, 'utf8');
+
+    //AGREGAR DATOS
+
+    $cliente = '';
+    $id_cliente = '';
+    $id_pedido = '';
+
+    if(isset($_POST['id_cliente']))
+    {
+        $id_cliente = $_POST['id_cliente'];
+    }
+    if(isset($_POST['cliente']))
+    {
+        $cliente = $_POST['cliente'];
+    }
+    if(isset($_POST['id_pedido']))
+    {
+        $id_pedido = $_POST['id_pedido'];
+    }
+
+    $sql = "INSERT INTO lista_clientes (id_cliente, id_pedido, cliente) VALUES ('$id_cliente', '$id_pedido', '$cliente')";
+    $resultado = mysqli_query($conexion,$sql);
+    if (!$resultado)
+    {
+        $message = 'No se a podido guardar el producto';
+    }
+    else
+    {
+        $message = 'Producto Guardado';
+    }
+
+    //EXTRAER DATOS 
+
+    $sql="SELECT * FROM id_pedido";
+    $resultado = mysqli_query($conecta, $sql);
+
+    if($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+    {        
+        $idPedido = $filas['id'];
+    }    
+    mysqli_close($conexion); 
 ?>
 
 <!DOCTYPE html>
@@ -30,7 +75,7 @@
         <form method="POST" action="cliente.php">
             <div class=productos>
                 <input class="text" type="search" name="search" value="<?php echo $buscar;?>">
-                <input class="boton-buscar" type="submit"  value="Buscar">                
+                <input class="boton-buscar" type="submit" value="Buscar">                
             </div>
         </form>
         <table>
@@ -56,9 +101,12 @@
                                 <?php echo $filas['cliente'];?> 
                             </td>
                             <td>
-                                <a href="pedidos.php?id=<?php echo $filas['id'];?>"> 
-                                    <input type="button" value="Agregar">
-                                </a>
+                                <form method="POST" action="cliente.php">
+                                    <input type="text" name="cliente" value="<?php echo $filas['cliente'];?>">
+                                    <input type="text" name="id_cliente" value="<?php echo $filas['codigo'];?>">
+                                    <input type="text" name="id_pedido" value=" <?php echo $idPedido?>">
+                                    <input type="submit" value="Agregar" name="agregar-producto">                                
+                                </form>
                             </td>
                         </tr>
             <?php
@@ -95,7 +143,7 @@
         <div class="botones">
             <input type="submit" value="Agregar">
             <input type="submit" value="Eliminar">
-            <a href="menu.php">
+            <a href="pedidos.php">
                 <input type="button" value="Salir">                
             </a>
         </div>

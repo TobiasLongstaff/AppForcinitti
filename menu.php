@@ -19,7 +19,6 @@
             $user = $results;
         }
     }
-
 ?>
 
 <!DOCTYPE html>
@@ -49,7 +48,7 @@
             <div class="linea"></div>          
         </div>            
         <div class="botones">
-            <a href="pedidos.php">
+            <a href="menu-pedidos.php">
                 <input type="button" value="Pedidos">                
             </a>
             <a href="lista.php">
