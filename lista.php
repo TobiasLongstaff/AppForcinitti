@@ -15,10 +15,12 @@
     mysqli_select_db($conecta, $database) or die ('Error al conectar');
     mysqli_set_charset($conecta, 'utf8');
 
+    //EXTRAER DATOS
+
     $sql="SELECT * FROM id_pedido";
     $resultado = mysqli_query($conecta, $sql);
 
-    if($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+    while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
     {        
         $idPedido = $filas['id'];
     }
@@ -34,8 +36,11 @@
             $cliente = $filas['cliente'];
         }
     }
-?> 
 
+    $productos = '';
+    $nombre = '';
+    $cantidad = '';    
+?> 
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -61,9 +66,38 @@
                 <th>Controles</th>
             </tr>
             <?php
-
+                $sql="SELECT * FROM lista WHERE id_pedido = $idPedido";
+                $resultado = mysqli_query($conecta, $sql);      
                 
-
+                while($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+                {     
+                    $productos = $fila['id_producto'];
+                    $cantidad = $fila['cantidad'];
+            ?>
+                <tr>
+                    <td>
+                        <?php echo $cantidad;?>
+                    </td>
+            <?php
+                    $sql2 = "SELECT * FROM productos WHERE id = $productos";
+                    $resultado2 = mysqli_query($conecta, $sql2);
+                    if(mysqli_num_rows($resultado2) == 1)     
+                    {
+                        $filas = mysqli_fetch_array($resultado2);
+                        $nombre = $filas['descripcion'];
+            ?>
+                    <td>
+                        <?php echo $nombre; ?>
+                    </td>
+            <?php
+                    }
+            ?>
+                    <td>
+                        <input type="submit" value="Eliminar">
+                    </td> 
+                </tr>
+            <?php     
+                }  
             ?>
         </table>
         <div class="botones">

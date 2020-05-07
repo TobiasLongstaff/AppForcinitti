@@ -48,9 +48,10 @@
             <div class="linea"></div>          
         </div>            
         <div class="botones">
-            <a href="menu-pedidos.php">
-                <input type="button" value="Pedidos">                
-            </a>
+            <form action="pedidos.php?crear_pedido=1" method="POST">
+                <input type="submit" value="Pedidos">   
+            </form>
+             
             <a href="lista.php">
                 <input type="button" value="Gestionar Pedidos">                
             </a>

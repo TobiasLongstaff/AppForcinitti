@@ -1,6 +1,6 @@
 <?php
 
-    require ('database.php');   
+    require ('database.php');  
 
     $conecta = mysqli_connect($server, $nombre, $password, $database);
     if (mysqli_connect_errno())
@@ -11,12 +11,41 @@
     mysqli_select_db($conecta, $database) or die ('Error al conectar');
     mysqli_set_charset($conecta, 'utf8');
 
-    //EXTRAER DATOS
+    //CREAR PEDIDOS
 
     $id_producto = '';
-    $nombre = "";
-    $precio = "";
-    $iva = "";
+    $nombre = '';
+    $precio = '';
+    $iva = '';
+    $id_cliente = '';
+    $id_pedido = '';
+    $cantidad = '';
+    $descuento = '';
+    $condicionIva = '';
+    $domicilio = '';
+    $fechaEntrega = '';
+    $id_pedido_cliente = '';
+
+    session_start();
+        
+    //EXTRAER DATOS
+
+    if (isset($_SESSION['user_id']))
+    {
+        $records = $conn->prepare('SELECT id, nombre, password FROM usuarios WHERE id =:id');
+        $records->bindParam(':id', $_SESSION['user_id']);
+        $records->execute();
+        $results = $records->fetch(PDO::FETCH_ASSOC);
+
+        $user = null;
+
+        if(count($results) > 0)
+        {
+            $user = $results;
+        }
+
+        $usuario = $user['nombre'];
+    }
 
     if(isset($_GET['id']))
     {    
@@ -33,24 +62,24 @@
         }
     }
 
-    $id_cliente = '';
-
     $sql="SELECT * FROM lista_clientes";
     $resultado = mysqli_query($conecta, $sql);
 
-    if($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+    while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
     {        
         $id_cliente = $filas['id_cliente'];
-    }    
+        $id_pedido_cliente = $filas['id_pedido'];
+    } 
+    
+    $sql="SELECT * FROM id_pedido";
+    $resultado = mysqli_query($conecta, $sql);
+
+    while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+    {        
+        $id_pedido = $filas['id'];
+    } 
 
     //AGREGAR DATOS
-
-
-    $cantidad = '';
-    $descuento = '';
-    $condicionIva = '';
-    $domicilio = '';
-    $fechaEntrega = '';
 
     if(isset($_POST['cantidad']) && isset($_POST['descuento']) && isset($_POST['condicionIva']) && isset($_POST['domicilio']) && isset($_POST['fechaEntrega']))
     {
@@ -63,7 +92,7 @@
 
     if(!empty($id_producto) && !empty($_POST['cantidad']))
     {
-        $sql3 = "INSERT INTO lista_pedidos (id_procuto, id_cliente, cantidad, descuento, condicionIva, domicilio, fechaEntrega) VALUES ('$id_producto', '$id_cliente' ,'$cantidad', '$descuento', '$condicionIva', '$domicilio', '$fechaEntrega')";
+        $sql3 = "INSERT INTO lista (id_producto, id_pedido , id_cliente, cantidad, descuento, condicionIva, domicilio, fechaEntrega) VALUES ('$id_producto', '$id_pedido','$id_cliente' ,'$cantidad', '$descuento', '$condicionIva', '$domicilio', '$fechaEntrega')";
         $resultado2 = mysqli_query($conexion,$sql3);
         if(!$resultado2)
         {
@@ -72,9 +101,24 @@
         else
         {
             $message = 'Producto Guardado';
-        }
-        mysqli_close($conexion);        
+        }            
     }
+
+    if(isset($_GET['crear_pedido']))
+    {
+
+        $sql = "INSERT INTO id_pedido (usuario) VALUES ('$usuario')";
+        $resultado = mysqli_query($conexion,$sql);
+        if (!$resultado)
+        {
+            $message = 'No se a podido guardar el producto';
+        }
+        else
+        {
+            $message = 'Producto Guardado';
+        }        
+    }
+    mysqli_close($conexion); 
 ?>
 <!DOCTYPE html>
 <html lang="es">

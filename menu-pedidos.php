@@ -2,22 +2,35 @@
 
     include 'database.php';
 
-    $fecha = '';
+    session_start();
 
-    if(isset($_POST['fecha']))
+    if (isset($_SESSION['user_id']))
     {
-        $fecha = $_POST['fecha'];
-    }
-    $sql = "INSERT INTO id_pedido (fecha) VALUES ('$fecha')";
-    $resultado = mysqli_query($conexion,$sql);
-    if (!$resultado)
-    {
-        $message = 'No se a podido guardar el producto';
-    }
-    else
-    {
-        $message = 'Producto Guardado';
-    }
+        $records = $conn->prepare('SELECT id, nombre, password FROM usuarios WHERE id =:id');
+        $records->bindParam(':id', $_SESSION['user_id']);
+        $records->execute();
+        $results = $records->fetch(PDO::FETCH_ASSOC);
+
+        $user = null;
+
+        if(count($results) > 0)
+        {
+            $user = $results;
+        }
+
+        $usuario = $user['nombre'];
+
+        $sql = "INSERT INTO id_pedido (usuario) VALUES ('$usuario')";
+        $resultado = mysqli_query($conexion,$sql);
+        if (!$resultado)
+        {
+            $message = 'No se a podido guardar el producto';
+        }
+        else
+        {
+            $message = 'Producto Guardado';
+        }   
+    }     
     mysqli_close($conexion);
 ?>
 
@@ -30,8 +43,7 @@
     <title>Menu Pedidos</title>
 </head>
 <body>
-    <form action="pedidos.php" method="POST">
-        <input type="text" name="fecha">
+    <form method="POST">
         <input type="submit" value="Nuevo pedido">    
     </form>
 </body>

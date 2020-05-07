@@ -35,26 +35,30 @@
         $id_pedido = $_POST['id_pedido'];
     }
 
-    $sql = "INSERT INTO lista_clientes (id_cliente, id_pedido, cliente) VALUES ('$id_cliente', '$id_pedido', '$cliente')";
-    $resultado = mysqli_query($conexion,$sql);
-    if (!$resultado)
+    if(!empty($cliente) && !empty($id_cliente) && !empty($id_pedido))
     {
-        $message = 'No se a podido guardar el producto';
+        $sql = "INSERT INTO lista_clientes (id_cliente, id_pedido, cliente) VALUES ('$id_cliente', '$id_pedido', '$cliente')";
+        $resultado = mysqli_query($conexion,$sql);
+        if (!$resultado)
+        {
+            $message = 'No se a podido guardar el producto';
+        }
+        else
+        {
+            $message = 'Producto Guardado';
+        }
     }
-    else
-    {
-        $message = 'Producto Guardado';
-    }
+
 
     //EXTRAER DATOS 
 
     $sql="SELECT * FROM id_pedido";
     $resultado = mysqli_query($conecta, $sql);
 
-    if($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+    while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
     {        
         $idPedido = $filas['id'];
-    }    
+    }  
     mysqli_close($conexion); 
 ?>
 
