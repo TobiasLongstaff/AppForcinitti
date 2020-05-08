@@ -16,7 +16,7 @@ table
     border-radius: 0.25em;
     border-collapse: collapse;
     width: 100%;
-    background-color: #88C051;
+    background: linear-gradient(180deg,#5bef6f 0%, #88C051 100%);
     color: white;
 }
 
@@ -54,7 +54,7 @@ table
 
 .boton-buscar
 {
-    background-color: #88C051;
+    background: linear-gradient(180deg,#5bef6f 0%, #88C051 100%);
     border: 0;
     padding: 0;
     border-radius: 5px;
@@ -93,7 +93,7 @@ tr:nth-child(even)
 
 .botones input
 {
-    background-color: #88C051;
+    background: linear-gradient(180deg,#5bef6f 0%, #88C051 100%);
     border: 0;
     border-radius: 5px;
     color: white;

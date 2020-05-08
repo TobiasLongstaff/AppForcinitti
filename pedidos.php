@@ -129,8 +129,12 @@
     <!-- CSS -->
     <link rel="stylesheet" href="assets/styles/pedidos.css">
 
+    <!-- ICONOS -->
+    <script src="https://kit.fontawesome.com/1b601aa92b.js" crossorigin="anonymous"></script>
+
     <!-- FUENTES -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">    
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet"> 
+
     <title>Pedidos</title>
 </head>
 <body>
@@ -147,7 +151,7 @@
                 <span>Productos</span>                
             </div>
             <input class="textbox-productos" type="search" name="search" value="<?php echo $nombre;?>">
-            <button type="submit">Buscar</button>           
+            <button type="submit" class="fas fa-search"></button>             
         </form>
         <!-- INFORMACION -->
         <form method="POST">

@@ -63,7 +63,7 @@ body
 
 .boton input, button
 {
-    background-color: #88C051;
+    background: linear-gradient(180deg,#5bef6f 0%, #88C051 100%);
     border: 0;
     border-radius: 5px;
     color: white;
@@ -71,6 +71,12 @@ body
     height: 40px;
     font-family: 'Roboto light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+form button
+{
+    width: 45px;
+}
+
                 /* PRODUCTOS */
 .productos
 {

@@ -11,8 +11,6 @@
         $records->execute();
         $results = $records->fetch(PDO::FETCH_ASSOC);
 
-        $message = '';
-
         if (!empty($results) > 0 && password_verify($_POST['password'], $results['password']))
         {
             $_SESSION['user_id'] = $results['id'];
@@ -20,7 +18,7 @@
         }
         else
         {        
-            $message = 'Los datos ingresados no coinciden';
+            $_SESSION['message'] = 'Los datos ingresados no coinciden';
         }
     }
 ?>
@@ -36,6 +34,7 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="assets/styles/login.css">
+    <link rel="stylesheet" href="assets/styles/message.css">
     <title>AppPrueba</title>
 </head>
 <body>
@@ -56,9 +55,11 @@
             <div class="textbox_contraseña">
                 <input type="password" name="password">                
             </div>         
-            <?php if(!empty($message)):?>
-                <p> <?= $message ?></p>
-            <?php endif; ?>       
+            <?php if(isset($_SESSION['message'])){?>
+                <div class='mensaje-error'>
+                   <span><?= $_SESSION['message']?></span>
+                </div>
+            <?php session_unset(); } ?>       
             <div class="boton">
                 <input type="submit" value="Iniciar sesión">                   
             </div>   

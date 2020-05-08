@@ -25,7 +25,7 @@ body
 
 .boton-buscar
 {
-    background-color: #88C051;
+    background: linear-gradient(180deg,#5bef6f 0%, #88C051 100%);
     border: 0;
     padding: 0;
     border-radius: 5px;
@@ -52,7 +52,7 @@ body
 
 .productos button
 {
-    background-color: #88C051;
+    background: linear-gradient(180deg,#5bef6f 0%, #88C051 100%);
     border: 0;
     border-radius: 5px;
     color: white;

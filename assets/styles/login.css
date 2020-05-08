@@ -83,7 +83,7 @@ body
     border-radius: 5px;
     border-style: none;
     background-color: #88C051;
-    font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(180deg,#5bef6f 0%, #88C051 100%);
     color: white;
     font-size: 20px;
     font-family: 'Roboto Light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
