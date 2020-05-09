@@ -1,7 +1,6 @@
 body
 {
     margin: 0;
-    padding: 0;
     font-family: 'Roboto Medium', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #707070;
 }
@@ -61,7 +60,7 @@ body
     text-decoration: none;
 }
 
-.boton input, button
+.boton input, .boton
 {
     background: linear-gradient(180deg,#5bef6f 0%, #88C051 100%);
     border: 0;
@@ -87,8 +86,8 @@ form button
 .textbox-productos
 {
     width: 225px;
-    padding: 5px;
     height: 2em;
+    margin-right: 5px;
 }
                 /* INFORMACION */
 .informacion
@@ -183,7 +182,6 @@ form button
     grid-area: botones;
     display: flex;
     align-items: flex-end;
-    margin-left: 100px;
 }
 
 .botones button
@@ -194,7 +192,7 @@ form button
 
 .boton-2
 {
-    padding-left: 10px;
+    padding: 0 5px;
 }
 
 .boton-2 input
@@ -207,6 +205,20 @@ form button
     border-radius: 10px;
     width: 100px;
     height: 90px;
+    padding: 0;
+}
+
+.boton-eliminar button
+{  
+    background-color: white;
+    border-color: #eb4d4b;
+    color: #eb4d4b;
+    font-size: 20px;
+    border-style: solid;
+    border-width: 1px;
+    text-decoration: none;
+    font-family: 'Roboto light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 10px;
     padding: 0;
 }
 

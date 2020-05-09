@@ -56,6 +56,11 @@ body
     width: 47px;
 }
 
+.ocualtar
+{
+    display: none;
+}
+
 .tabla
 {
     margin-top: 38px;
@@ -91,7 +96,7 @@ body
     position: fixed;
     display: flex;
     justify-content: flex-end;
-    padding: 10px 0 20px 0;
+    padding: 10px 0 30px 0;
     left: 0;
     bottom: 0;
     width: 90%;

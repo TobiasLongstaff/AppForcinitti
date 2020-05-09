@@ -19,8 +19,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">   
+
+    <!-- FUENTES -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet"> 
+    
+    <!-- CSS -->
     <link rel="stylesheet" href="assets/styles/lista.css">
+
+    <!-- ICONOS -->
+    <script src="https://kit.fontawesome.com/1b601aa92b.js" crossorigin="anonymous"></script>
 
     <title>Producto</title>
 </head>
@@ -33,7 +40,7 @@
         <form method="POST" action="<?php echo $destino;?>">
             <div class="productos">
                 <input class="text" type="search" name="search" value="<?php echo $buscar;?>">
-                <input class="boton-buscar" type="submit"  value="Buscar">                
+                <button class="boton-buscar fas fa-search" type="submit"></button>                
             </div>
             <table>
                 <tr>        

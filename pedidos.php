@@ -1,14 +1,15 @@
 <?php
 
-    require ('database.php');  
+    require ('database.php');    
+    session_start();  
 
     $conecta = mysqli_connect($server, $nombre, $password, $database);
     if (mysqli_connect_errno())
     {
-        echo "Error al conectar la base de datos";
+        $_SESSION['message-error'] = 'Error al conectar la base de datos';
         exit();
     }
-    mysqli_select_db($conecta, $database) or die ('Error al conectar');
+    mysqli_select_db($conecta, $database) or die ($_SESSION['message-error'] = 'Error al conectar');
     mysqli_set_charset($conecta, 'utf8');
 
     //CREAR PEDIDOS
@@ -25,9 +26,7 @@
     $domicilio = '';
     $fechaEntrega = '';
     $id_pedido_cliente = '';
-
-    session_start();
-        
+  
     //EXTRAER DATOS
 
     if (isset($_SESSION['user_id']))
@@ -62,6 +61,7 @@
         }
     }
 
+
     $sql="SELECT * FROM lista_clientes";
     $resultado = mysqli_query($conecta, $sql);
 
@@ -90,19 +90,30 @@
         $fechaEntrega = $_POST['fechaEntrega'];       
     }
 
-    if(!empty($id_producto) && !empty($_POST['cantidad']))
+    if(!empty($id_producto))
     {
-        $sql3 = "INSERT INTO lista (id_producto, id_pedido , id_cliente, cantidad, descuento, condicionIva, domicilio, fechaEntrega) VALUES ('$id_producto', '$id_pedido','$id_cliente' ,'$cantidad', '$descuento', '$condicionIva', '$domicilio', '$fechaEntrega')";
-        $resultado2 = mysqli_query($conexion,$sql3);
-        if(!$resultado2)
+        if(!empty($_POST['cantidad']))
         {
-            $message = 'No se a podido guardar el producto';
+            $sql3 = "INSERT INTO lista (id_producto, id_pedido , id_cliente, cantidad, descuento, condicionIva, domicilio, fechaEntrega) VALUES ('$id_producto', '$id_pedido','$id_cliente' ,'$cantidad', '$descuento', '$condicionIva', '$domicilio', '$fechaEntrega')";
+            $resultado2 = mysqli_query($conexion,$sql3);
+            if(!$resultado2)
+            {
+                $_SESSION['message-error'] = 'No se a podido guardar el producto';
+            }
+            else
+            {
+                $_SESSION['message-correcto'] = 'Producto Guardado';
+            } 
         }
         else
         {
-            $message = 'Producto Guardado';
+            $_SESSION['message-error'] = 'Coloque la cantidad';
         }            
     }
+    else
+    {
+        $_SESSION['message-error'] = 'Seleccione un producto';
+    }     
 
     if(isset($_GET['crear_pedido']))
     {
@@ -111,13 +122,14 @@
         $resultado = mysqli_query($conexion,$sql);
         if (!$resultado)
         {
-            $message = 'No se a podido guardar el producto';
+            $_SESSION['message-error'] = 'No se a podido guardar el producto';
         }
         else
         {
-            $message = 'Producto Guardado';
+            $_SESSION['message-correcto'] = 'Producto Guardado';
         }        
     }
+
     mysqli_close($conexion); 
 ?>
 <!DOCTYPE html>
@@ -128,6 +140,7 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="assets/styles/pedidos.css">
+    <link rel="stylesheet" href="assets/styles/message.css">
 
     <!-- ICONOS -->
     <script src="https://kit.fontawesome.com/1b601aa92b.js" crossorigin="anonymous"></script>
@@ -151,7 +164,7 @@
                 <span>Productos</span>                
             </div>
             <input class="textbox-productos" type="search" name="search" value="<?php echo $nombre;?>">
-            <button type="submit" class="fas fa-search"></button>             
+            <button type="submit" class="fas fa-search boton"></button>             
         </form>
         <!-- INFORMACION -->
         <form method="POST">
@@ -187,14 +200,31 @@
                     <input type="text" name="fechaEntrega">                      
                 </div>
             </div>
+            <!--ALERTAS-->
+            <?php if(isset($_SESSION['message-error'])){?>
+                <div class='mensaje-error'>
+                   <span><?= $_SESSION['message-error']?></span>
+                </div>
+            <?php session_unset(); } ?>
+            <?php if(isset($_SESSION['message-correcto'])){?>
+                <div class='mensaje-correcto'>
+                   <span><?= $_SESSION['message-correcto']?></span>
+                </div>
+            <?php session_unset(); } ?>              
             <!-- BOTONES -->
-            <div class="botones">
-                <button type="submit">Agregar Producto</button>
+            <div class="botones">                
+                <button class="boton" type="submit">Agregar Producto</button>
                 <a class="boton-2" href="lista.php">
                     <input type="button" value="Ver Lista">
-                </a>            
+                </a>
+                <a class="boton-eliminar" href="menu.php">
+                    <button>Cancelar Pedido</button>
+                </a>                       
             </div>
         </form>
     </div>
+    <!--ALERTA-->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="js/sweetAlert.js"></script> -->
 </body>
 </html>
