@@ -38,10 +38,10 @@
     <title>AppPrueba</title>
 </head>
 <body>
-    <div class="contenido">
-        <div class="titulo">
+    <main class="contenido">
+        <header class="titulo">
             <h2>Registrarse</h2>        
-        </div>
+        </header>
         <form action="index.php" method="POST" class="formulario">
             <div class="leable_usuario">
                 <h2>Usuario</h2>                
@@ -64,6 +64,6 @@
                 <input type="submit" value="Iniciar sesión">                   
             </div>   
         </form>
-    </div>    
+    </main>    
 </body>
 </html>

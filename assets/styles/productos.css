@@ -25,7 +25,7 @@ body
 
 .boton-buscar
 {
-    background: linear-gradient(180deg,#5bef6f 0%, #88C051 100%);
+    background: linear-gradient(180deg,#0195ff 0%, #0555bd 100%);
     border: 0;
     padding: 0;
     border-radius: 5px;
@@ -40,7 +40,7 @@ body
 .text-productos
 {
     border-radius: 15px;
-    border-color: #AFBDA2;
+    border-color: #60a5d6;
     border-style: solid;
     border-width: 1px;
     font-size: 15px;
@@ -52,7 +52,7 @@ body
 
 .productos button
 {
-    background: linear-gradient(180deg,#5bef6f 0%, #88C051 100%);
+    background: linear-gradient(180deg,#0195ff 0%, #0555bd 100%);
     border: 0;
     border-radius: 5px;
     color: white;
@@ -65,17 +65,17 @@ body
 {
     border-style: solid;
     border-width: 1px;
-    border-color: #88C051;
+    border-color: #0555bd;
     border-radius: 5px;
 }
 
 .cabecera
 {
     padding: 1% 3%;
-    color: #88C051;
+    color: #0555bd;
     border-color:white;
     border-radius: 5px;
-    border-bottom: #88C051;
+    border-bottom: #0555bd;
     border-bottom-width: 1px;
     border-style: solid;
 }
@@ -101,8 +101,8 @@ a
 a input 
 {
     background-color: white;
-    border-color: #88C051;
-    color: #88C051;
+    border-color: #0555bd;
+    color: #0555bd;
     font-size: 25px;
     border-style: solid;
     font-family: 'Roboto light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

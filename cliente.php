@@ -14,7 +14,8 @@
     $cliente = '';
     $id_cliente = '';
     $id_pedido = '';
-
+    $verificacion_cliente = '0';
+    
     if(isset($_POST['search']))
     {
         $buscar = $_POST["search"];  
@@ -43,17 +44,15 @@
     {
         $sql2 = "INSERT INTO lista_clientes (id_cliente, id_pedido, cliente) VALUES ('$id_cliente', '$id_pedido', '$cliente')";
         $resultado = mysqli_query($conexion,$sql2);
-        if (!$resultado)
+        if(!$resultado)
         {
-            $message = 'No se a podido guardar el producto';
+            echo $verificacion_cliente = '0';
         }
         else
         {
-            $message = 'Producto Guardado';
+            echo $verificacion_cliente = '1';
         }
     }
-
-
     mysqli_close($conexion); 
 ?>
 
@@ -74,10 +73,10 @@
     <title>Clientes</title>
 </head>
 <body>
-    <div class="contenido">
-        <div class="titulo">
+    <main class="contenido">
+        <header class="titulo">
             <h2>Clientes</h2>
-        </div>
+        </header>
         <form method="POST" action="cliente.php">
             <div class=productos>
                 <input class="text" type="search" name="search" value="<?php $buscar?>">
@@ -109,8 +108,8 @@
                                 <?php echo $cliente?> 
                             </td>
                             <td>
-                                <form method="POST" action="pedidos.php?id_cliente=1">
-                                    <div class="ocualtar">
+                                <form method="POST" action="cliente.php">
+                                    <div class="ocultar">
                                         <input type="text" name="cliente" value="<?php echo $cliente?>">
                                         <input type="text" name="id_cliente" value="<?php echo $id_cliente?>">
                                         <input type="text" name="id_pedido" value="<?php echo $id_pedido?>">                                        
@@ -141,8 +140,8 @@
                                 <?php echo $cliente;?> 
                             </td>
                             <td>
-                                <form method="POST" action="pedidos.php?id_cliente=1">
-                                    <div class="ocualtar">
+                                <form method="POST" action="cliente.php">
+                                    <div class="ocultar">
                                         <input type="text" name="cliente" value="<?php echo $cliente?>">
                                         <input type="text" name="id_cliente" value="<?php echo $id_cliente?>">
                                         <input type="text" name="id_pedido" value="<?php echo $id_pedido?>">                                        
@@ -158,10 +157,10 @@
                 ?>
         </table>
         <div class="botones">
-            <a href="pedidos.php">
+            <a href="pedidos.php?id_cliente=<?php echo $verificacion_cliente;?>">
                 <input type="button" value="Salir">                
             </a>
         </div>
-    </div>
+    </main>
 </body>
 </html>

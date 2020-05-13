@@ -16,8 +16,8 @@ table
     border-radius: 0.25em;
     border-collapse: collapse;
     width: 100%;
-    background: linear-gradient(180deg,#5bef6f 0%, #88C051 100%);
-    color: white;
+    background:#e4dfdf;
+    color: #707070;
 }
 
 .titulo h2, th
@@ -42,7 +42,7 @@ table
 .text
 {
     border-radius: 15px;
-    border-color: #AFBDA2;
+    border-color: #60a5d6;
     border-style: solid;
     border-width: 1px;
     font-size: 15px;
@@ -54,7 +54,7 @@ table
 
 .boton-buscar
 {
-    background: linear-gradient(180deg,#5bef6f 0%, #88C051 100%);
+    background: linear-gradient(180deg,#0195ff 0%, #0555bd 100%);
     border: 0;
     padding: 0;
     border-radius: 5px;
@@ -75,7 +75,7 @@ td, th
 tr:nth-child(even)
 {
     color: #707070;
-    background-color: white
+    background-color: #ffffff;
 }
 
 .botones
@@ -93,7 +93,7 @@ tr:nth-child(even)
 
 .botones input
 {
-    background: linear-gradient(180deg,#5bef6f 0%, #88C051 100%);
+    background: linear-gradient(180deg,#0195ff 0%, #0555bd 100%);
     border: 0;
     border-radius: 5px;
     color: white;

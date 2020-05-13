@@ -32,10 +32,10 @@
     <title>Producto</title>
 </head>
 <body>
-    <div class="contenido">
-        <div class="titulo">
+    <main class="contenido">
+        <header class="titulo">
             <h2>Productos</h2>
-        </div>
+        </header>
         <span>Productos</span>
         <form method="POST" action="<?php echo $destino;?>">
             <div class="productos">
@@ -109,6 +109,6 @@
                 </a>
             </div>
         </form>
-    </div>
+    </main>
 </body>
 </html>

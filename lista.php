@@ -46,15 +46,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- FUENTES -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">   
+
+    <!-- CSS -->
     <link rel="stylesheet" href="assets/styles/lista.css">
+    
     <title>Lista</title>
 </head>
 <body>
-    <div class="contenido">
-        <div class="titulo">
+    <main class="contenido">
+        <header class="titulo">
             <h2>Lista</h2>
-        </div>
+        </header>
         <div class="cliente">
             <span>ID del pedido: <?php echo $idPedido?> </span> <br>
             <span>Cliente: <?php echo $cliente?></span>
@@ -107,6 +112,6 @@
                 <input type="button" value="Salir">                
             </a>
         </div>
-    </div>
+    </main>
 </body>
 </html>

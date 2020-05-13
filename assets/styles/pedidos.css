@@ -23,7 +23,7 @@ body
 .contenido input
 {
     border-radius: 15px;
-    border-color: #AFBDA2;
+    border-color: #60a5d6;
     border-style: solid;
     border-width: 1px;
     font-size: 15px;
@@ -62,7 +62,7 @@ body
 
 .boton input, .boton
 {
-    background: linear-gradient(180deg,#5bef6f 0%, #88C051 100%);
+    background: linear-gradient(180deg,#0195ff 0%, #0555bd 100%);
     border: 0;
     border-radius: 5px;
     color: white;
@@ -198,8 +198,8 @@ form button
 .boton-2 input
 {
     background-color: white;
-    border-color: #88C051;
-    color: #88C051;
+    border-color: #0555bd;
+    color: #0555bd;
     font-size: 20px;
     font-family: 'Roboto light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     border-radius: 10px;
@@ -208,7 +208,7 @@ form button
     padding: 0;
 }
 
-.boton-eliminar button
+.boton-eliminar input
 {  
     background-color: white;
     border-color: #eb4d4b;
@@ -219,6 +219,8 @@ form button
     text-decoration: none;
     font-family: 'Roboto light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     border-radius: 10px;
+    width: 100px;
+    height: 90px;
     padding: 0;
 }
 

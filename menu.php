@@ -5,6 +5,15 @@
 
     require 'database.php';
 
+    $conecta = mysqli_connect($server, $nombre, $password, $database);
+    if (mysqli_connect_errno())
+    {
+        $_SESSION['message-error'] = 'Error al conectar la base de datos';
+        exit();
+    }
+    mysqli_select_db($conecta, $database) or die ($_SESSION['message-error'] = 'Error al conectar');
+    mysqli_set_charset($conecta, 'utf8');
+
     if (isset($_SESSION['user_id']))
     {
         $records = $conn->prepare('SELECT id, nombre, password FROM usuarios WHERE id =:id');
@@ -18,6 +27,26 @@
         {
             $user = $results;
         }
+    }
+    else
+    {
+        if(isset($_GET['id']))
+        {    
+            $id = $_GET['id'];    
+            $sql = "SELECT nombre, id FROM usuarios WHERE id = $id";
+            $resultado = mysqli_query($conecta, $sql);
+            if(mysqli_num_rows($resultado) == 1)     
+            {
+                $filas = mysqli_fetch_array($resultado);
+                $user['nombre'] = $filas['nombre'];
+                $_SESSION['user_id'] = $id;
+            }
+        }
+    }
+
+    if(!empty($_GET['id']))
+    {
+      
     }
 ?>
 
@@ -42,12 +71,12 @@
             </a>
         </header> 
     <?php endif; ?>
-    <div class="contenido">
+    <main class="contenido">
         <div class="titulo">            
             <h2>Menu</h2>            
             <div class="linea"></div>          
         </div>            
-        <div class="botones">
+        <selection class="botones">
             <form action="pedidos.php?crear_pedido=1" method="POST">
                 <input type="submit" value="Pedidos">   
             </form>
@@ -65,7 +94,8 @@
                 <input type="button" value="Productos">                  
             </a>
             <div class="linea"></div> 
-        </div>
-    </div>
+        </selection>
+    </main>
+    <script type="text/javascript" src="js/desabilitar_elementos.js"></script>
 </body>
 </html>

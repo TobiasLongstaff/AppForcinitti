@@ -8,14 +8,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
     <link rel="stylesheet" href="assets/styles/clientes.css">
+
     <title>Informacion del cliente</title>
 </head>
 <body>
-    <div class="contenido">
-        <div class="titulo">
+    <main class="contenido">
+        <header class="titulo">
             <h2>Informacion del cliente</h2>
-        </div>            
+        </header>            
         <span>Clientes</span>
         <form class="clientes" action="">
             <input class="text" type="search">
@@ -32,6 +35,6 @@
             <input type="submit" value="Telefonos">
             <input type="submit" value="Salir">
         </div>
-    </div>
+    </main>
 </body>
 </html>

@@ -25,7 +25,7 @@ input[type="text"]
 {
 
     border-radius: 15px;
-    border-color: #AFBDA2;
+    border-color: #60a5d6;
     border-style: solid;
     border-width: 1px;
     font-size: 15px;
@@ -37,8 +37,8 @@ input[type="text"]
 input[type="button"]
 {
     background-color: white;
-    border-color: #88C051;
-    color: #88C051;
+    border-color: #0555bd;
+    color: #0555bd;
     font-size: 20px;
     font-family: 'Roboto light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     border-radius: 10px;
@@ -50,7 +50,7 @@ input[type="button"]
 
 input[type="submit"]
 {
-    background: linear-gradient(180deg,#5bef6f 0%, #88C051 100%);
+    background: linear-gradient(180deg,#0195ff 0%, #0555bd 100%);
     border: 0;
     border-radius: 5px;
     color: white;

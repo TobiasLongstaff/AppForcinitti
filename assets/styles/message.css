@@ -16,7 +16,7 @@
 .mensaje-correcto
 {
     display: flex;
-    background: linear-gradient(60deg,#a9a8ff 30%, #686de0 60%);
+    background: linear-gradient(60deg,#5bef6f 30%, #88C051 60%);
     border-radius: 5px;
     justify-content: center;
     align-items: center;

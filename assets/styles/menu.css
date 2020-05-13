@@ -20,11 +20,11 @@ header a
 header input
 {
     background-color: white;
-    border-color: #88C051;
+    border-color: #0555bd;
     border-radius: 5px;
     border-style: solid;
     font-family: 'Roboto Light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #88C051;
+    color: #0555bd;
     font-size: 15px;
     border-width: 1px;
 }

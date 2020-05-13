@@ -12,6 +12,7 @@
     }
     mysqli_select_db($conecta, $database) or die ('Error al conectar');
     mysqli_set_charset($conecta, 'utf8');
+
     $query = "SELECT * FROM productos WHERE descripcion LIKE '%".$buscar."%' LIMIT 6";
     $resultado = mysqli_query($conecta, $query);
 
@@ -32,23 +33,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- CSS -->
+
+    <!-- CSS -->
     <link rel="stylesheet" href="assets/styles/productos.css">
     <!-- FUENTES -->
+
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">
+
     <title>Buscar Productos</title>
 </head>
 <body>
-    <div class="contenido">
-        <div class="titulo">
+    <main class="contenido">
+        <header class="titulo">
             <h2>Buscar Productos</h2>
-        </div>                
+        </header>                
         <span>Productos</span>    
         <form accion="buscar-productos.php" method="POST" class="productos">
             <input class="text-productos" type="search" name="search" value="<?php echo $buscar;?>">
             <input class="boton-buscar" type="submit" value="Buscar">
         </form>
-        <div class="tabla-precios">
+        <table class="tabla-precios">
             <div class="cabecera">
                 <span>Precios</span>
             </div>
@@ -79,10 +83,10 @@
                                                         <?php endif; ?>$</span>                     
                  </div>
             </div>
-        </div>
+        </table>
         <a href="pedidos.php">
             <input type="button" value="Salir">            
         </a>
-    </div>
+    </main>
 </body>
 </html>

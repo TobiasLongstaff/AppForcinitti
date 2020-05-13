@@ -26,11 +26,14 @@
     $domicilio = '';
     $fechaEntrega = '';
     $id_pedido_cliente = '';
+    $nombre_usuario = '';
+    $boton_cancelar = '';
   
     //EXTRAER DATOS
 
     if (isset($_SESSION['user_id']))
     {
+        $id_usuario = $_SESSION['user_id'];        
         $records = $conn->prepare('SELECT id, nombre, password FROM usuarios WHERE id =:id');
         $records->bindParam(':id', $_SESSION['user_id']);
         $records->execute();
@@ -61,7 +64,6 @@
         }
     }
 
-
     $sql="SELECT * FROM lista_clientes";
     $resultado = mysqli_query($conecta, $sql);
 
@@ -77,7 +79,21 @@
     while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
     {        
         $id_pedido = $filas['id'];
-    } 
+        $nombre_usuario_pedido = $filas['usuario'];
+    }
+    
+    $sql="SELECT * FROM usuarios";
+    $resultado = mysqli_query($conecta, $sql);
+    while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+    {
+        $nombre_usuario_usuarios = $filas['nombre'];
+        if($nombre_usuario_pedido == $nombre_usuario_usuarios)
+        {
+            $id_usuario = $filas['id'];
+        }        
+    }
+
+
 
     //AGREGAR DATOS
 
@@ -115,7 +131,7 @@
         $_SESSION['message-error'] = 'Seleccione un producto';
     }     
 
-    if(isset($_GET['crear_pedido']))
+    if(isset($_GET['crear_pedido']) && !empty($usuario))
     {
 
         $sql = "INSERT INTO id_pedido (usuario) VALUES ('$usuario')";
@@ -130,6 +146,24 @@
         }        
     }
 
+    if(isset($_POST['pedido-cancelado']))
+    {
+        $boton_cancelar = $_POST['pedido-cancelado'];        
+    }
+ 
+    if($boton_cancelar)
+    {
+        $sql = "UPDATE id_pedido SET estado = 'Cancelado' WHERE id = '$id_pedido'";
+        $resultado = mysqli_query($conexion,$sql);
+        if (!$resultado)
+        {
+            echo 'Error al cancelar';
+        }
+        else
+        {
+            header("Location: /AppForcinitti/menu.php?id=$id_usuario");
+        }          
+    }
     mysqli_close($conexion); 
 ?>
 <!DOCTYPE html>
@@ -151,10 +185,10 @@
     <title>Pedidos</title>
 </head>
 <body>
-    <div class="contenido">
-        <div class="titulo">
+    <main class="contenido">
+        <header class="titulo">
             <h2>Pedidos</h2>
-        </div>
+        </header>
         <a class="boton clientes" href="cliente.php">
             <input type="button" value="Clientes">
         </a>
@@ -197,7 +231,7 @@
                 </div>
                 <div class="textbox-entrega">
                     <input type="text" name="domicilio">
-                    <input type="text" name="fechaEntrega">                      
+                    <input type="datetime" name="fechaEntrega">
                 </div>
             </div>
             <!--ALERTAS-->
@@ -217,14 +251,11 @@
                 <a class="boton-2" href="lista.php">
                     <input type="button" value="Ver Lista">
                 </a>
-                <a class="boton-eliminar" href="menu.php">
-                    <button>Cancelar Pedido</button>
-                </a>                       
+                <form class="boton-eliminar" action="pedidos.php?" method="POST">
+                    <input type="submit" name="pedido-cancelado" value="Salir">                       
+                </form>
             </div>
         </form>
-    </div>
-    <!--ALERTA-->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    <script src="js/sweetAlert.js"></script> -->
+    </main>
 </body>
 </html>
