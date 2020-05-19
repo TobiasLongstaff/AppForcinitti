@@ -63,15 +63,16 @@
     <title>Menu</title>
 </head>
 <body>
-    <?php if(!empty($user)):?>
-        <header>
-            <p>Bienvenido: <?= $user['nombre'] ?></p>
-            <a href="cerrarsesion.php">
-               <input type="button" value="Cerrar sesion">
-            </a>
-        </header> 
-    <?php endif; ?>
-    <main class="contenido">
+
+    <main class="contenido">    
+        <?php if(!empty($user)):?>
+            <header>
+                <p>Bienvenido: <?= $user['nombre'] ?></p>
+                <a href="cerrarsesion.php">
+                <input type="button" value="Cerrar sesion">
+                </a>
+            </header> 
+        <?php endif; ?>
         <div class="titulo">            
             <h2>Menu</h2>            
             <div class="linea"></div>          

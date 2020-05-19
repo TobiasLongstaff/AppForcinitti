@@ -30,6 +30,10 @@ table
     margin-bottom: 40px;
 }
 
+.cliente
+{
+    margin-bottom: 15px;
+}
 
 .productos
 {
@@ -76,6 +80,17 @@ tr:nth-child(even)
 {
     color: #707070;
     background-color: #ffffff;
+}
+
+.precio-final
+{
+    position: fixed;
+    left: 0;
+    bottom: 70px;
+    width: 86%;
+    text-align: center;
+    background-color: white;
+    padding: 0 7%;
 }
 
 .botones

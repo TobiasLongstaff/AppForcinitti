@@ -60,7 +60,7 @@ body
     text-decoration: none;
 }
 
-.boton input, .boton
+.boton input, .boton-agregar
 {
     background: linear-gradient(180deg,#0195ff 0%, #0555bd 100%);
     border: 0;
@@ -184,11 +184,16 @@ form button
     align-items: flex-end;
 }
 
-.botones button
+.botones input
 {
     width: 100px;
     height: 90px;
-} 
+}
+
+.boton-agregar input
+{
+   color: white; 
+}
 
 .boton-2
 {

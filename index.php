@@ -39,31 +39,33 @@
 </head>
 <body>
     <main class="contenido">
-        <header class="titulo">
-            <h2>Registrarse</h2>        
-        </header>
-        <form action="index.php" method="POST" class="formulario">
-            <div class="leable_usuario">
-                <h2>Usuario</h2>                
-            </div>
-            <div class="textbox_usuario">
-                <input type="text" name="nombre">                
-            </div>
-            <div class="leable_contraseña">
-                <h2>Contraseña</h2>                
-            </div>
-            <div class="textbox_contraseña">
-                <input type="password" name="password">                
-            </div>         
-            <?php if(isset($_SESSION['message'])){?>
-                <div class='mensaje-error'>
-                   <span><?= $_SESSION['message']?></span>
+        <div class="login">
+            <form action="index.php" method="POST" class="formulario">            
+                <header class="titulo">
+                    <h2>Registrarse</h2>        
+                </header>
+                <div class="leable_usuario">
+                    <span>Usuario</span>                
                 </div>
-            <?php session_unset(); } ?>       
-            <div class="boton">
-                <input type="submit" value="Iniciar sesión">                   
-            </div>   
-        </form>
-    </main>    
+                <div class="textbox_usuario">
+                    <input type="text" name="nombre">                
+                </div>
+                <div class="leable_contraseña">
+                    <span>Contraseña</span>                
+                </div>
+                <div class="textbox_contraseña">
+                    <input type="password" name="password">                
+                </div>         
+                <?php if(isset($_SESSION['message'])){?>
+                    <div class='mensaje-error'>
+                    <span><?= $_SESSION['message']?></span>
+                    </div>
+                <?php session_unset(); } ?>
+                <div class="boton">
+                    <input type="submit" value="Iniciar sesión">                   
+                </div>   
+            </form>            
+        </div>
+    </main>      
 </body>
 </html>

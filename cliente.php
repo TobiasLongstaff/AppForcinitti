@@ -46,11 +46,11 @@
         $resultado = mysqli_query($conexion,$sql2);
         if(!$resultado)
         {
-            echo $verificacion_cliente = '0';
+            $verificacion_cliente = '0';
         }
         else
         {
-            echo $verificacion_cliente = '1';
+            $verificacion_cliente = '1';
         }
     }
     mysqli_close($conexion); 

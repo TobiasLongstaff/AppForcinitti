@@ -28,6 +28,7 @@
     $id_pedido_cliente = '';
     $nombre_usuario = '';
     $boton_cancelar = '';
+    $boton_agregar = '';
   
     //EXTRAER DATOS
 
@@ -46,7 +47,7 @@
             $user = $results;
         }
 
-        $usuario = $user['nombre'];
+        $vendedor = $user['nombre'];
     }
 
     if(isset($_GET['id']))
@@ -79,7 +80,7 @@
     while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
     {        
         $id_pedido = $filas['id'];
-        $nombre_usuario_pedido = $filas['usuario'];
+        $nombre_usuario_pedido = $filas['vendedor'];
     }
     
     $sql="SELECT * FROM usuarios";
@@ -93,8 +94,6 @@
         }        
     }
 
-
-
     //AGREGAR DATOS
 
     if(isset($_POST['cantidad']) && isset($_POST['descuento']) && isset($_POST['condicionIva']) && isset($_POST['domicilio']) && isset($_POST['fechaEntrega']))
@@ -106,44 +105,47 @@
         $fechaEntrega = $_POST['fechaEntrega'];       
     }
 
-    if(!empty($id_producto))
+    if(isset($_POST['agregar-producto']))
     {
-        if(!empty($_POST['cantidad']))
+        $boton_agregar = $_POST['agregar-producto'];
+    }
+
+    if($boton_agregar)
+    {
+        if(!empty($id_producto))
         {
-            $sql3 = "INSERT INTO lista (id_producto, id_pedido , id_cliente, cantidad, descuento, condicionIva, domicilio, fechaEntrega) VALUES ('$id_producto', '$id_pedido','$id_cliente' ,'$cantidad', '$descuento', '$condicionIva', '$domicilio', '$fechaEntrega')";
-            $resultado2 = mysqli_query($conexion,$sql3);
-            if(!$resultado2)
+            if(!empty($_POST['cantidad']))
             {
-                $_SESSION['message-error'] = 'No se a podido guardar el producto';
+                $sql = "INSERT INTO lista (id_producto, id_pedido , cantidad, descuento, condicionIva) VALUES ('$id_producto', '$id_pedido', '$cantidad', '$descuento', '$condicionIva')";
+                $resultado = mysqli_query($conexion,$sql);
+    
+                $sql2 = "UPDATE id_pedido SET entrega = '$domicilio', id_cliente = '$id_cliente', fecha_entrega = '$fechaEntrega' WHERE id = '$id_pedido'";
+                $resultado2 = mysqli_query($conexion,$sql2);
+                if(!$resultado && !$resultado2)
+                {
+                    $_SESSION['message-error'] = 'No se a podido guardar el producto';
+                }
+                else
+                {
+                    $_SESSION['message-correcto'] = 'Producto Guardado';
+                } 
             }
             else
             {
-                $_SESSION['message-correcto'] = 'Producto Guardado';
-            } 
+                $_SESSION['message-error'] = 'Coloque la cantidad';
+            }            
         }
         else
         {
-            $_SESSION['message-error'] = 'Coloque la cantidad';
-        }            
-    }
-    else
-    {
-        $_SESSION['message-error'] = 'Seleccione un producto';
-    }     
-
-    if(isset($_GET['crear_pedido']) && !empty($usuario))
-    {
-
-        $sql = "INSERT INTO id_pedido (usuario) VALUES ('$usuario')";
-        $resultado = mysqli_query($conexion,$sql);
-        if (!$resultado)
-        {
-            $_SESSION['message-error'] = 'No se a podido guardar el producto';
-        }
-        else
-        {
-            $_SESSION['message-correcto'] = 'Producto Guardado';
+            $_SESSION['message-error'] = 'Seleccione un producto';
         }        
+    }
+    
+    if(isset($_GET['crear_pedido']) && !empty($vendedor))
+    {
+
+        $sql = "INSERT INTO id_pedido (vendedor) VALUES ('$vendedor')";
+        $resultado = mysqli_query($conexion,$sql);   
     }
 
     if(isset($_POST['pedido-cancelado']))
@@ -235,19 +237,21 @@
                 </div>
             </div>
             <!--ALERTAS-->
-            <?php if(isset($_SESSION['message-error'])){?>
+            <?php if(!empty($_SESSION['message-error'])){?>
                 <div class='mensaje-error'>
                    <span><?= $_SESSION['message-error']?></span>
                 </div>
             <?php session_unset(); } ?>
-            <?php if(isset($_SESSION['message-correcto'])){?>
+            <?php if(!empty($_SESSION['message-correcto'])){?>
                 <div class='mensaje-correcto'>
                    <span><?= $_SESSION['message-correcto']?></span>
                 </div>
             <?php session_unset(); } ?>              
             <!-- BOTONES -->
-            <div class="botones">                
-                <button class="boton" type="submit">Agregar Producto</button>
+            <div class="botones">
+                <form action="pedidos.php" method="POST">
+                    <input class="boton-agregar" name="agregar-producto" type="submit" value="Agregar">                    
+                </form>                
                 <a class="boton-2" href="lista.php">
                     <input type="button" value="Ver Lista">
                 </a>

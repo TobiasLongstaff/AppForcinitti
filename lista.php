@@ -105,12 +105,19 @@
                 }  
             ?>
         </table>
+        <div class="precio-final">
+            <span>$1000<br></span>
+            <span>$300<br></span>
+            <span>$10<br></span>
+            <hr>
+            <span>Total: $1310</span>
+        </div>
         <div class="botones">
-            <input type="submit" value="Agregar">
-            <input type="submit" value="Eliminar">
+            <input type="submit" value="Terminar">
             <a href="pedidos.php">
-                <input type="button" value="Salir">                
+                <input type="submit" value="Agregar">                
             </a>
+            <input type="button" value="Cancelar">                
         </div>
     </main>
 </body>

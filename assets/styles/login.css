@@ -7,7 +7,7 @@ body
 
 .contenido
 {
-    padding: 10%;
+    padding: 20% 10%;
     display: grid;
     grid-template-rows: 100px 200px 40px;
     grid-template-areas: "titulo"
@@ -23,7 +23,7 @@ body
     font-size: 25px;
 }
 
-.formulario h2
+.formulario span
 {
     font-size: 15px;
 }
@@ -41,28 +41,22 @@ body
     color: #707070;
 }
 
-.formulario
+.login
 {
     grid-area: contenido;
     
 }
 
-.leable_usuario
+.leable_usuario, .leable_contraseña
 {
     font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding-left: 30px;
+    padding: 10px 30px 5px;
 }
 
 .textbox_usuario
 {
     display: flex;
     justify-content: center;
-}
-
-.leable_contraseña
-{
-    font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding-left: 30px;
 }
 
 .textbox_contraseña
@@ -86,4 +80,58 @@ body
     color: white;
     font-size: 20px;
     font-family: 'Roboto Light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* media */
+
+@media screen and (min-width: 365px)
+{
+    .leable_usuario, .leable_contraseña
+    {
+        padding: 10px 40px 5px;
+    }    
+}
+
+
+@media screen and (min-width: 400px)
+{
+    html
+    {
+        height: 100%;
+    }
+
+    body
+    {
+        background: linear-gradient(#0555bd, #5dbbff);  
+    }
+
+    .contenido 
+    {
+        grid-template-columns: 400px;
+        display: flex;
+        justify-content: center;
+        padding: 10% 0;
+    }
+
+    .formulario
+    {
+        background-color: white;
+        padding: 50px;
+        border-radius: 10px;
+        width: 288px;
+        box-shadow: 0px 2px 14px 0px #000000a1;
+    }
+
+    .leable_usuario, .leable_contraseña
+    {
+        padding: 10px 10px 5px;
+    } 
+}
+
+@media screen and (min-width: 440px)
+{
+    .leable_usuario, .leable_contraseña
+    {
+        padding: 10px 30px 5px;
+    }
 }
