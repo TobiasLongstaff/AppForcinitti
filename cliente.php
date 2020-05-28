@@ -73,94 +73,96 @@
     <title>Clientes</title>
 </head>
 <body>
-    <main class="contenido">
-        <header class="titulo">
-            <h2>Clientes</h2>
-        </header>
-        <form method="POST" action="cliente.php">
-            <div class=productos>
-                <input class="text" type="search" name="search" value="<?php $buscar?>">
-                <button class="fas fa-search boton-buscar" type="submit"></button>                
-            </div>
-        </form>
-        <table>
-            <tr>        
-                <th>Codigo</th>
-                <th>Nombre</th>
-                <th>Controles</th>
-            </tr>
-            <?php
-                if($buscar == '')
-                {
-                    $sql="SELECT * FROM clientes";
-                    $resultado = mysqli_query($conecta, $sql);
-
-                    while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
-                    {
-                        $id_cliente = $filas['id'];
-                        $cliente = $filas['cliente'];
-            ?>
-                        <tr>
-                            <td> 
-                                <?php echo $filas['codigo'];?> 
-                            </td>
-                            <td> 
-                                <?php echo $cliente?> 
-                            </td>
-                            <td>
-                                <form method="POST" action="cliente.php">
-                                    <div class="ocultar">
-                                        <input type="text" name="cliente" value="<?php echo $cliente?>">
-                                        <input type="text" name="id_cliente" value="<?php echo $id_cliente?>">
-                                        <input type="text" name="id_pedido" value="<?php echo $id_pedido?>">                                        
-                                    </div>
-                                    <input type="submit" value="Agregar" name="agregar-producto">                                
-                                </form>
-                            </td>
-                        </tr>
-            <?php
-                    }
-                    mysqli_close($conecta);  
-                }
-                else
-                {
-                    $query = "SELECT * FROM clientes WHERE cliente LIKE '%".$buscar."%' LIMIT 400";
-                    $resultado = mysqli_query($conecta, $query);
-
-                    while ($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
-                    {
-                        $id_cliente = $filas['id'];
-                        $cliente = $filas['cliente'];
-            ?>
-                         <tr>
-                            <td> 
-                                <?php echo $filas['codigo'];?> 
-                            </td>
-                            <td> 
-                                <?php echo $cliente;?> 
-                            </td>
-                            <td>
-                                <form method="POST" action="cliente.php">
-                                    <div class="ocultar">
-                                        <input type="text" name="cliente" value="<?php echo $cliente?>">
-                                        <input type="text" name="id_cliente" value="<?php echo $id_cliente?>">
-                                        <input type="text" name="id_pedido" value="<?php echo $id_pedido?>">                                        
-                                    </div>
-                                    <input type="submit" value="Agregar" name="agregar-producto">
-                                </form>
-                            </td>
-                        </tr>
+    <div class="contenido-productos">
+        <main class="contenido">
+            <header class="titulo">
+                <h2>Clientes</h2>
+            </header>
+            <form method="POST" action="cliente.php">
+                <div class=productos>
+                    <input class="text efecto" type="search" name="search" value="<?php $buscar?>">
+                    <button class="fas fa-search boton-buscar efecto-botones" type="submit"></button>                
+                </div>
+            </form>
+            <table>
+                <tr>        
+                    <th>Codigo</th>
+                    <th>Nombre</th>
+                    <th>Controles</th>
+                </tr>
                 <?php
-                    }
-                    mysqli_close($conecta);        
-                }
+                    if($buscar == '')
+                    {
+                        $sql="SELECT * FROM clientes";
+                        $resultado = mysqli_query($conecta, $sql);
+    
+                        while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+                        {
+                            $id_cliente = $filas['id'];
+                            $cliente = $filas['cliente'];
                 ?>
-        </table>
-        <div class="botones">
-            <a href="pedidos.php?id_cliente=<?php echo $verificacion_cliente;?>">
-                <input type="button" value="Salir">                
-            </a>
-        </div>
-    </main>
+                            <tr>
+                                <td> 
+                                    <?php echo $filas['codigo'];?> 
+                                </td>
+                                <td> 
+                                    <?php echo $cliente?> 
+                                </td>
+                                <td>
+                                    <form method="POST" action="cliente.php">
+                                        <div class="ocultar">
+                                            <input type="text" name="cliente" value="<?php echo $cliente?>">
+                                            <input type="text" name="id_cliente" value="<?php echo $id_cliente?>">
+                                            <input type="text" name="id_pedido" value="<?php echo $id_pedido?>">                                        
+                                        </div>
+                                        <button class="fas fa-user-plus boton-controles efecto-botones" type="submit" name="agregar-producto"></button>                                
+                                    </form>
+                                </td>
+                            </tr>
+                <?php
+                        }
+                        mysqli_close($conecta);  
+                    }
+                    else
+                    {
+                        $query = "SELECT * FROM clientes WHERE cliente LIKE '%".$buscar."%' LIMIT 400";
+                        $resultado = mysqli_query($conecta, $query);
+    
+                        while ($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+                        {
+                            $id_cliente = $filas['id'];
+                            $cliente = $filas['cliente'];
+                ?>
+                             <tr>
+                                <td> 
+                                    <?php echo $filas['codigo'];?> 
+                                </td>
+                                <td> 
+                                    <?php echo $cliente;?> 
+                                </td>
+                                <td>
+                                    <form method="POST" action="cliente.php">
+                                        <div class="ocultar">
+                                            <input type="text" name="cliente" value="<?php echo $cliente?>">
+                                            <input type="text" name="id_cliente" value="<?php echo $id_cliente?>">
+                                            <input type="text" name="id_pedido" value="<?php echo $id_pedido?>">                                        
+                                        </div>
+                                        <button class="fas fa-user-plus boton-controles efecto-botones" type="submit" name="agregar-producto"></button>
+                                    </form>
+                                </td>
+                            </tr>
+                    <?php
+                        }
+                        mysqli_close($conecta);        
+                    }
+                    ?>
+            </table>
+            <div class="botones">
+                <a href="pedidos.php?id_cliente=<?php echo $verificacion_cliente;?>">
+                    <input class="efecto-botones" type="button" value="Salir">                
+                </a>
+            </div>
+        </main>
+    </div>
 </body>
 </html>

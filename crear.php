@@ -13,11 +13,11 @@
 
         if ($stmt->execute())
         {
-            $message = 'Guardado';
+            $_SESSION['message'] = 'Guardado';
         }
         else
         {
-            $message = 'Error';
+            $_SESSION['message'] = 'Error';
         }
     }
 ?>
@@ -32,35 +32,39 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="assets/styles/style.css">
     <link rel="stylesheet" href="assets/styles/login.css">
+    <link rel="stylesheet" href="assets/styles/message.css">
     <title>AppPrueba</title>
 </head>
 <body>
-    <div class="contenido">
-        <div class="titulo">
-            <h2>Registrarse</h2>        
+    <main class="contenido">
+        <div class="login">
+            <form action="index.php" method="POST" class="formulario">            
+                <header class="titulo">
+                    <h2>Registrarse</h2>        
+                </header>
+                <div class="leable_usuario">
+                    <span>Usuario</span>                
+                </div>
+                <div class="textbox_usuario">
+                    <input type="text" name="nombre" class="efecto">                
+                </div>
+                <div class="leable_contraseña">
+                    <span>Contraseña</span>                
+                </div>
+                <div class="textbox_contraseña">
+                    <input type="password" name="password" class="efecto">                
+                </div>         
+                <?php if(isset($_SESSION['message'])){?>
+                    <div class='mensaje-error'>
+                    <span><?= $_SESSION['message']?></span>
+                    </div>
+                <?php session_unset(); } ?>
+                <div class="boton">
+                    <input type="submit" value="Iniciar sesión">                   
+                </div>   
+            </form>            
         </div>
-        <form method="POST" class="formulario">
-            <div class="leable_usuario">
-                <h2>Usuario</h2>                
-            </div>
-            <div class="textbox_usuario">
-                <input type="text" name="nombre">                
-            </div>
-            <div class="leable_contraseña">
-                <h2>Contraseña</h2>                
-            </div>
-            <div class="textbox_contraseña">
-                <input type="password" name="password">                
-            </div>         
-            <?php if(!empty($message)):?>
-            <p> <?= $message ?></p>
-            <?php endif; ?>       
-            <div class="boton">
-                <input type="submit" value="Iniciar sesión">                   
-            </div>   
-        </form>
-    </div>
+    </main>    
 </body>
 </html>

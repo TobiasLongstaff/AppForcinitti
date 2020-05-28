@@ -29,6 +29,7 @@ body
     font-size: 15px;
     padding: 5px 10px;
     color: #707070;
+    outline: 0;
 }
 
                 /* TITULO */
@@ -55,22 +56,6 @@ body
     display: grid;
 }
 
-.boton
-{
-    text-decoration: none;
-}
-
-.boton input, .boton-agregar
-{
-    background: linear-gradient(180deg,#0195ff 0%, #0555bd 100%);
-    border: 0;
-    border-radius: 5px;
-    color: white;
-    font-size: 20px;
-    height: 40px;
-    font-family: 'Roboto light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
 form button
 {
     width: 45px;
@@ -85,7 +70,7 @@ form button
 
 .textbox-productos
 {
-    width: 225px;
+    width: 70%;
     height: 2em;
     margin-right: 5px;
 }
@@ -112,24 +97,24 @@ form button
 
 .textbox-cantidad
 {
-    width: 45px;
+    width: 20%;
 }
 
 .textbox-precio
 {
-    width: 90px;
+    width: 30%;
 }
 
 .textbox-descuento
 {
-    width: 55px;
+    width: 20%;
 }
 
                 /* IVA */
 
 .textbox-iva
 {
-    width: 30px;
+    width: 8%;
 }
 
 .condicion-iva
@@ -164,52 +149,63 @@ form button
     justify-content: space-between;
 }
 
-.leable-2
+.leable-fecha
 {
-    padding-right: 17px;
+    padding-right: 5%;
 }
 
-.textbox-entrega input
+.textbox-entrega input, .leable-fecha, .leable-domicilio
 {
-    width: 120px;
+    width: 40%;
 }
 
                 /* BOTONES */
 
+.boton input, .boton
+{
+    text-decoration: none;
+    background: linear-gradient(180deg,#0195ff 0%, #0555bd 100%);
+    border: 0;
+    border-radius: 5px;
+    color: white;
+    font-size: 20px;
+    height: 40px;
+    font-family: 'Roboto light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    outline: 0;
+}
+
 .botones
 {
-    margin-top: 5%;
-    grid-area: botones;
+    position: fixed;
     display: flex;
-    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 10px 20% 36px 10px;
+    left: 0;
+    bottom: 0;
+    width: 90%;
 }
 
 .botones input
 {
     width: 100px;
     height: 90px;
+    border-radius: 10px;
+    font-family: 'Roboto light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-decoration: none;
+    font-size: 20px;
 }
 
-.boton-agregar input
+.boton-agregar
 {
-   color: white; 
-}
-
-.boton-2
-{
-    padding: 0 5px;
+    border-radius: 10px;
 }
 
 .boton-2 input
 {
+    margin: 0 5px;
     background-color: white;
     border-color: #0555bd;
     color: #0555bd;
-    font-size: 20px;
-    font-family: 'Roboto light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    border-radius: 10px;
-    width: 100px;
-    height: 90px;
     padding: 0;
 }
 
@@ -218,14 +214,129 @@ form button
     background-color: white;
     border-color: #eb4d4b;
     color: #eb4d4b;
-    font-size: 20px;
     border-style: solid;
     border-width: 1px;
-    text-decoration: none;
-    font-family: 'Roboto light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    border-radius: 10px;
-    width: 100px;
-    height: 90px;
     padding: 0;
 }
+
+.efecto-botones:active
+{
+    box-shadow: 1px 1px 10px #0555bd ;
+}
+
+.efecto:active
+{
+    box-shadow: 1px 1px 10px #60a5d6;
+}
+
+@media screen and (min-width: 427px)
+{
+    .textbox-cantidad,.leable-cantidad 
+    {
+        width: 20%;
+    }
+    
+    .textbox-precio, .leable-precio
+    {
+        width: 30%;
+    }
+    
+    .textbox-descuento, .leable-descuento
+    {
+        width: 20%;
+    }
+    
+    .textbox-iva, .leable-iva
+    {
+        width: 8%;
+    } 
+}
+
+@media screen and (min-width: 500px)
+{
+    .leable-fecha
+    {
+        padding-right: 3%;
+    } 
+}
+
+@media screen and (min-width: 760px)
+{
+    html
+    {
+        height: 100%;
+    }
+
+    body
+    {
+        background: linear-gradient(#0555bd, #5dbbff);  
+    }
+
+    .contenido
+    {        
+        display: block;
+        margin-top: 10%;
+        padding: 0 5%;
+        padding-top: 5%;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0px 2px 14px 0px #000000a1;
+        height: calc(100vh - 150px);  
+    }
+    
+    .pedidos
+    {
+        padding: 0 10%;
+    }
+
+    .botones
+    {
+        width: 83.1%;
+        padding-bottom: 120px;
+    }
+}
+
+@media screen and (min-width: 876px)
+{
+    .pedidos
+    {
+        display: flex;
+        justify-content: center;
+    }
+
+    .contenido
+    {
+        width: 500px;
+        height: calc(100vh - 250px);  
+    }
+
+    .botones
+    {
+        margin-top: 20%;
+        display: flex;
+        position: relative;
+        padding: 0;
+        width: 100%;
+        justify-content: flex-end;
+    }
+}
+
+@media screen and (min-width: 1100px)
+{
+    .contenido
+    {
+        margin: 4%;
+    }
+}
+
+@media screen and (min-height: 1300px)
+{
+    .contenido
+    {
+        height: 900px;
+    }
+}
+
+
+
 

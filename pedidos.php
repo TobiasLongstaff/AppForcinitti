@@ -96,13 +96,14 @@
 
     //AGREGAR DATOS
 
-    if(isset($_POST['cantidad']) && isset($_POST['descuento']) && isset($_POST['condicionIva']) && isset($_POST['domicilio']) && isset($_POST['fechaEntrega']))
+    if(isset($_POST['cantidad']) && isset($_POST['descuento']) && isset($_POST['condicionIva']) && isset($_POST['domicilio']) && isset($_POST['fechaEntrega']) && isset($_POST['precio']))
     {
         $cantidad = $_POST['cantidad'];     
         $descuento = $_POST['descuento'];       
         $condicionIva = $_POST['condicionIva'];
         $domicilio = $_POST['domicilio'];
-        $fechaEntrega = $_POST['fechaEntrega'];       
+        $fechaEntrega = $_POST['fechaEntrega'];  
+        $precio = $_POST['precio'];     
     }
 
     if(isset($_POST['agregar-producto']))
@@ -116,7 +117,7 @@
         {
             if(!empty($_POST['cantidad']))
             {
-                $sql = "INSERT INTO lista (id_producto, id_pedido , cantidad, descuento, condicionIva) VALUES ('$id_producto', '$id_pedido', '$cantidad', '$descuento', '$condicionIva')";
+                $sql = "INSERT INTO lista (id_producto, id_pedido, cantidad, descuento, condicionIva, descripcion, precio) VALUES ('$id_producto', '$id_pedido', '$cantidad', '$descuento', '$condicionIva', '$nombre', '$precio')";
                 $resultado = mysqli_query($conexion,$sql);
     
                 $sql2 = "UPDATE id_pedido SET entrega = '$domicilio', id_cliente = '$id_cliente', fecha_entrega = '$fechaEntrega' WHERE id = '$id_pedido'";
@@ -143,9 +144,8 @@
     
     if(isset($_GET['crear_pedido']) && !empty($vendedor))
     {
-
         $sql = "INSERT INTO id_pedido (vendedor) VALUES ('$vendedor')";
-        $resultado = mysqli_query($conexion,$sql);   
+        $resultado = mysqli_query($conexion,$sql);               
     }
 
     if(isset($_POST['pedido-cancelado']))
@@ -187,79 +187,81 @@
     <title>Pedidos</title>
 </head>
 <body>
-    <main class="contenido">
-        <header class="titulo">
-            <h2>Pedidos</h2>
-        </header>
-        <a class="boton clientes" href="cliente.php">
-            <input type="button" value="Clientes">
-        </a>
-        <!-- PRODUCTOS -->
-        <form class="productos" method="POST" action="productos.php">
-            <div class="label-productos">
-                <span>Productos</span>                
-            </div>
-            <input class="textbox-productos" type="search" name="search" value="<?php echo $nombre;?>">
-            <button type="submit" class="fas fa-search boton"></button>             
-        </form>
-        <!-- INFORMACION -->
-        <form method="POST">
-            <div class="informacion">
-                <div class="leables">
-                    <span>Cantidad</span>
-                    <span>Precio Unitario</span>
-                    <span>Descuento</span>
-                    <span>IVA</span>                
+    <div class="pedidos">
+        <main class="contenido">
+            <header class="titulo">
+                <h2>Pedidos</h2>
+            </header>
+            <a class="boton clientes" href="cliente.php">
+                <input class="efecto-botones" type="button" value="Clientes">
+            </a>
+            <!-- PRODUCTOS -->
+            <form class="productos" method="POST" action="productos.php">
+                <div class="label-productos">
+                    <span>Productos</span>                
                 </div>
-                <div class="contenedor-textbox">
-                    <input class="textbox-cantidad" type="text" name="cantidad">
-                    <input class="textbox-precio" type="text" value="<?php echo $precio;?>$">
-                    <input class="textbox-descuento" type="text" name="descuento">
-                    <input class="textbox-iva" type="text" value="<?php echo $iva;?>%">                 
-                </div>   
-            </div>
-            <!-- CONDICION IVA -->
-            <div class="condicion-iva">
-                <div class="leable-iva">
-                    <span>Condicion IVA</span>                
+                <input class="textbox-productos efecto" type="search" name="search" value="<?php echo $nombre;?>">
+                <button type="submit" class="fas fa-search boton efecto-botones"></button>             
+            </form>
+            <!-- INFORMACION -->
+            <form method="POST">
+                <div class="informacion">
+                    <div class="leables">
+                        <span class="leable-cantidad">Cantidad</span>
+                        <span class="leable-precio">Precio Unitario</span>
+                        <span class="leable-descuento">Descuento</span>
+                        <span class="leable-iva">IVA</span>                
+                    </div>
+                    <div class="contenedor-textbox">
+                        <input class="textbox-cantidad efecto" type="text" name="cantidad">
+                        <input class="textbox-precio efecto" type="text" name="precio" value="<?php echo $precio;?>$">
+                        <input class="textbox-descuento efecto" type="text" name="descuento">
+                        <input class="textbox-iva efecto" type="text" value="<?php echo $iva;?>%">                 
+                    </div>   
                 </div>
-                <input type="text" name="condicionIva">            
-            </div>
-            <!-- ENTREGA -->
-            <div class="entrega">
-                <div class="leables-entrega">
-                    <span>Domicilio</span>        
-                    <span class="leable-2">Fecha de Entrega</span>                
+                <!-- CONDICION IVA -->
+                <div class="condicion-iva">
+                    <div class="leable-iva">
+                        <span>Condicion IVA</span>                
+                    </div>
+                    <input class="efecto" type="text" name="condicionIva">            
                 </div>
-                <div class="textbox-entrega">
-                    <input type="text" name="domicilio">
-                    <input type="datetime" name="fechaEntrega">
+                <!-- ENTREGA -->
+                <div class="entrega">
+                    <div class="leables-entrega">
+                        <span class="leable-domicilio" >Domicilio</span>        
+                        <span class="leable-fecha">Fecha de Entrega</span>                
+                    </div>
+                    <div class="textbox-entrega">
+                        <input class="efecto" type="text" name="domicilio">
+                        <input class="efecto" type="datetime" name="fechaEntrega">
+                    </div>
                 </div>
-            </div>
-            <!--ALERTAS-->
-            <?php if(!empty($_SESSION['message-error'])){?>
-                <div class='mensaje-error'>
-                   <span><?= $_SESSION['message-error']?></span>
+                <!--ALERTAS-->
+                <?php if(!empty($_SESSION['message-error'])){?>
+                    <div class='mensaje-error'>
+                    <span><?= $_SESSION['message-error']?></span>
+                    </div>
+                <?php session_unset(); } ?>
+                <?php if(!empty($_SESSION['message-correcto'])){?>
+                    <div class='mensaje-correcto'>
+                    <span><?= $_SESSION['message-correcto']?></span>
+                    </div>
+                <?php session_unset(); } ?>
+                <!-- BOTONES -->
+                <div class="botones">
+                    <form class="boton boton-agregar" action="pedidos.php" method="POST">
+                        <input class="efecto-botones" name="agregar-producto" type="submit" value="Agregar">                    
+                    </form>
+                    <a class="boton-2" href="lista.php">
+                        <input class="efecto-botones" type="button" value="Ver Lista">
+                    </a>
+                    <form class="boton-eliminar" action="pedidos.php?" method="POST">
+                        <input class="efecto-botones" type="submit" name="pedido-cancelado" value="Salir">                       
+                    </form>
                 </div>
-            <?php session_unset(); } ?>
-            <?php if(!empty($_SESSION['message-correcto'])){?>
-                <div class='mensaje-correcto'>
-                   <span><?= $_SESSION['message-correcto']?></span>
-                </div>
-            <?php session_unset(); } ?>              
-            <!-- BOTONES -->
-            <div class="botones">
-                <form action="pedidos.php" method="POST">
-                    <input class="boton-agregar" name="agregar-producto" type="submit" value="Agregar">                    
-                </form>                
-                <a class="boton-2" href="lista.php">
-                    <input type="button" value="Ver Lista">
-                </a>
-                <form class="boton-eliminar" action="pedidos.php?" method="POST">
-                    <input type="submit" name="pedido-cancelado" value="Salir">                       
-                </form>
-            </div>
-        </form>
-    </main>
+            </form>
+        </main>        
+    </div>
 </body>
 </html>

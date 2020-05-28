@@ -27,19 +27,23 @@ table
 
 .titulo
 {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
-.cliente
+.ocultar
+{
+    display: none;
+}
+
+.cliente, .pedido
 {
     margin-bottom: 15px;
 }
 
-.productos
+.productos, .pedido
 {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     margin-bottom: 25px;
 }
 
@@ -52,11 +56,12 @@ table
     font-size: 15px;
     height: 2.2em;
     padding: 5px 10px;
-    width: 250px;
+    width: 80%;
     color: #707070;
+    outline: 0;
 }
 
-.boton-buscar
+.boton-buscar, .boton-controles
 {
     background: linear-gradient(180deg,#0195ff 0%, #0555bd 100%);
     border: 0;
@@ -68,6 +73,13 @@ table
     width: 47px;
     font-family: 'Roboto light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin-left: 10px;
+    outline: 0;
+}
+
+.controles
+{
+    display: flex;
+    justify-content: center;
 }
 
 td, th 
@@ -82,15 +94,38 @@ tr:nth-child(even)
     background-color: #ffffff;
 }
 
+.cabecera
+{
+    display: flex;
+}
+
 .precio-final
 {
-    position: fixed;
-    left: 0;
-    bottom: 70px;
-    width: 86%;
-    text-align: center;
-    background-color: white;
-    padding: 0 7%;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 15px;
+    color: white;
+    background: linear-gradient(60deg,#0195ff 30%, #0555bd 100%);
+    width: 47%;
+    margin-right: 5px;
+}
+
+.cliente
+{
+    border-radius: 5px;
+    margin-bottom: 5px;
+    padding: 10px;
+    color: white;
+    background: linear-gradient(60deg,rgb(225, 108, 100) 30%, rgb(250, 108, 34) 60%);  
+}
+
+.datos
+{
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 10px;
+    color: white;
+    background: linear-gradient(60deg,rgb(44, 183, 190) 30%, rgb(44, 183, 127) 60%);
 }
 
 .botones
@@ -116,5 +151,68 @@ tr:nth-child(even)
     height: 35px;
     width: 90px;
     font-family: 'Roboto light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    outline: 0;
 }
 
+.efecto-botones:active
+{
+    box-shadow: 1px 1px 10px #0555bd ;
+}
+
+.efecto:active
+{
+    box-shadow: 1px 1px 10px #60a5d6;
+}
+
+@media screen and (min-width: 760px)
+{
+    .contenido-productos
+    {
+        display: flex;
+        justify-content: center;        
+    }
+
+    html
+    {
+        height: 100%;
+    }
+
+    body
+    {
+        background: linear-gradient(#0555bd, #5dbbff);  
+    }
+
+    .contenido
+    {        
+        width: 400px;
+        margin-top: 10%;
+        padding-top: 5%;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0px 2px 14px 0px #000000a1;
+        height: calc(100vh - 300px);  
+    }
+
+    .botones
+    {
+        background-color: transparent;
+        padding-bottom: 150px;
+    }
+
+}
+
+@media screen and (min-width: 1060px)
+{
+    .contenido
+    {
+        margin-top: 5%;
+    }
+}
+
+@media screen and (min-width: 1600px)
+{
+    .contenido
+    {
+        height: 600px;
+    }
+}

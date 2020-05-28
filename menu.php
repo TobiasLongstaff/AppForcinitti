@@ -63,36 +63,35 @@
     <title>Menu</title>
 </head>
 <body>
-
     <main class="contenido">    
-        <?php if(!empty($user)):?>
-            <header>
-                <p>Bienvenido: <?= $user['nombre'] ?></p>
-                <a href="cerrarsesion.php">
-                <input type="button" value="Cerrar sesion">
-                </a>
-            </header> 
-        <?php endif; ?>
+    <?php if(!empty($user)):?>
+        <header>
+            <p>Bienvenido: <?= $user['nombre'] ?></p>
+            <a href="cerrarsesion.php">
+               <input type="button" value="Cerrar sesion">
+            </a>
+        </header> 
+    <?php endif; ?>
         <div class="titulo">            
             <h2>Menu</h2>            
             <div class="linea"></div>          
         </div>            
         <selection class="botones">
             <form action="pedidos.php?crear_pedido=1" method="POST">
-                <input type="submit" value="Pedidos">   
+                <input class="efecto-botones" type="submit" value="Pedidos">   
             </form>
              
             <a href="lista.php">
-                <input type="button" value="Gestionar Pedidos">                
+                <input class="efecto-botones" type="button" value="Gestionar Pedidos">                
             </a>
             <a href="agregar-productos.php">
-                <input type="button" value="Agregar Producto">                
+                <input class="efecto-botones" type="button" value="Agregar Producto">                
             </a>
             <a href="cliente.php">
-                <input type="button" value="Clientes">                
+                <input class="efecto-botones" type="button" value="Clientes">                
             </a>
             <a href="productos.php">
-                <input type="button" value="Productos">                  
+                <input class="efecto-botones" type="button" value="Productos">                  
             </a>
             <div class="linea"></div> 
         </selection>

@@ -48,24 +48,24 @@
                     <span>Usuario</span>                
                 </div>
                 <div class="textbox_usuario">
-                    <input type="text" name="nombre">                
+                    <input type="text" name="nombre" class="efecto">                
                 </div>
                 <div class="leable_contraseña">
                     <span>Contraseña</span>                
                 </div>
                 <div class="textbox_contraseña">
-                    <input type="password" name="password">                
+                    <input type="password" name="password" class="efecto">                
                 </div>         
                 <?php if(isset($_SESSION['message'])){?>
                     <div class='mensaje-error'>
                     <span><?= $_SESSION['message']?></span>
                     </div>
-                <?php session_unset(); } ?>
+                <?php session_unset(); } ?>       
                 <div class="boton">
-                    <input type="submit" value="Iniciar sesión">                   
+                    <input class="efecto-botones" type="submit" value="Iniciar sesión">                   
                 </div>   
             </form>            
         </div>
-    </main>      
+    </main>    
 </body>
 </html>
