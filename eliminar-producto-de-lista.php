@@ -23,6 +23,7 @@
         
         header('Location: lista.php');
     }
+    mysqli_close($conecta);
 
 
 ?>

@@ -1,5 +1,6 @@
 <?php
     require ('database.php');
+    session_start(); 
 
     $conecta = mysqli_connect($server, $nombre, $password, $database);
     if (mysqli_connect_errno())
@@ -15,6 +16,7 @@
     $id_cliente = '';
     $id_pedido = '';
     $verificacion_cliente = '0';
+    $boton_agregar_cliente = '';
     
     if(isset($_POST['search']))
     {
@@ -53,6 +55,16 @@
             $verificacion_cliente = '1';
         }
     }
+
+    if(isset($_POST['boton-agregar']))
+    {
+        $boton_agregar_cliente = $_POST['boton-agregar'];        
+    }
+
+    if($boton_agregar_cliente)
+    {
+        $_SESSION['message-correcto'] = 'Se añadio el cliente al pedido';
+    }
     mysqli_close($conexion); 
 ?>
 
@@ -66,6 +78,7 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="assets/styles/lista.css">
+    <link rel="stylesheet" href="assets/styles/message.css">
 
     <!-- ICONOS -->
     <script src="https://kit.fontawesome.com/1b601aa92b.js" crossorigin="anonymous"></script>
@@ -115,7 +128,7 @@
                                             <input type="text" name="id_cliente" value="<?php echo $id_cliente?>">
                                             <input type="text" name="id_pedido" value="<?php echo $id_pedido?>">                                        
                                         </div>
-                                        <button class="fas fa-user-plus boton-controles efecto-botones" type="submit" name="agregar-producto"></button>                                
+                                        <input class="boton-controles efecto-botones" type="submit" name="boton-agregar" value="Agregar">          
                                     </form>
                                 </td>
                             </tr>
@@ -157,6 +170,12 @@
                     }
                     ?>
             </table>
+            <!--ALERTAS-->
+            <?php if(!empty($_SESSION['message-correcto'])){?>
+                    <div class='mensaje-correcto'>
+                        <span><?= $_SESSION['message-correcto']?></span>
+                    </div>
+            <?php session_unset(); } ?>
             <div class="botones">
                 <a href="pedidos.php?id_cliente=<?php echo $verificacion_cliente;?>">
                     <input class="efecto-botones" type="button" value="Salir">                

@@ -93,7 +93,6 @@
             $id_usuario = $filas['id'];
         }        
     }
-
     //AGREGAR DATOS
 
     if(isset($_POST['cantidad']) && isset($_POST['descuento']) && isset($_POST['condicionIva']) && isset($_POST['domicilio']) && isset($_POST['fechaEntrega']) && isset($_POST['precio']))
@@ -110,7 +109,7 @@
     {
         $boton_agregar = $_POST['agregar-producto'];
     }
-
+    
     if($boton_agregar)
     {
         if(!empty($id_producto))
@@ -155,7 +154,7 @@
  
     if($boton_cancelar)
     {
-        $sql = "UPDATE id_pedido SET estado = 'Cancelado' WHERE id = '$id_pedido'";
+        $sql = "UPDATE id_pedido SET estado = 'Cancelado' WHERE id = '$idPedido'";
         $resultado = mysqli_query($conexion,$sql);
         if (!$resultado)
         {

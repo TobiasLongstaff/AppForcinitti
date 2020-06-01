@@ -20,6 +20,7 @@
             $_SESSION['message'] = 'Error';
         }
     }
+    mysqli_close($conecta);
 ?>
 
 <!DOCTYPE html>

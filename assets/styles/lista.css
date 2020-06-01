@@ -61,6 +61,12 @@ table
     outline: 0;
 }
 
+input[type="submit"]
+{
+    font-size: 15px;
+    width: 60px;
+}
+
 .boton-buscar, .boton-controles
 {
     background: linear-gradient(180deg,#0195ff 0%, #0555bd 100%);
@@ -128,6 +134,11 @@ tr:nth-child(even)
     background: linear-gradient(60deg,rgb(44, 183, 190) 30%, rgb(44, 183, 127) 60%);
 }
 
+.form-botones
+{
+    display: inline-flex;
+}
+
 .botones
 {
     position: fixed;
@@ -164,6 +175,23 @@ tr:nth-child(even)
     box-shadow: 1px 1px 10px #60a5d6;
 }
 
+.tabla
+{
+    height: 450px;
+    overflow: auto;
+}
+
+.tabla::-webkit-scrollbar {
+	width: 7px;
+}
+
+.tabla::-webkit-scrollbar-thumb {
+	background: linear-gradient(#0555bd, #5dbbff);  
+	border-radius: 5px;
+}
+
+
+
 @media screen and (min-width: 760px)
 {
     .contenido-productos
@@ -184,7 +212,7 @@ tr:nth-child(even)
 
     .contenido
     {        
-        width: 400px;
+        width: 600px;
         margin-top: 10%;
         padding-top: 5%;
         background-color: white;

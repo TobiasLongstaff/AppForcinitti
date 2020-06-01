@@ -1,15 +1,6 @@
 <?php
 
-    include 'database.php';
-
-    $idPedido = '';
-    $idPedidoCliente = '';
-    $cliente = '';
-    $productos = '';
-    $nombre = '';
-    $cantidad = '';
-    $numeroDeProducto = 0;
-    $total = 0;
+    require ('database.php');
 
     $conecta = mysqli_connect($server, $nombre, $password, $database);
     if (mysqli_connect_errno())
@@ -20,6 +11,19 @@
     mysqli_select_db($conecta, $database) or die ('Error al conectar');
     mysqli_set_charset($conecta, 'utf8');
 
+    $idPedido = '';
+    $idPedidoCliente = '';
+    $cliente = '';
+    $productos = '';
+    $nombre = '';
+    $cantidad = '';
+    $numeroDeProducto = 0;
+    $total = 0;
+    $terminarPedido = '';
+    $boton_cancelar = '';
+    $id_usuario = '';
+
+
     //EXTRAER DATOS
 
     $sql="SELECT * FROM id_pedido";
@@ -28,6 +32,7 @@
     while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
     {        
         $idPedido = $filas['id'];
+        $nombre_usuario_pedido = $filas['vendedor'];
     }
     
     $sql="SELECT * FROM lista_clientes";
@@ -41,6 +46,36 @@
             $cliente = $filas['cliente'];
         }
     }
+
+    $sql="SELECT * FROM usuarios";
+    $resultado = mysqli_query($conecta, $sql);
+    while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+    {
+        $nombre_usuario_usuarios = $filas['nombre'];
+        if($nombre_usuario_pedido == $nombre_usuario_usuarios)
+        {
+            $id_usuario = $filas['id'];
+        }        
+    }
+
+    if(isset($_POST['pedido-cancelado']))
+    {
+        $boton_cancelar = $_POST['pedido-cancelado'];        
+    }
+
+    if($boton_cancelar)
+    {
+        $sql = "UPDATE id_pedido SET estado = 'Cancelado' WHERE id = '$idPedido'";
+        $resultado = mysqli_query($conexion,$sql);
+        if (!$resultado)
+        {
+            echo 'Error al cancelar';
+        }
+        else
+        {
+            header("Location: /AppForcinitti/menu.php?id=$id_usuario");
+        }          
+    }  
 ?> 
 <!DOCTYPE html>
 <html lang="es">
@@ -96,6 +131,27 @@
                                 {
                                     $total= $fila['total'];
                                 }
+                            }
+
+                            // ACTUALIZAR DATOS
+                            
+                            if(isset($_POST['boton-terminar']))
+                            {
+                                $terminarPedido = $_POST['boton-terminar'];
+                            }
+
+                            if($terminarPedido)
+                            {
+                                $sql = "UPDATE id_pedido SET estado = 'Listo', total = '$total' WHERE id = '$idPedido'";
+                                $resultado = mysqli_query($conexion,$sql);
+                                if (!$resultado)
+                                {
+                                    echo 'Error al terminar';
+                                }
+                                else
+                                {
+                                    header("Location: /AppForcinitti/menu.php?id=$id_usuario");
+                                } 
                             }
                         ?>
                     <hr>
@@ -162,14 +218,20 @@
                     </tr>
                 <?php     
                     }  
+                    mysqli_close($conecta);
                 ?>
             </table>
             <div class="botones">
-                <input class="efecto-botones" type="submit" value="Terminar">
+                <form class="form-botones" action="lista.php" method="POST">
+                    <input class="efecto-botones" type="submit" name="boton-terminar" value="Terminar">   
+                </form>
+                
                 <a href="pedidos.php">
                     <input class="efecto-botones" type="submit" value="Agregar">                
                 </a>
-                <input class="efecto-botones" type="button" value="Cancelar">                
+                <form class="form-botones" action="lista.php" method="POST">
+                    <input class="efecto-botones" type="submit" name="pedido-cancelado" value="Cancelar"> 
+                </form>               
             </div>
         </main>        
     </div>

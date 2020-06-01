@@ -81,12 +81,16 @@
                 <input class="efecto-botones" type="submit" value="Pedidos">   
             </form>
              
-            <a href="lista.php">
+            <a href="gestionar-pedidos.php">
                 <input class="efecto-botones" type="button" value="Gestionar Pedidos">                
+            </a>            
+            <a href="preparar-pedidos.php">
+                <input class="efecto-botones" type="button" value="Preparar Pedidos">                
             </a>
             <a href="agregar-productos.php">
                 <input class="efecto-botones" type="button" value="Agregar Producto">                
             </a>
+
             <a href="cliente.php">
                 <input class="efecto-botones" type="button" value="Clientes">                
             </a>
