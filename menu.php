@@ -44,9 +44,19 @@
         }
     }
 
-    if(!empty($_GET['id']))
+    if(isset($_GET['pedido']))
     {
-      
+        ?>
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Your work has been saved',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        </script>
+<?php
     }
 ?>
 
@@ -100,6 +110,8 @@
             <div class="linea"></div> 
         </selection>
     </main>
-    <script type="text/javascript" src="js/desabilitar_elementos.js"></script>
+    <script src="assets/plugins/jquery-3.5.1.min.js"></script>
+	<script src="assets/plugins/sweetalert2.all.min.js"></script>
+	<script src="assets/scripts/app.js"></script>
 </body>
 </html>

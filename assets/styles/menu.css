@@ -129,3 +129,16 @@ header input
         padding: 1% 6% 4%;
     }
 }
+
+@media screen and (max-height: 900px)
+{
+    .contenido
+    {
+        height: 635px;
+    }
+
+    .botones input
+    {
+        margin: 10px;
+    }
+}

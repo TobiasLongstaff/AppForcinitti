@@ -30,6 +30,18 @@ table
     margin-bottom: 20px;
 }
 
+.informacion
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+.preparar-panel
+{
+    width: 46%;
+    height: 58px;
+}
+
 .ocultar
 {
     display: none;
@@ -69,6 +81,7 @@ input[type="submit"]
 
 .boton-buscar, .boton-controles
 {
+    font-family: "Font Awesome 5 Free";
     background: linear-gradient(180deg,#0195ff 0%, #0555bd 100%);
     border: 0;
     padding: 0;
@@ -177,15 +190,21 @@ tr:nth-child(even)
 
 .tabla
 {
-    height: 450px;
+    height: 400px;
     overflow: auto;
 }
 
-.tabla::-webkit-scrollbar {
+.tabla-lista
+{
+    height: 280px;
+    overflow: auto;
+}
+
+.tabla::-webkit-scrollbar, .tabla-lista::-webkit-scrollbar {
 	width: 7px;
 }
 
-.tabla::-webkit-scrollbar-thumb {
+.tabla::-webkit-scrollbar-thumb, .tabla-lista::-webkit-scrollbar-thumb {
 	background: linear-gradient(#0555bd, #5dbbff);  
 	border-radius: 5px;
 }

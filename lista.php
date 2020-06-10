@@ -1,6 +1,7 @@
 <?php
 
     require ('database.php');
+    session_start(); 
 
     $conecta = mysqli_connect($server, $nombre, $password, $database);
     if (mysqli_connect_errno())
@@ -20,15 +21,26 @@
     $numeroDeProducto = 0;
     $total = 0;
     $terminarPedido = '';
-    $boton_cancelar = '';
     $id_usuario = '';
 
 
     //EXTRAER DATOS
 
+    if(isset($_GET['error']))
+    {
+        $nError = $_GET['error'];
+        if($nError == '1')
+        {
+            $_SESSION['message-error'] = 'Falta agregar el cliente';
+        }
+        else if($nError == '2')
+        {
+            $_SESSION['message-error'] = 'Agrega algun producto';
+        }
+    }
+
     $sql="SELECT * FROM id_pedido";
     $resultado = mysqli_query($conecta, $sql);
-
     while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
     {        
         $idPedido = $filas['id'];
@@ -37,7 +49,6 @@
     
     $sql="SELECT * FROM lista_clientes";
     $resultado = mysqli_query($conecta, $sql);
-
     while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
     {        
         $idPedidoCliente = $filas['id_pedido'];
@@ -56,26 +67,7 @@
         {
             $id_usuario = $filas['id'];
         }        
-    }
-
-    if(isset($_POST['pedido-cancelado']))
-    {
-        $boton_cancelar = $_POST['pedido-cancelado'];        
-    }
-
-    if($boton_cancelar)
-    {
-        $sql = "UPDATE id_pedido SET estado = 'Cancelado' WHERE id = '$idPedido'";
-        $resultado = mysqli_query($conexion,$sql);
-        if (!$resultado)
-        {
-            echo 'Error al cancelar';
-        }
-        else
-        {
-            header("Location: /AppForcinitti/menu.php?id=$id_usuario");
-        }          
-    }  
+    } 
 ?> 
 <!DOCTYPE html>
 <html lang="es">
@@ -88,6 +80,7 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="assets/styles/lista.css">
+    <link rel="stylesheet" href="assets/styles/message.css">
 
     <!-- ICONOS -->
     <script src="https://kit.fontawesome.com/1b601aa92b.js" crossorigin="anonymous"></script>
@@ -132,27 +125,6 @@
                                     $total= $fila['total'];
                                 }
                             }
-
-                            // ACTUALIZAR DATOS
-                            
-                            if(isset($_POST['boton-terminar']))
-                            {
-                                $terminarPedido = $_POST['boton-terminar'];
-                            }
-
-                            if($terminarPedido)
-                            {
-                                $sql = "UPDATE id_pedido SET estado = 'Listo', total = '$total' WHERE id = '$idPedido'";
-                                $resultado = mysqli_query($conexion,$sql);
-                                if (!$resultado)
-                                {
-                                    echo 'Error al terminar';
-                                }
-                                else
-                                {
-                                    header("Location: /AppForcinitti/menu.php?id=$id_usuario");
-                                } 
-                            }
                         ?>
                     <hr>
                         <span>Total: $<?php echo $total;?> </span>
@@ -177,63 +149,78 @@
                     </div>                    
                 </div> 
             </div>
-            <table>
-                <tr>
-                    <th>Cant.</th>
-                    <th>Descripcion</th>
-                    <th>Controles</th>
-                </tr>
-                <?php
-                    $sql="SELECT * FROM lista WHERE id_pedido = $idPedido";
-                    $resultado = mysqli_query($conecta, $sql);      
-                    
-                    while($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
-                    {     
-                        $productos = $fila['id_producto'];
-                        $cantidad = $fila['cantidad'];
-                ?>
+            <div class="tabla-lista">
+                <table>
                     <tr>
-                        <td>
-                            <?php echo $cantidad;?>
-                        </td>
-                <?php
-                        $sql2 = "SELECT * FROM productos WHERE id = $productos";
-                        $resultado2 = mysqli_query($conecta, $sql2);
-                        if(mysqli_num_rows($resultado2) == 1)     
-                        {
-                            $filas = mysqli_fetch_array($resultado2);
-                            $nombre = $filas['descripcion'];
-                ?>
-                        <td>
-                            <?php echo $nombre;?>
-                        </td>
-                <?php
-                        }
-                ?>
-                        <td>
-                            <a href="eliminar-producto-de-lista.php?id=<?php echo $fila['id'] ?>"> 
-                                <button class="fas fa-trash-alt boton-controles efecto-botones"></button> 
-                            </a>
-                        </td> 
+                        <th>Cant.</th>
+                        <th>Descripcion</th>
+                        <th>Precio</th>
+                        <th>Controles</th>
                     </tr>
-                <?php     
-                    }  
-                    mysqli_close($conecta);
-                ?>
-            </table>
+                    <?php
+                        $sql="SELECT * FROM lista WHERE id_pedido = $idPedido";
+                        $resultado = mysqli_query($conecta, $sql);      
+                        while($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+                        {    
+                            $precio = $fila['precio'];
+                            $productos = $fila['id_producto'];
+                            $cantidad = $fila['cantidad'];
+                    ?>
+                        <tr>
+                            <td>
+                                <?php echo $cantidad;?>
+                            </td>
+                    <?php
+                            $sql2 = "SELECT * FROM productos WHERE id = $productos";
+                            $resultado2 = mysqli_query($conecta, $sql2);
+                            if(mysqli_num_rows($resultado2) == 1)     
+                            {
+                                $filas = mysqli_fetch_array($resultado2);
+                                $nombre = $filas['descripcion'];
+                    ?>
+                            <td>
+                                <?php echo $nombre;?>
+                            </td>
+                            <td>
+                                <?php echo '$'.$precio;?>
+                            </td>
+                    <?php
+                            }
+                    ?>
+                            <td>
+                                <a class="btn-eliminar" href="eliminar-producto-de-lista.php?id=<?php echo $fila['id'] ?>"> 
+                                    <button class="fas fa-trash-alt boton-controles efecto-botones"></button> 
+                                </a>
+                            </td> 
+                        </tr>
+                    <?php     
+                        }  
+                        mysqli_close($conecta);
+                    ?>
+                </table>
+            </div>
+            <!--ALERTAS-->
+            <?php if(!empty($_SESSION['message-error'])){?>
+                <div class='mensaje-error'>
+                    <span><?= $_SESSION['message-error']?></span>
+                </div>
+            <?php session_unset(); } ?>
             <div class="botones">
-                <form class="form-botones" action="lista.php" method="POST">
-                    <input class="efecto-botones" type="submit" name="boton-terminar" value="Terminar">   
-                </form>
+                <a class="btn-finalizar form-botones" href="terminar-pedido.php?id=<?php echo $idPedido?>&total=<?php echo $total;?> ">
+                    <input class="efecto-botones" type="button" value="Terminar">   
+                </a>
                 
                 <a href="pedidos.php">
                     <input class="efecto-botones" type="submit" value="Agregar">                
                 </a>
-                <form class="form-botones" action="lista.php" method="POST">
-                    <input class="efecto-botones" type="submit" name="pedido-cancelado" value="Cancelar"> 
-                </form>               
+                <a class="form-botones btn-cancelar" href="cancelar-pedido.php?id=<?php echo $idPedido;?>">
+                    <input class="efecto-botones " type="button" value="Cancelar"> 
+                </a>               
             </div>
         </main>        
     </div>
+    <script src="assets/plugins/jquery-3.5.1.min.js"></script>
+	<script src="assets/plugins/sweetalert2.all.min.js"></script>
+	<script src="assets/scripts/app.js"></script>
 </body>
 </html>

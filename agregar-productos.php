@@ -9,6 +9,7 @@
     $precioMasivo = '';
     $codigo = '';
     $iva = '';
+    
     if(isset($_POST['descripcion']) && isset($_POST['precioMinorista']) && isset($_POST['precioMayorista']) && isset($_POST['precioMasivo']) && isset($_POST['codigo']) && isset($_POST['iva']))
     {
         $descripcion = $_POST['descripcion'];
@@ -35,7 +36,7 @@
     mysqli_close($conexion);
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

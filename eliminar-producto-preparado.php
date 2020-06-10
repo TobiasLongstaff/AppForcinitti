@@ -11,23 +11,29 @@
     mysqli_select_db($conecta, $database) or die ('Error al conectar');
     mysqli_set_charset($conecta, 'utf8');
 
+    $idPedido = '';
+    $id = '';
+
     if(isset($_GET['id']))
     {
         $id = $_GET['id'];
-        $sql = "DELETE FROM lista WHERE id = $id";
+        $sql = "SELECT id_pedido FROM lista_preparar WHERE id = $id";
         $resultado = mysqli_query($conecta, $sql);
-        $sql2 = "DELETE FROM lista_preparar WHERE id = $id";
-        $resultado2 = mysqli_query($conecta, $sql2);   
+        while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+        {
+            $idPedido = $filas['id_pedido'];
+        }
+
+        $sql = "DELETE FROM lista_preparar WHERE id = $id";
+        $resultado = mysqli_query($conecta, $sql);  
         if(!$resultado)
         {
             die('error al eliminar');
-        } 
+        }
         else
         {
-            header('Location: lista.php');
+            header("Location: preparar-pedido-panel.php?id_update=$idPedido");
         }
     }
     mysqli_close($conecta);
-
-
 ?>

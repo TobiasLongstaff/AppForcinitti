@@ -337,6 +337,41 @@ form button
     }
 }
 
+@media screen and (max-height: 1000px)
+{
+    .contenido
+    {
+        height: 800px;
+    }
+}
+
+@media screen and (max-height: 900px)
+{
+    .contenido
+    {
+        height: 700px;
+    }
+
+    .botones
+    {
+        margin-top: 50px;
+    }
+}
+
+@media screen and (max-height: 800px)
+{
+    .contenido
+    {
+        padding-top: 20px;
+        height: 650px;
+    }
+
+    .botones
+    {
+        margin-top: 20px;
+    }
+}
+
 
 
 

@@ -1,9 +1,6 @@
 <?php
     require ('database.php');
 
-    $buscar = $_POST["search"]; 
-    $destino = "productos.php";      
-
     $conecta = mysqli_connect($server, $nombre, $password, $database);
     if (mysqli_connect_errno())
     {
@@ -12,6 +9,35 @@
     }
     mysqli_select_db($conecta, $database) or die ('Error al conectar');
     mysqli_set_charset($conecta, 'utf8');
+
+    $preparado = '';    
+    $buscar = $_POST['search']; 
+    $destino = 'pedidos.php'; 
+    $preparado = '';
+    $id = '';
+
+    if(isset($_GET['id_update']))
+    {
+        $id = $_GET['id_update']; 
+    }
+
+    if(isset($_GET['preparado']))
+    {
+        $preparado = $_GET['preparado'];
+
+        if($preparado == '1')
+        {
+            $destino = 'agregar-producto-preparado.php';
+        }
+        else if($preparado == '2')
+        {
+            $destino = 'actualizar-producto-preparado.php';
+        }
+        else
+        {
+            $destino = 'pedidos.php';
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -38,7 +64,7 @@
                 <h2>Productos</h2>
             </header>
             <span>Productos</span>
-            <form method="POST" action="<?php echo $destino;?>">
+            <form method="POST" action="productos.php?preparado=<?php echo $preparado;?>&id_update=<?php echo $id;?>">
                 <div class="productos">
                     <input class="text efecto" type="search" name="search" value="<?php echo $buscar;?>">
                     <button class="boton-buscar fas fa-search efecto-botones" type="submit"></button>                
@@ -54,7 +80,6 @@
                         {
                             $sql="SELECT * FROM productos";
                             $resultado = mysqli_query($conecta, $sql);
-
                             while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
                             {
                     ?>
@@ -66,7 +91,7 @@
                                         <?php echo $filas['descripcion'];?> 
                                     </td>
                                     <td>
-                                        <a href="pedidos.php?id=<?php echo $filas['id'];?>"> 
+                                        <a href="<?php echo $destino;?>?id=<?php echo $filas['id'];?>&id_update=<?php echo $id;?>"> 
                                             <button class="fas fa-cart-plus boton-controles efecto-botones" type="button"></button>
                                         </a>
                                     </td>
@@ -79,7 +104,6 @@
                         {
                             $query = "SELECT * FROM productos WHERE descripcion LIKE '%".$buscar."%' LIMIT 400";
                             $resultado = mysqli_query($conecta, $query);
-
                             while ($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
                             {
                     ?>
@@ -91,7 +115,7 @@
                                         <?php echo $filas['descripcion'];?> 
                                     </td>
                                     <td>
-                                        <a href="pedidos.php?id=<?php echo $filas['id'];?>"> 
+                                        <a href="<?php echo $destino;?>?id=<?php echo $filas['id'];?>&id_update=<?php echo $id;?>"> 
                                             <button class="fas fa-cart-plus boton-controles efecto-botones" type="button"></button>
                                         </a>
                                     </td>
@@ -105,7 +129,7 @@
                 <div class="botones">
                     <input class="efecto-botones" type="submit" value="Agregar">
                     <input class="efecto-botones" type="submit" value="Mas Info.">
-                    <a href="pedidos.php">
+                    <a href="<?php echo $destino; ?>">
                         <input class="efecto-botones" type="button" value="Salir">                        
                     </a>
                 </div>

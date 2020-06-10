@@ -12,45 +12,29 @@
     mysqli_select_db($conecta, $database) or die ($_SESSION['message-error'] = 'Error al conectar');
     mysqli_set_charset($conecta, 'utf8');
 
-    $id_producto = '';
     $nombre = '';
     $precio = '';
     $iva = '';
-    $id_cliente = '';
-    $id_pedido = '';
+    $boton_agregar = '';
+    $idPedido = '';
     $cantidad = '';
     $descuento = '';
     $condicionIva = '';
-    $domicilio = '';
-    $fechaEntrega = '';
-    $id_pedido_cliente = '';
-    $nombre_usuario = '';
-    $boton_agregar = '';
-  
-    //EXTRAER DATOS
+    $boton_volver = '';
 
-    if (isset($_SESSION['user_id']))
+
+    if(isset($_GET['id_pedido']))
     {
-        $id_usuario = $_SESSION['user_id'];        
-        $records = $conn->prepare('SELECT id, nombre, password FROM usuarios WHERE id =:id');
-        $records->bindParam(':id', $_SESSION['user_id']);
-        $records->execute();
-        $results = $records->fetch(PDO::FETCH_ASSOC);
-
-        $user = null;
-
-        if(count($results) > 0)
-        {
-            $user = $results;
-        }
-
-        $vendedor = $user['nombre'];
+        $idPedido = $_GET['id_pedido'];
+        $sql = "INSERT INTO lista_preparar (id_pedido) VALUES ('$idPedido')";
+        $resultado = mysqli_query($conexion,$sql);
     }
 
-    if(isset($_GET['crear_pedido']) && !empty($vendedor))
-    {
-        $sql = "INSERT INTO id_pedido (vendedor) VALUES ('$vendedor')";
-        $resultado = mysqli_query($conexion,$sql);               
+    $sql="SELECT * FROM lista_preparar WHERE descripcion = ''";
+    $resultado = mysqli_query($conecta, $sql);
+    if($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+    {        
+        $idPedido = $filas['id_pedido'];
     }
 
     if(isset($_GET['id']))
@@ -68,45 +52,11 @@
         }
     }
 
-    $sql="SELECT * FROM lista_clientes";
-    $resultado = mysqli_query($conecta, $sql);
-
-    while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
-    {        
-        $id_cliente = $filas['id_cliente'];
-        $id_pedido_cliente = $filas['id_pedido'];
-    } 
-    
-    $sql="SELECT * FROM id_pedido";
-    $resultado = mysqli_query($conecta, $sql);
-
-    while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
-    {        
-        $id_pedido = $filas['id'];
-        $nombre_usuario_pedido = $filas['vendedor'];
-        $domicilio = $filas['entrega'];
-        $fechaEntrega = $filas['fecha_entrega'];
-    }
-    
-    $sql="SELECT * FROM usuarios";
-    $resultado = mysqli_query($conecta, $sql);
-    while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
-    {
-        $nombre_usuario_usuarios = $filas['nombre'];
-        if($nombre_usuario_pedido == $nombre_usuario_usuarios)
-        {
-            $id_usuario = $filas['id'];
-        }        
-    }
-    //AGREGAR DATOS
-
-    if(isset($_POST['cantidad']) && isset($_POST['descuento']) && isset($_POST['condicionIva']) && isset($_POST['domicilio']) && isset($_POST['fechaEntrega']) && isset($_POST['precio']))
+    if(isset($_POST['cantidad']) && isset($_POST['descuento']) && isset($_POST['condicionIva']) &&  isset($_POST['precio']))
     {
         $cantidad = $_POST['cantidad'];     
         $descuento = $_POST['descuento'];       
         $condicionIva = $_POST['condicionIva'];
-        $domicilio = $_POST['domicilio'];
-        $fechaEntrega = $_POST['fechaEntrega'];  
         $precio = $_POST['precio'];     
     }
 
@@ -121,22 +71,9 @@
         {
             if(!empty($_POST['cantidad']))
             {
-                $sql = "INSERT INTO lista (id_producto, id_pedido, cantidad, descuento, condicionIva, descripcion, precio) VALUES ('$id_producto', '$id_pedido', '$cantidad', '$descuento', '$condicionIva', '$nombre', '$precio')";
+                $sql = "UPDATE lista_preparar SET id_producto = '$id_producto', cantidad = '$cantidad', descuento = '$descuento', condicionIva = '$condicionIva', descripcion = '$nombre', precio = '$precio' WHERE id_producto = ''";
                 $resultado = mysqli_query($conexion,$sql);
-
-                $sql2 = "INSERT INTO lista_preparar (id_producto, id_pedido, cantidad, descuento, condicionIva, descripcion, precio) VALUES ('$id_producto', '$id_pedido', '$cantidad', '$descuento', '$condicionIva', '$nombre', '$precio')";
-                $resultado2 = mysqli_query($conexion,$sql2);
-    
-                $sql3 = "UPDATE id_pedido SET entrega = '$domicilio', id_cliente = '$id_cliente', fecha_entrega = '$fechaEntrega' WHERE id = '$id_pedido'";
-                $resultado3 = mysqli_query($conexion,$sql3);
-                if(!$resultado && !$resultado3)
-                {
-                    $_SESSION['message-error'] = 'No se a podido guardar el producto';
-                }
-                else
-                {
-                    $_SESSION['message-correcto'] = 'Producto Guardado';
-                } 
+                header("Location: preparar-pedido-panel.php?id_update=$idPedido");
             }
             else
             {
@@ -148,8 +85,28 @@
             $_SESSION['message-error'] = 'Seleccione un producto';
         }        
     }
-    mysqli_close($conexion); 
+
+    if(isset($_POST['boton-volver']))
+    {
+        $boton_volver = $_POST['boton-volver'];
+    }
+
+    if($boton_volver)
+    {
+        $sql = "DELETE FROM lista_preparar WHERE descripcion = ''";
+        $resultado = mysqli_query($conecta, $sql);  
+        if(!$resultado)
+        {
+            die('error al eliminar');
+        }
+        else
+        {
+            header("Location: preparar-pedido-panel.php?id_update=$idPedido");
+        }
+    }
 ?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -159,26 +116,23 @@
     <!-- CSS -->
     <link rel="stylesheet" href="assets/styles/pedidos.css">
     <link rel="stylesheet" href="assets/styles/message.css">
-
+    
     <!-- ICONOS -->
     <script src="https://kit.fontawesome.com/1b601aa92b.js" crossorigin="anonymous"></script>
-
+    
     <!-- FUENTES -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet"> 
 
-    <title>Pedidos</title>
+    <title>Agregar Producto</title>
 </head>
 <body>
     <div class="pedidos">
         <main class="contenido">
             <header class="titulo">
-                <h2>Pedidos</h2>
+                <h2>Agregar Producto</h2>
             </header>
-            <a class="boton clientes" href="cliente.php">
-                <input class="efecto-botones" type="button" value="Clientes">
-            </a>
             <!-- PRODUCTOS -->
-            <form class="productos" method="POST" action="productos.php">
+            <form class="productos" method="POST" action="productos.php?preparado=<?php echo '1';?>">
                 <div class="label-productos">
                     <span>Productos</span>                
                 </div>
@@ -208,17 +162,6 @@
                     </div>
                     <input class="efecto" type="text" name="condicionIva">            
                 </div>
-                <!-- ENTREGA -->
-                <div class="entrega">
-                    <div class="leables-entrega">
-                        <span class="leable-domicilio" >Domicilio</span>        
-                        <span class="leable-fecha">Fecha de Entrega</span>                
-                    </div>
-                    <div class="textbox-entrega">
-                        <input class="efecto" type="text" name="domicilio" value="<?php echo $domicilio;?>">
-                        <input class="efecto" type="datetime" name="fechaEntrega" value="<?php echo $fechaEntrega;?>">
-                    </div>
-                </div>
                 <!--ALERTAS-->
                 <?php if(!empty($_SESSION['message-error'])){?>
                     <div class='mensaje-error'>
@@ -235,18 +178,12 @@
                     <form class="boton boton-agregar" action="pedidos.php" method="POST">
                         <input class="efecto-botones" name="agregar-producto" type="submit" value="Agregar">                    
                     </form>
-                    <a class="boton-2" href="lista.php">
-                        <input class="efecto-botones" type="button" value="Ver Lista">
-                    </a>
-                    <a href="cancelar-pedido.php?id=<?php echo $id_pedido;?>" class="btn-cancelar boton-eliminar">
-                        <input class="efecto-botones" type="button" value="Salir">
-                    </a> 
+                    <form class="boton-2" action="agregar-producto-preparado.php?id_pedido=<?php echo $idPedido; ?>" method="POST">
+                        <input class="efecto-botones" type="submit" name="boton-volver" value="Volver">
+                    </form>
                 </div>
             </form>
         </main>        
     </div>
-    <script src="assets/plugins/jquery-3.5.1.min.js"></script>
-	<script src="assets/plugins/sweetalert2.all.min.js"></script>
-	<script src="assets/scripts/app.js"></script>
 </body>
 </html>

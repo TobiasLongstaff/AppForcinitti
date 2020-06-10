@@ -23,29 +23,18 @@
         $buscar = $_POST["search"];  
     }
 
-    if(isset($_POST['id_cliente']) && isset($_POST['cliente']) && isset($_POST['id_pedido']))
-    {        
-        $id_cliente = $_POST['id_cliente'];
-        $cliente = $_POST['cliente'];
-        $id_pedido = $_POST['id_pedido'];          
-    }
-
-    //EXTRAER DATOS 
-
     $sql="SELECT * FROM id_pedido";
     $resultado = mysqli_query($conecta, $sql);
-    
     while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
     {        
         $id_pedido = $filas['id'];
-    }  
+    }
 
-    //AGREGAR DATOS
-
-    if(!empty($cliente) && !empty($id_cliente) && !empty($id_pedido))
-    {
-        $sql2 = "INSERT INTO lista_clientes (id_cliente, id_pedido, cliente) VALUES ('$id_cliente', '$id_pedido', '$cliente')";
-        $resultado = mysqli_query($conexion,$sql2);
+    if(isset($_POST['id_cliente']))
+    {        
+        $id_cliente = $_POST['id_cliente'];        
+        $sql = "UPDATE id_pedido SET id_cliente = '$id_cliente' WHERE id = '$id_pedido'";
+        $resultado = mysqli_query($conexion,$sql);
         if(!$resultado)
         {
             $verificacion_cliente = '0';
@@ -53,8 +42,10 @@
         else
         {
             $verificacion_cliente = '1';
-        }
+        }          
     }
+
+    //AGREGAR DATOS
 
     if(isset($_POST['boton-agregar']))
     {
@@ -108,11 +99,11 @@
                     {
                         $sql="SELECT * FROM clientes";
                         $resultado = mysqli_query($conecta, $sql);
-    
                         while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
                         {
                             $id_cliente = $filas['id'];
                             $cliente = $filas['cliente'];
+
                 ?>
                             <tr>
                                 <td> 
@@ -124,9 +115,7 @@
                                 <td>
                                     <form method="POST" action="cliente.php">
                                         <div class="ocultar">
-                                            <input type="text" name="cliente" value="<?php echo $cliente?>">
-                                            <input type="text" name="id_cliente" value="<?php echo $id_cliente?>">
-                                            <input type="text" name="id_pedido" value="<?php echo $id_pedido?>">                                        
+                                            <input type="text" name="id_cliente" value="<?php echo $id_cliente?>">                                      
                                         </div>
                                         <input class="boton-controles efecto-botones" type="submit" name="boton-agregar" value="Agregar">          
                                     </form>
@@ -140,7 +129,6 @@
                     {
                         $query = "SELECT * FROM clientes WHERE cliente LIKE '%".$buscar."%' LIMIT 400";
                         $resultado = mysqli_query($conecta, $query);
-    
                         while ($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
                         {
                             $id_cliente = $filas['id'];
@@ -156,11 +144,9 @@
                                 <td>
                                     <form method="POST" action="cliente.php">
                                         <div class="ocultar">
-                                            <input type="text" name="cliente" value="<?php echo $cliente?>">
-                                            <input type="text" name="id_cliente" value="<?php echo $id_cliente?>">
-                                            <input type="text" name="id_pedido" value="<?php echo $id_pedido?>">                                        
+                                            <input type="text" name="id_cliente" value="<?php echo $id_cliente?>">                                      
                                         </div>
-                                        <button class="fas fa-user-plus boton-controles efecto-botones" type="submit" name="agregar-producto"></button>
+                                        <input class="boton-controles efecto-botones" type="submit" name="boton-agregar" value="Agregar">          
                                     </form>
                                 </td>
                             </tr>
@@ -178,7 +164,7 @@
             <?php session_unset(); } ?>
             <div class="botones">
                 <a href="pedidos.php?id_cliente=<?php echo $verificacion_cliente;?>">
-                    <input class="efecto-botones" type="button" value="Salir">                
+                    <input class="efecto-botones" type="button" value="Continuar">                
                 </a>
             </div>
         </main>

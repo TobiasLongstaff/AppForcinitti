@@ -12,6 +12,16 @@
     mysqli_select_db($conecta, $database) or die ($_SESSION['message-error'] = 'Error al conectar');
     mysqli_set_charset($conecta, 'utf8');
 
+    $botonPreparar = '';
+    $buscar = '';
+    $id_producto = '';
+    $id_predido = '';
+    $cantidad = '';
+    $descuento = '';
+    $condicionIva = '';
+    $descripcion = '';
+    $precio = '';
+
     if (isset($_SESSION['user_id']))
     {
         $id_usuario = $_SESSION['user_id'];        
@@ -32,7 +42,6 @@
 
     $sql="SELECT * FROM id_pedido";
     $resultado = mysqli_query($conecta, $sql);
-
     while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
     {        
         $id_pedido = $filas['id'];
@@ -49,12 +58,9 @@
             $id_usuario = $filas['id'];
         }        
     }
-
-    $buscar = '';
-
     if(isset($_POST['search']))
     {
-        $buscar = $_POST["search"];  
+        $buscar = $_POST['search'];  
     }
 ?>
 
@@ -126,7 +132,9 @@
                                 <td><?php echo $fechaDeEntrega;?></td>
                                 <td><?php echo $direccion;?></td>
                                 <td class="controles">
-                                    <button type="submit" class="fas fa-edit boton-controles efecto-botones"></button>
+                                    <a href="preparar-pedido-panel.php?id_update=<?php echo $idPedido; ?>">
+                                        <input type="submit" class="fas fa-edit boton-controles efecto-botones" name="boton-preparar">
+                                    </a> 
                                 </td>                        
                     </tr>
                     <?php
@@ -163,7 +171,9 @@
                                     <td><?php echo $fechaDeEntrega;?></td>
                                     <td><?php echo $direccion;?></td>
                                     <td class="controles">
-                                        <button type="submit" class="fas fa-edit boton-controles efecto-botones"></button>
+                                        <a href="preparar-pedido-panel.php?id_update=<?php echo $idPedido; ?>">
+                                            <input type="submit" class="fas fa-edit boton-controles efecto-botones" name="boton-preparar">
+                                        </a>  
                                     </td>                
                     </tr>                                    
                     <?php

@@ -15,7 +15,6 @@
 
     $query = "SELECT * FROM productos WHERE descripcion LIKE '%".$buscar."%' LIMIT 6";
     $resultado = mysqli_query($conecta, $query);
-
     while ($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
     {
         $nombre = $fila['descripcion'];
