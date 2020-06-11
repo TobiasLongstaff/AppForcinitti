@@ -20,15 +20,11 @@
         $idPedido = $_GET['id_update'];
     }
 
-    $sql="SELECT * FROM lista_clientes";
+    $sql="SELECT * FROM clientes WHERE $idPedido";
     $resultado = mysqli_query($conecta, $sql);
     while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
     {        
-        $idPedidoCliente = $filas['id_pedido'];
-        if($idPedidoCliente == $idPedido)
-        {
-            $cliente = $filas['cliente'];
-        }
+        $cliente = $filas['cliente'];
     }
 ?>
 <!DOCTYPE html>

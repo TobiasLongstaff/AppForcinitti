@@ -23,8 +23,6 @@
     $condicionIva = '';
     $domicilio = '';
     $fechaEntrega = '';
-    $id_pedido_cliente = '';
-    $nombre_usuario = '';
     $boton_agregar = '';
   
     //EXTRAER DATOS
@@ -68,26 +66,17 @@
         }
     }
 
-    $sql="SELECT * FROM lista_clientes";
-    $resultado = mysqli_query($conecta, $sql);
-
-    while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
-    {        
-        $id_cliente = $filas['id_cliente'];
-        $id_pedido_cliente = $filas['id_pedido'];
-    } 
-    
     $sql="SELECT * FROM id_pedido";
     $resultado = mysqli_query($conecta, $sql);
-
     while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
     {        
         $id_pedido = $filas['id'];
         $nombre_usuario_pedido = $filas['vendedor'];
         $domicilio = $filas['entrega'];
         $fechaEntrega = $filas['fecha_entrega'];
+        $id_cliente = $filas['id_cliente'];
     }
-    
+        
     $sql="SELECT * FROM usuarios";
     $resultado = mysqli_query($conecta, $sql);
     while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))

@@ -13,14 +13,12 @@
     mysqli_set_charset($conecta, 'utf8');
 
     $idPedido = '';
-    $idPedidoCliente = '';
     $cliente = '';
     $productos = '';
     $nombre = '';
     $cantidad = '';
     $numeroDeProducto = 0;
     $total = 0;
-    $terminarPedido = '';
     $id_usuario = '';
 
 
@@ -45,17 +43,14 @@
     {        
         $idPedido = $filas['id'];
         $nombre_usuario_pedido = $filas['vendedor'];
+        $idCliente = $filas['id_cliente'];
     }
     
-    $sql="SELECT * FROM lista_clientes";
+    $sql="SELECT * FROM clientes WHERE id = $idCliente";
     $resultado = mysqli_query($conecta, $sql);
     while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
     {        
-        $idPedidoCliente = $filas['id_pedido'];
-        if($idPedidoCliente == $idPedido)
-        {
-            $cliente = $filas['cliente'];
-        }
+        $cliente = $filas['cliente'];
     }
 
     $sql="SELECT * FROM usuarios";

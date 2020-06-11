@@ -99,7 +99,9 @@
                                     <td><?php echo $estadoPedido;?></td>
                                     <td class="controles">
                                         <button type="submit" class="far fa-eye boton-controles efecto-botones"></button>
-                                        <button type="submit" class="fas fa-print boton-controles efecto-botones"></button>
+                                        <a href="imprimir.php?id=<?php echo $idPedido;?>">
+                                            <button type="submit" class="fas fa-print boton-controles efecto-botones"></button>
+                                        </a>
                                     </td>                
                                 </tr>
                                 <?php
