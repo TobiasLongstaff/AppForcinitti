@@ -21,6 +21,7 @@
     $condicionIva = '';
     $descripcion = '';
     $precio = '';
+    $cabecera = '';
 
     if (isset($_SESSION['user_id']))
     {
@@ -99,7 +100,8 @@
                 <table>
                     <tr>
                         <th>ID</th>                        
-                        <th>Cliente</th>                    
+                        <th>Cliente</th>
+                        <th>Cabecera</th>                    
                         <th>Estado</th>
                         <th>Fecha Entrega</th>
                         <th>Direccion</th>
@@ -118,6 +120,7 @@
                                 $idClienteId_pedido = $fila['id_cliente'];
                                 $fechaDeEntrega = $fila['fecha_entrega'];
                                 $direccion = $fila['entrega'];
+                                $cabecera = $fila['cabecera'];
                                                         
                                 $sql2= "SELECT * FROM clientes WHERE id = $idClienteId_pedido";
                                 $resultado2= mysqli_query($conecta, $sql2);
@@ -128,12 +131,13 @@
                     <tr>              
                                 <td><?php echo $idPedido;?></td>                        
                                 <td><?php echo $nombreCliente;}?></td>
+                                <td><?php echo $cabecera;?></td>
                                 <td><?php echo $estadoPedido;?></td>
                                 <td><?php echo $fechaDeEntrega;?></td>
                                 <td><?php echo $direccion;?></td>
                                 <td class="controles">
                                     <a href="preparar-pedido-panel.php?id_update=<?php echo $idPedido; ?>">
-                                        <input type="submit" class="fas fa-edit boton-controles efecto-botones" name="boton-preparar">
+                                        <button type="button" class="fas fa-edit boton-controles efecto-botones"></button>
                                     </a> 
                                 </td>                        
                     </tr>
@@ -153,6 +157,7 @@
                                 $idClienteId_pedido = $fila['id_cliente'];
                                 $fechaDeEntrega = $fila['fecha_entrega'];
                                 $direccion = $fila['entrega'];
+                                $cabecera = $fila['cabecera'];
                                                         
                                 $sql2= "SELECT * FROM clientes WHERE id = $idClienteId_pedido";
                                 $resultado2= mysqli_query($conecta, $sql2);
@@ -167,12 +172,13 @@
                     <tr>              
                                     <td><?php echo $idPedido;?></td>                        
                                     <td><?php echo $nombreCliente;?></td>
+                                    <td><?php echo $cabecera;?></td>
                                     <td><?php echo $estadoPedido;?></td>
                                     <td><?php echo $fechaDeEntrega;?></td>
                                     <td><?php echo $direccion;?></td>
                                     <td class="controles">
                                         <a href="preparar-pedido-panel.php?id_update=<?php echo $idPedido; ?>">
-                                            <input type="submit" class="fas fa-edit boton-controles efecto-botones" name="boton-preparar">
+                                            <button type="button" class="fas fa-edit boton-controles efecto-botones"></button>
                                         </a>  
                                     </td>                
                     </tr>                                    

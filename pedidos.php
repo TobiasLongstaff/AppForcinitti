@@ -24,6 +24,7 @@
     $domicilio = '';
     $fechaEntrega = '';
     $boton_agregar = '';
+    $cabecera = '';
   
     //EXTRAER DATOS
 
@@ -75,6 +76,7 @@
         $domicilio = $filas['entrega'];
         $fechaEntrega = $filas['fecha_entrega'];
         $id_cliente = $filas['id_cliente'];
+        $cabecera = $filas['cabecera'];
     }
         
     $sql="SELECT * FROM usuarios";
@@ -88,6 +90,23 @@
         }        
     }
     //AGREGAR DATOS
+
+    if(isset($_POST['cabecera']))
+    {
+        $cabecera = $_POST['cabecera'];
+
+        $sql = "UPDATE id_pedido SET cabecera = '$cabecera' WHERE id = '$id_pedido'";
+        $resultado = mysqli_query($conexion,$sql);
+        if(!$resultado)
+        {
+            $_SESSION['message-error'] = 'No se a podido guardar el producto';
+        }
+        else
+        {
+            $_SESSION['message-correcto'] = 'Producto Guardado';
+        } 
+
+    }
 
     if(isset($_POST['cantidad']) && isset($_POST['descuento']) && isset($_POST['condicionIva']) && isset($_POST['domicilio']) && isset($_POST['fechaEntrega']) && isset($_POST['precio']))
     {
@@ -166,6 +185,16 @@
             <a class="boton clientes" href="cliente.php">
                 <input class="efecto-botones" type="button" value="Clientes">
             </a>
+            <!-- CABECERA -->
+            <form class="productos" method="POST" action="pedidos.php">
+                <div class="label-productos">
+                    <span>Nombre de cabecera</span>                
+                </div>
+                <input class="textbox-cabecera efecto" type="search" name="cabecera" value="<?php echo $cabecera;?>">
+                <button type="submit" class="fas fa-user-plus boton efecto-botones"></button>             
+            </form>
+
+
             <!-- PRODUCTOS -->
             <form class="productos" method="POST" action="productos.php">
                 <div class="label-productos">

@@ -14,6 +14,10 @@
     $buscar = '';
     $sinPreparar = '';
     $preparado = '';
+    $estado = '';
+    $estado1 = '';
+    $estado2 = '';
+    $resultado = '';
 
     if(isset($_POST['search']))
     {
@@ -26,6 +30,27 @@
         $sinPreparar = $_POST['sin-preparar'];
         $preparado = $_POST['preparado'];        
     }
+
+    if(isset($_POST['imprimir']))
+    {
+        if(!empty($_POST['estado1']))
+        {
+            $estado1 = $_POST['estado1'];
+            header('Location: imprimir.php?todos=Listo');
+        }
+
+        if(!empty($_POST['estado2']))
+        {
+            $estado2 = $_POST['estado2'];
+            header('Location: imprimir.php?todos=Preparado');
+        }
+
+        if(!empty($_POST['estado1']) && !empty($_POST['estado2']))
+        {
+            header('Location: imprimir.php?todos=todos');
+        }
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -59,14 +84,13 @@
                 </div>            
             </form>
             <form action="gestionar-pedidos.php" method="POST">
-                <span>Pedidos sin preparar</span>
-                <input type="checkbox" name="sin-preparar" value="Listo" checked></br>
-                <!-- <span>Pedidos preparados</span>
-                <input type="checkbox" name="preparado" value="Preparado" checked> -->
-                <button type="submit" class="fas fa-print boton-controles efecto-botones"></button>
-                <button type="submit" class="far fa-eye boton-controles efecto-botones"></button>
+                <div class="checkbox">
+                    <input type="checkbox" name="estado1" value="Listo">Sin preparar
+                    <input type="checkbox" name="estado2" value="Preparado" checked>Preparados
+                    <button type="submit" name="ver" class="far fa-eye boton-controles efecto-botones"></button>
+                    <button type="submit" name="imprimir" class="fas fa-print boton-controles efecto-botones"></button>                    
+                </div>
             </form>
-
             <div class="tabla">
                 <table>
                     <tr>
@@ -76,10 +100,25 @@
                         <th>Controles</th>
                     </tr>
                     <?php
-                        if($buscar == '')
+
+                    if(isset($_POST['ver']))
+                    {
+                        if(!empty($_POST['estado1']))
                         {
+                            $estado1 = $_POST['estado1'];
+                        } 
+
+                        if(!empty($_POST['estado2']))
+                        {
+                            $estado2 = $_POST['estado2'];
+                        }
+
+                        if ($estado1 != '')
+                        {
+                            $estado = $estado1;  
+                            
                             $nombreCliente = '';
-                            $sql= "SELECT * FROM id_pedido WHERE estado != 'Cancelado'";
+                            $sql= "SELECT * FROM id_pedido WHERE estado = '$estado'";
                             $resultado= mysqli_query($conecta, $sql);
                             while($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
                             {
@@ -106,38 +145,107 @@
                                 </tr>
                                 <?php
                             }
-                            mysqli_close($conecta);                                      
+                            mysqli_close($conecta);  
                         }
-                        else
+                        elseif($estado2 != '')
                         {
+                            $estado = $estado2;
+
                             $nombreCliente = '';
-                            $sql = "SELECT * FROM id_pedido WHERE id LIKE '%".$buscar."%' LIMIT 400";
+                            $sql= "SELECT * FROM id_pedido WHERE estado = '$estado'";
                             $resultado= mysqli_query($conecta, $sql);
                             while($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
                             {
                                 $idPedido =  $fila['id'];
                                 $idClienteId_pedido = $fila['id_cliente'];
                                 $estadoPedido = $fila['estado'];
-                                                        
+                                                                                            
                                 $sql2= "SELECT * FROM clientes WHERE id = $idClienteId_pedido";
                                 $resultado2= mysqli_query($conecta, $sql2);
                                 while($filas= mysqli_fetch_array($resultado2, MYSQLI_ASSOC))
                                 {
                                     $nombreCliente = $filas['cliente']; 
-                    ?>     
-                    <tr>              
+                                ?>     
+                                <tr>              
+                                    <td><?php echo $idPedido;?></td>                        
+                                    <td><?php echo $nombreCliente;}?></td>
+                                    <td><?php echo $estadoPedido;?></td>
+                                    <td class="controles">
+                                        <button type="submit" class="far fa-eye boton-controles efecto-botones"></button>
+                                        <a href="imprimir.php?id=<?php echo $idPedido;?>">
+                                            <button type="submit" class="fas fa-print boton-controles efecto-botones"></button>
+                                        </a>
+                                    </td>                
+                                </tr>
+                                <?php
+                            }
+                            mysqli_close($conecta);  
+                        }
+                        elseif(!empty($estado1) && !empty($estado2))
+                        {
+                            $nombreCliente = '';
+                            $sql= "SELECT * FROM id_pedido WHERE estado != 'Cancelado'";
+                            $resultado2= mysqli_query($conecta, $sql);
+                            while($fila = mysqli_fetch_array($resultado2, MYSQLI_ASSOC))
+                            {
+                                $idPedido =  $fila['id'];
+                                $idClienteId_pedido = $fila['id_cliente'];
+                                $estadoPedido = $fila['estado'];
+                                                                                            
+                                $sql2= "SELECT * FROM clientes WHERE id = $idClienteId_pedido";
+                                $resultado3= mysqli_query($conecta, $sql2);
+                                while($filas= mysqli_fetch_array($resultado3, MYSQLI_ASSOC))
+                                {
+                                    $nombreCliente = $filas['cliente']; 
+                                ?>     
+                                <tr>              
+                                    <td><?php echo $idPedido;?></td>                        
+                                    <td><?php echo $nombreCliente;}?></td>
+                                    <td><?php echo $estadoPedido;?></td>
+                                    <td class="controles">
+                                        <button type="submit" class="far fa-eye boton-controles efecto-botones"></button>
+                                        <a href="imprimir.php?id=<?php echo $idPedido;?>">
+                                            <button type="submit" class="fas fa-print boton-controles efecto-botones"></button>
+                                        </a>
+                                    </td>                
+                                </tr>
+                                <?php
+                            }
+                            mysqli_close($conecta);   
+                        }                                  
+                    }   
+                    else if($buscar != '') 
+                    {
+                        $nombreCliente = '';
+                        $sql = "SELECT * FROM id_pedido WHERE id LIKE '%".$buscar."%' LIMIT 400";
+                        $resultado= mysqli_query($conecta, $sql);
+                        while($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+                        {
+                            $idPedido =  $fila['id'];
+                            $idClienteId_pedido = $fila['id_cliente'];
+                            $estadoPedido = $fila['estado'];
+                                                                                            
+                            $sql2= "SELECT * FROM clientes WHERE id = $idClienteId_pedido";
+                            $resultado2= mysqli_query($conecta, $sql2);
+                            while($filas= mysqli_fetch_array($resultado2, MYSQLI_ASSOC))
+                            {
+                                $nombreCliente = $filas['cliente']; 
+                            ?>     
+                            <tr>              
                                 <td><?php echo $idPedido;?></td>                        
                                 <td><?php echo $nombreCliente;}?></td>
                                 <td><?php echo $estadoPedido;?></td>
                                 <td class="controles">
                                     <button type="submit" class="far fa-eye boton-controles efecto-botones"></button>
-                                    <button type="submit" class="fas fa-print boton-controles efecto-botones"></button>
+                                    <a href="imprimir.php?id=<?php echo $idPedido;?>">
+                                        <button type="submit" class="fas fa-print boton-controles efecto-botones"></button>
+                                    </a>
                                 </td>                
-                    </tr>
-                    <?php
-                            } 
-                            mysqli_close($conecta);                       
+                            </tr>
+                            <?php
                         }
+                        mysqli_close($conecta);
+                    }
                     ?>
                 </table>            
             </div>

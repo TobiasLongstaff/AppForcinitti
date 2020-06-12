@@ -56,7 +56,7 @@ table
 {
     display: flex;
     align-items: center;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
 }
 
 .text
@@ -186,6 +186,11 @@ tr:nth-child(even)
 .efecto:active
 {
     box-shadow: 1px 1px 10px #60a5d6;
+}
+
+.checkbox
+{
+    margin-bottom: 10px;
 }
 
 .tabla
