@@ -14,9 +14,10 @@
     $idPedido = '';
     $id = '';
 
-    if(isset($_GET['id']))
+    if(isset($_GET['id']) && isset($_GET['vendedor']))
     {
         $id = $_GET['id'];
+        $vendedor = $_GET['vendedor'];
         $sql = "SELECT id_pedido FROM lista_preparar WHERE id = $id";
         $resultado = mysqli_query($conecta, $sql);
         while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
@@ -32,7 +33,7 @@
         }
         else
         {
-            header("Location: preparar-pedido-panel.php?id_update=$idPedido");
+            header("Location: preparar-pedidos-panel/$vendedor/$idPedido/");
         }
     }
     mysqli_close($conecta);

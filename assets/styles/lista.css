@@ -30,6 +30,11 @@ table
     margin-bottom: 20px;
 }
 
+hr
+{
+    margin: 3px;
+}
+
 .informacion
 {
     display: flex;
@@ -38,7 +43,7 @@ table
 
 .preparar-panel
 {
-    width: 46%;
+    width: 42%;
     height: 58px;
 }
 
@@ -120,13 +125,16 @@ tr:nth-child(even)
 
 .precio-final
 {
+    display: flex;
+    align-items: center;
     border-radius: 5px;
-    margin-bottom: 20px;
     padding: 15px;
+    margin-top: 10px;
     color: white;
     background: linear-gradient(60deg,#0195ff 30%, #0555bd 100%);
-    width: 47%;
-    margin-right: 5px;
+    width: 80px;
+    margin-left: 60%;
+    height: 10px;
 }
 
 .cliente
@@ -178,6 +186,11 @@ tr:nth-child(even)
     outline: 0;
 }
 
+a
+{
+    text-decoration: dashed;
+}
+
 .efecto-botones:active
 {
     box-shadow: 1px 1px 10px #0555bd ;
@@ -201,7 +214,7 @@ tr:nth-child(even)
 
 .tabla-lista
 {
-    height: 280px;
+    height: 320px;
     overflow: auto;
 }
 

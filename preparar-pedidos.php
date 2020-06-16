@@ -1,6 +1,7 @@
 <?php
 
     include 'database.php';
+    require 'config.php';
 
     session_start();
     $conecta = mysqli_connect($server, $nombre, $password, $database);
@@ -22,23 +23,13 @@
     $descripcion = '';
     $precio = '';
     $cabecera = '';
+    $vendedor = '';
 
-    if (isset($_SESSION['user_id']))
+
+    if(isset($_GET['vendedor']))
     {
-        $id_usuario = $_SESSION['user_id'];        
-        $records = $conn->prepare('SELECT id, nombre, password FROM usuarios WHERE id =:id');
-        $records->bindParam(':id', $_SESSION['user_id']);
-        $records->execute();
-        $results = $records->fetch(PDO::FETCH_ASSOC);
-
-        $user = null;
-
-        if(count($results) > 0)
-        {
-            $user = $results;
-        }
-        
-        $vendedor = $user['nombre'];
+        $url=explode("/", $_GET['vendedor']);
+        $vendedor = $url[0];
     }
 
     $sql="SELECT * FROM id_pedido";
@@ -72,8 +63,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="assets/styles/lista.css">
-    <link rel="stylesheet" href="assets/styles/message.css">
+    <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/lista.css">
+    <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/message.css">
 
     <!-- ICONOS -->
     <script src="https://kit.fontawesome.com/1b601aa92b.js" crossorigin="anonymous"></script>
@@ -89,8 +80,8 @@
             <header class="titulo">
                 <h2>Preparar pedidos</h2>
             </header>
-            <span>ID del pedidos</span>
-            <form method="POST" action="preparar-pedidos.php">
+            <span>Cabecera del pedido</span>
+            <form method="POST" action="<?php echo SERVERURL;?>preparar-pedidos/<?php echo $vendedor;?>/">
                 <div class="pedido">
                     <input class="text efecto" type="search" name="search" value="<?php $buscar?>">               
                     <button type="submit" class="fas fa-search boton-buscar efecto-botones"></button>
@@ -136,7 +127,7 @@
                                 <td><?php echo $fechaDeEntrega;?></td>
                                 <td><?php echo $direccion;?></td>
                                 <td class="controles">
-                                    <a href="preparar-pedido-panel.php?id_update=<?php echo $idPedido; ?>">
+                                    <a href="<?php echo SERVERURL;?>preparar-pedidos-panel/<?php echo $vendedor;?>/<?php echo $idPedido; ?>/">
                                         <button type="button" class="fas fa-edit boton-controles efecto-botones"></button>
                                     </a> 
                                 </td>                        
@@ -145,10 +136,10 @@
                             } 
                             mysqli_close($conecta);                           
                         }
-                        else
+                        elseif( $buscar != '')
                         {
                             $nombreCliente = '';
-                            $sql = "SELECT * FROM id_pedido WHERE id LIKE '%".$buscar."%' LIMIT 400";
+                            $sql = "SELECT * FROM id_pedido WHERE cabecera LIKE '%".$buscar."%' LIMIT 400";
                             $resultado= mysqli_query($conecta, $sql);
                             while($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
                             {
@@ -170,27 +161,27 @@
                                         $idPedido =  $fila['id'];         
                     ?>     
                     <tr>              
-                                    <td><?php echo $idPedido;?></td>                        
-                                    <td><?php echo $nombreCliente;?></td>
-                                    <td><?php echo $cabecera;?></td>
-                                    <td><?php echo $estadoPedido;?></td>
-                                    <td><?php echo $fechaDeEntrega;?></td>
-                                    <td><?php echo $direccion;?></td>
-                                    <td class="controles">
-                                        <a href="preparar-pedido-panel.php?id_update=<?php echo $idPedido; ?>">
-                                            <button type="button" class="fas fa-edit boton-controles efecto-botones"></button>
-                                        </a>  
-                                    </td>                
+                                        <td><?php echo $idPedido;?></td>                        
+                                        <td><?php echo $nombreCliente;?></td>
+                                        <td><?php echo $cabecera;?></td>
+                                        <td><?php echo $estadoPedido;?></td>
+                                        <td><?php echo $fechaDeEntrega;?></td>
+                                        <td><?php echo $direccion;?></td>
+                                        <td class="controles">
+                                            <a href="<?php echo SERVERURL;?>preparar-pedidos-panel/<?php echo $vendedor;?>/<?php echo $idPedido; ?>/">
+                                                <button type="button" class="fas fa-edit boton-controles efecto-botones"></button>
+                                            </a>  
+                                        </td>                
                     </tr>                                    
                     <?php
                                     }                                
-                                    else
-                                    {
-                                        $_SESSION['message-error'] = 'No se escontro el pedido';
-                                    }
                                 }  
                             } 
                             mysqli_close($conecta);  
+                        }
+                        else
+                        {
+                            $_SESSION['message-error'] = 'No se escontro el pedido';
                         } 
                     ?> 
                     <!--ALERTAS-->           
@@ -207,7 +198,7 @@
                 </table>            
             </div>
             <div class="botones">
-                <a href="menu.php?id=<?php echo $id_usuario;?>">
+                <a href="<?php echo SERVERURL;?>menu/<?php echo $vendedor;?>">
                     <input class="efecto-botones" type="button" value="Salir">
                 </a>
             </div>

@@ -13,29 +13,12 @@
     mysqli_set_charset($conecta, 'utf8');
 
     $id_pedido = '';
-    $id_usuario = '';
+    $vendedor = '';
 
-    if(isset($_GET['id']))
+    if(isset($_GET['id']) && isset($_GET['vendedor']))
     {
         $id_pedido = $_GET['id'];
-        
-        $sql="SELECT * FROM id_pedido WHERE id = '$id_pedido'";
-        $resultado = mysqli_query($conecta, $sql);
-        while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
-        {        
-            $nombre_usuario_pedido = $filas['vendedor'];
-        }
-        
-        $sql="SELECT * FROM usuarios";
-        $resultado = mysqli_query($conecta, $sql);
-        while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
-        {
-            $nombre_usuario_usuarios = $filas['nombre'];
-            if($nombre_usuario_pedido == $nombre_usuario_usuarios)
-            {
-                $id_usuario = $filas['id'];
-            }        
-        }
+        $vendedor = $_GET['vendedor'];
 
         $sql = "UPDATE id_pedido SET estado = 'Cancelado' WHERE id = '$id_pedido'";
         $resultado = mysqli_query($conexion,$sql);
@@ -45,7 +28,7 @@
         }
         else
         {
-            header("Location: /AppForcinitti/menu.php?id=$id_usuario");
+            header("Location: /AppForcinitti/menu/$vendedor");
         }          
     }
 ?>

@@ -4,6 +4,7 @@
     session_start();
 
     require 'database.php';
+    require 'config.php';
 
     $conecta = mysqli_connect($server, $nombre, $password, $database);
     if (mysqli_connect_errno())
@@ -14,33 +15,20 @@
     mysqli_select_db($conecta, $database) or die ($_SESSION['message-error'] = 'Error al conectar');
     mysqli_set_charset($conecta, 'utf8');
 
-    if (isset($_SESSION['user_id']))
-    {
-        $records = $conn->prepare('SELECT id, nombre, password FROM usuarios WHERE id =:id');
-        $records->bindParam(':id', $_SESSION['user_id']);
-        $records->execute();
-        $results = $records->fetch(PDO::FETCH_ASSOC);
+    $nivel = '';
+    $idUsuario = '';
+    $vendedor = '';
 
-        $user = null;
-
-        if(count($results) > 0)
+    if(isset($_GET['vendedor']))
+    {    
+        $vendedor = $_GET['vendedor'];    
+        $sql = "SELECT * FROM usuarios WHERE nombre = '$vendedor'";
+        $resultado = mysqli_query($conecta, $sql);
+        if(mysqli_num_rows($resultado) == 1)     
         {
-            $user = $results;
-        }
-    }
-    else
-    {
-        if(isset($_GET['id']))
-        {    
-            $id = $_GET['id'];    
-            $sql = "SELECT nombre, id FROM usuarios WHERE id = $id";
-            $resultado = mysqli_query($conecta, $sql);
-            if(mysqli_num_rows($resultado) == 1)     
-            {
-                $filas = mysqli_fetch_array($resultado);
-                $user['nombre'] = $filas['nombre'];
-                $_SESSION['user_id'] = $id;
-            }
+            $filas = mysqli_fetch_array($resultado);
+            $nivel = $filas['nivel'];
+            $idUsuario = $filas['id'];
         }
     }
 ?>
@@ -54,15 +42,15 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="assets/styles/menu.css">
+    <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/menu.css">
     <title>Menu</title>
 </head>
 <body>
     <main class="contenido">    
-    <?php if(!empty($user)):?>
+    <?php if(!empty($vendedor)):?>
         <header>
-            <p>Bienvenido: <?= $user['nombre'] ?></p>
-            <a href="cerrarsesion.php">
+            <p>Bienvenido: <?php echo $vendedor; ?></p>
+            <a href="<?php echo SERVERURL;?>cerrarsesion.php">
                <input type="button" value="Cerrar sesion">
             </a>
         </header> 
@@ -72,25 +60,37 @@
             <div class="linea"></div>          
         </div>            
         <selection class="botones">
-            <form action="pedidos.php?crear_pedido=1" method="POST">
-                <input class="efecto-botones" type="submit" value="Pedidos">   
+            <form action="<?php echo SERVERURL;?>pedidos/<?php echo $vendedor;?>/crear/" method="POST">
+                <input class="efecto-botones" type="submit" value="Pedidos" <?php if($nivel != '4' && $nivel != '1'){?> 
+                                                                                    disabled
+                                                                            <?php } ?>>   
             </form>
              
-            <a href="gestionar-pedidos.php">
-                <input class="efecto-botones" type="button" value="Gestionar Pedidos">                
+            <a href="<?php echo SERVERURL;?>gestionar-pedidos/<?php echo $vendedor;?>">
+                <input class="efecto-botones" type="button" value="Gestionar Pedidos" <?php if($nivel != '2' && $nivel != '1'){?> 
+                                                                                        disabled
+                                                                                      <?php } ?>>                
             </a>            
-            <a href="preparar-pedidos.php">
-                <input class="efecto-botones" type="button" value="Preparar Pedidos">                
+            <a href="<?php echo SERVERURL;?>preparar-pedidos/<?php echo $vendedor?>">
+                <input class="efecto-botones" type="button" value="Preparar Pedidos"  <?php if($nivel != '3' && $nivel != '1'){?> 
+                                                                                        disabled
+                                                                                      <?php } ?>>                
             </a>
-            <a href="agregar-productos.php">
-                <input class="efecto-botones" type="button" value="Agregar Producto">                
+            <a href="<?php echo SERVERURL;?>agregar-productos.php">
+                <input class="efecto-botones" type="button" value="Agregar Producto"  <?php if($nivel != '1'){?> 
+                                                                                        disabled
+                                                                                      <?php } ?>>                
             </a>
 
-            <a href="cliente.php">
-                <input class="efecto-botones" type="button" value="Clientes">                
+            <a href="<?php echo SERVERURL;?>cliente.php">
+                <input class="efecto-botones" type="button" value="Clientes" <?php if($nivel != '1'){?> 
+                                                                                disabled
+                                                                             <?php } ?>>                
             </a>
-            <a href="productos.php">
-                <input class="efecto-botones" type="button" value="Productos">                  
+            <a href="<?php echo SERVERURL;?>productos.php">
+                <input class="efecto-botones" type="button" value="Productos" <?php if($nivel != '1'){?> 
+                                                                                disabled
+                                                                              <?php } ?>>                  
             </a>
             <div class="linea"></div> 
         </selection>

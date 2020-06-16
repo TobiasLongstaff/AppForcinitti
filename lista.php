@@ -1,6 +1,7 @@
 <?php
 
     require ('database.php');
+    require 'config.php'; 
     session_start(); 
 
     $conecta = mysqli_connect($server, $nombre, $password, $database);
@@ -17,21 +18,21 @@
     $productos = '';
     $nombre = '';
     $cantidad = '';
-    $numeroDeProducto = 0;
     $total = 0;
     $id_usuario = '';
 
 
     //EXTRAER DATOS
 
-    if(isset($_GET['error']))
+    if(isset($_GET['vendedor']))
     {
-        $nError = $_GET['error'];
-        if($nError == '1')
+        $url=explode("/", $_GET['vendedor']);
+        $vendedor = $url[0];
+        if($url[1] == '1')
         {
             $_SESSION['message-error'] = 'Falta agregar el cliente';
         }
-        else if($nError == '2')
+        elseif($url[1] == '2')
         {
             $_SESSION['message-error'] = 'Agrega algun producto';
         }
@@ -74,8 +75,8 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">   
 
     <!-- CSS -->
-    <link rel="stylesheet" href="assets/styles/lista.css">
-    <link rel="stylesheet" href="assets/styles/message.css">
+    <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/lista.css">
+    <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/message.css">
 
     <!-- ICONOS -->
     <script src="https://kit.fontawesome.com/1b601aa92b.js" crossorigin="anonymous"></script>
@@ -88,61 +89,43 @@
             <header class="titulo">
                 <h2>Lista</h2>
             </header>
-            <div class="cabecera">                
-                <div class="precio-final">
-                    <div class="subtitulo">
-                        <span>PRECIO</span>                        
-                    </div>
-                    <hr>
-                        <?php                       
-                            $sql= "SELECT * FROM lista WHERE id_pedido = $idPedido";
-                            $resultado= mysqli_query($conecta, $sql);
-                            while($filas= mysqli_fetch_array($resultado, MYSQLI_ASSOC))
-                            {
-                                $idLista = $filas ['id'];
-                                $precio = $filas['precio'];
-                                $cantidad = $filas['cantidad'];
-                                $descuento = $filas['descuento'];
-                                $numeroDeProducto++;
-                        ?>
-                                <span>p<?php echo $numeroDeProducto;?></span> 
-                                <span>$<?php echo $precio; 
-                                if(!empty($descuento))
-                                {
-                                    echo ' - $'.$descuento;
-                                }
-                                ?><br></span>
-                        <?php   
-                                $sql2= "SELECT SUM((precio * cantidad) - descuento) AS total FROM lista WHERE id_pedido = $idPedido";
-                                $resultado2= mysqli_query($conecta, $sql2);
-                                while($fila= mysqli_fetch_array($resultado2, MYSQLI_ASSOC))
-                                {
-                                    $total= $fila['total'];
-                                }
-                            }
-                        ?>
-                    <hr>
-                        <span>Total: $<?php echo $total;?> </span>
+            <div class="informacion">                
+                <?php                       
+                    $sql= "SELECT * FROM lista WHERE id_pedido = $idPedido";
+                    $resultado= mysqli_query($conecta, $sql);
+                    while($filas= mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+                    {
+                        $idLista = $filas ['id'];
+                        $precio = $filas['precio'];
+                        $cantidad = $filas['cantidad'];
+                        $descuento = $filas['descuento'];
+
+                        $sql2= "SELECT SUM((precio * cantidad) - descuento) AS total FROM lista WHERE id_pedido = $idPedido";
+                        $resultado2= mysqli_query($conecta, $sql2);
+                        while($fila= mysqli_fetch_array($resultado2, MYSQLI_ASSOC))
+                        {
+                            $total= $fila['total'];
+                        }
+                    }
+                ?>
+                
+                <div class="cliente preparar-panel">
+                    <span>ID del pedido: <?php echo $idPedido?> </span> <br>
+                    <span>Cliente: <?php echo $cliente?></span>
                 </div>
-                <div>
-                    <div class="cliente">
-                        <span>ID del pedido: <?php echo $idPedido?> </span> <br>
-                        <span>Cliente: <?php echo $cliente?></span>
-                    </div>
-                    <div class="datos">
-                        <span>CANTIDAD TOTAL DE PRODUCTOS</span>
-                        <hr>
-                        <?php
-                            $sql= "SELECT SUM(cantidad) AS total_cantidad FROM lista WHERE id_pedido = $idPedido";
-                            $resultado= mysqli_query($conecta, $sql);
-                            while($fila= mysqli_fetch_array($resultado, MYSQLI_ASSOC))
-                            {
-                                $cantidadDeProductos= $fila['total_cantidad'];
-                            }
-                        ?>
-                        <span>Cantidad: <?php echo $cantidadDeProductos;?></span>
-                    </div>                    
-                </div> 
+                <div class="datos preparar-panel">
+                    <span>CANTIDAD TOTAL DE PRODUCTOS</span>
+                    <hr>
+                    <?php
+                        $sql= "SELECT SUM(cantidad) AS total_cantidad FROM lista WHERE id_pedido = $idPedido";
+                        $resultado= mysqli_query($conecta, $sql);
+                        while($fila= mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+                        {
+                            $cantidadDeProductos= $fila['total_cantidad'];
+                        }
+                    ?>
+                    <span>Cantidad: <?php echo $cantidadDeProductos;?></span>
+                </div>                    
             </div>
             <div class="tabla-lista">
                 <table>
@@ -183,7 +166,7 @@
                             }
                     ?>
                             <td>
-                                <a class="btn-eliminar" href="eliminar-producto-de-lista.php?id=<?php echo $fila['id'] ?>"> 
+                                <a class="btn-eliminar" href="<?php echo SERVERURL;?>eliminar-producto-de-lista.php?id=<?php echo $fila['id'] ?>"> 
                                     <button class="fas fa-trash-alt boton-controles efecto-botones"></button> 
                                 </a>
                             </td> 
@@ -194,6 +177,9 @@
                     ?>
                 </table>
             </div>
+            <div class="precio-final">
+                <span>Total: $<?php echo $total;?> </span>
+            </div>
             <!--ALERTAS-->
             <?php if(!empty($_SESSION['message-error'])){?>
                 <div class='mensaje-error'>
@@ -201,21 +187,21 @@
                 </div>
             <?php session_unset(); } ?>
             <div class="botones">
-                <a class="btn-finalizar form-botones" href="terminar-pedido.php?id=<?php echo $idPedido?>&total=<?php echo $total;?> ">
+                <a class="btn-finalizar form-botones" href="<?php echo SERVERURL;?>terminar-pedido.php?id=<?php echo $idPedido?>&total=<?php echo $total;?>&vendedor=<?php echo $vendedor;?> ">
                     <input class="efecto-botones" type="button" value="Terminar">   
                 </a>
                 
-                <a href="pedidos.php">
+                <a href="<?php echo SERVERURL;?>pedidos/<?php echo $vendedor;?>/">
                     <input class="efecto-botones" type="submit" value="Agregar">                
                 </a>
-                <a class="form-botones btn-cancelar" href="cancelar-pedido.php?id=<?php echo $idPedido;?>">
+                <a class="form-botones btn-cancelar" href="<?php echo SERVERURL;?>cancelar-pedido.php?id=<?php echo $idPedido;?>&vendedor=<?php echo $vendedor;?>">
                     <input class="efecto-botones " type="button" value="Cancelar"> 
                 </a>               
             </div>
         </main>        
     </div>
-    <script src="assets/plugins/jquery-3.5.1.min.js"></script>
-	<script src="assets/plugins/sweetalert2.all.min.js"></script>
-	<script src="assets/scripts/app.js"></script>
+    <script src="<?php echo SERVERURL;?>assets/plugins/jquery-3.5.1.min.js"></script>
+	<script src="<?php echo SERVERURL;?>assets/plugins/sweetalert2.all.min.js"></script>
+	<script src="<?php echo SERVERURL;?>assets/scripts/app.js"></script>
 </body>
 </html>

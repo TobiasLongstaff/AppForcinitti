@@ -1,6 +1,7 @@
 <?php
 
-    require ('database.php');    
+    require 'database.php';    
+    require 'config.php';
     session_start();  
 
     $conecta = mysqli_connect($server, $nombre, $password, $database);
@@ -23,35 +24,70 @@
     $boton_volver = '';
     $id = '';
 
-    if(isset($_GET['id_update']))
+    if(isset($_GET['vendedor']))
     {
-        $idActualizar = $_GET['id_update'];
-        $sql = "SELECT * FROM lista_preparar WHERE id = '$idActualizar'";
-        $resultado = mysqli_query($conecta, $sql);
-        while($filas = mysqli_fetch_array($resultado))
-        {
-            $idPedido = $filas['id_pedido'];
-            $id_producto = $filas['id_producto'];
-            $cantidad = $filas['cantidad'];
-            $descuento = $filas['descuento'];
-            $iva = $filas['condicionIva'];
-            $nombre = $filas['descripcion'];
-            $precio = $filas['precio'];
-        }
-    }
+        $url=explode("/", $_GET['vendedor']);
+        $vendedor = $url[0];
+        $tipo = $url[1];
+        $idActualizar = $url[2];
 
-    if(isset($_GET['id']))
-    {    
-        $id = $_GET['id'];
-        $sql2 = "SELECT * FROM productos WHERE id = $id";
-        $resultado = mysqli_query($conecta, $sql2);
-        if(mysqli_num_rows($resultado) == 1)     
+        if($tipo == 'producto')
         {
-            $filas = mysqli_fetch_array($resultado);
-            $id_producto = $filas['id'];
-            $nombre = $filas['descripcion'];
-            $precio = $filas['precioMinorista'];
-            $iva = $filas['iva'];
+            if(!empty($url[3]))
+            {
+                $idActualizar = $url[3];
+
+                $sql = "SELECT * FROM lista_preparar WHERE id = '$idActualizar'";
+                $resultado = mysqli_query($conecta, $sql);
+                while($filas = mysqli_fetch_array($resultado))
+                {
+                    $idPedido = $filas['id_pedido'];
+                }
+                
+                $id = $url[2];
+
+                $sql2 = "SELECT * FROM productos WHERE id = $id";
+                $resultado2 = mysqli_query($conecta, $sql2);
+                if(mysqli_num_rows($resultado2) == 1)     
+                {
+                    $filas = mysqli_fetch_array($resultado2);
+                    $id_producto = $filas['id'];
+                    $nombre = $filas['descripcion'];
+                    $precio = $filas['precioMinorista'];
+                    $iva = $filas['iva'];
+                } 
+            }
+            else
+            {
+                $id = $url[2];
+                $sql2 = "SELECT * FROM productos WHERE id = $id";
+                $resultado = mysqli_query($conecta, $sql2);
+                if(mysqli_num_rows($resultado) == 1)     
+                {
+                    $filas = mysqli_fetch_array($resultado);
+                    $id_producto = $filas['id'];
+                    $nombre = $filas['descripcion'];
+                    $precio = $filas['precioMinorista'];
+                    $iva = $filas['iva'];
+                }                
+            }
+        }
+        else
+        {
+            $idActualizar = $url[1];
+
+            $sql = "SELECT * FROM lista_preparar WHERE id = '$idActualizar'";
+            $resultado = mysqli_query($conecta, $sql);
+            while($filas = mysqli_fetch_array($resultado))
+            {
+                $idPedido = $filas['id_pedido'];
+                $id_producto = $filas['id_producto'];
+                $cantidad = $filas['cantidad'];
+                $descuento = $filas['descuento'];
+                $iva = $filas['condicionIva'];
+                $nombre = $filas['descripcion'];
+                $precio = $filas['precio'];
+            }            
         }
     }
 
@@ -76,7 +112,10 @@
             {
                 $sql = "UPDATE lista_preparar SET id_producto = '$id_producto', cantidad = '$cantidad', descuento = '$descuento', condicionIva = '$condicionIva', descripcion = '$nombre', precio = '$precio' WHERE id = '$idActualizar'";
                 $resultado = mysqli_query($conexion,$sql);
-                header("Location: preparar-pedido-panel.php?id_update=$idPedido");
+                if($resultado)
+                {
+                    $_SESSION['message-correcto'] = 'Producto actualizado!';
+                }
             }
             else
             {
@@ -88,25 +127,6 @@
             $_SESSION['message-error'] = 'Seleccione un producto';
         }        
     }
-
-    if(isset($_POST['boton-volver']))
-    {
-        $boton_volver = $_POST['boton-volver'];
-    }
-
-    if($boton_volver)
-    {
-        $sql = "DELETE FROM lista_preparar WHERE descripcion = ''";
-        $resultado = mysqli_query($conecta, $sql);  
-        if(!$resultado)
-        {
-            die('error al eliminar');
-        }
-        else
-        {
-            header("Location: preparar-pedido-panel.php?id_update=$idPedido");
-        }
-    }
 ?>
 
 <!DOCTYPE html>
@@ -116,8 +136,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="assets/styles/pedidos.css">
-    <link rel="stylesheet" href="assets/styles/message.css">
+    <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/pedidos.css">
+    <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/message.css">
     
     <!-- ICONOS -->
     <script src="https://kit.fontawesome.com/1b601aa92b.js" crossorigin="anonymous"></script>
@@ -134,7 +154,7 @@
                 <h2>Editar Producto</h2>
             </header>
             <!-- PRODUCTOS -->
-            <form class="productos" method="POST" action="productos.php?preparado=<?php echo '2';?>&id_update=<?php echo $idActualizar;?>">
+            <form class="productos" method="POST" action="<?php echo SERVERURL;?>productos/<?php echo $vendedor;?>/2/<?php echo $idActualizar;?>/">
                 <div class="label-productos">
                     <span>Productos</span>                
                 </div>
@@ -177,12 +197,12 @@
                 <?php session_unset(); } ?>
                 <!-- BOTONES -->
                 <div class="botones">
-                    <form class="boton boton-agregar" action="actualizar-producto-preparado.php" method="POST">
+                    <form class="boton boton-agregar" action="<?php echo SERVERURL;?>actualizar-producto-preparado.php" method="POST">
                         <input class="efecto-botones" name="editar-producto" type="submit" value="Editar">                    
                     </form>
-                    <form class="boton-2" action="actualizar-producto-preparado.php?id_update=<?php echo $idActualizar;?>" method="POST">
-                        <input class="efecto-botones" type="submit" name="boton-volver" value="Volver">
-                    </form>
+                    <a class="boton-2" href="<?php echo SERVERURL;?>preparar-pedidos-panel/<?php echo $vendedor;?>/<?php echo $idPedido;?>/">
+                        <input class="efecto-botones" type="button" name="boton-volver" value="Volver">
+                    </a>
                 </div>
             </form>
         </main>        

@@ -1,6 +1,7 @@
 <?php
 
     include 'database.php';
+    require 'config.php';
 
     $conecta = mysqli_connect($server, $nombre, $password, $database);
     if (mysqli_connect_errno())
@@ -18,11 +19,18 @@
     $estado1 = '';
     $estado2 = '';
     $resultado = '';
+    $cabecera = '';
+    $vendedor = '';
 
     if(isset($_POST['search']))
     {
         $buscar = $_POST['search'];
 
+    }
+
+    if(isset($_GET['vendedor']))
+    {
+        $vendedor = $_GET['vendedor'];
     }
 
     if(isset($_POST['sin-preparar']) && isset($_POST['preparado']))
@@ -36,18 +44,18 @@
         if(!empty($_POST['estado1']))
         {
             $estado1 = $_POST['estado1'];
-            header('Location: imprimir.php?todos=Listo');
+            header("Location: /AppForcinitti/imprimir/$vendedor/Listo/");
         }
 
         if(!empty($_POST['estado2']))
         {
             $estado2 = $_POST['estado2'];
-            header('Location: imprimir.php?todos=Preparado');
+            header("Location: /AppForcinitti/imprimir/$vendedor/Preparado/");
         }
 
         if(!empty($_POST['estado1']) && !empty($_POST['estado2']))
         {
-            header('Location: imprimir.php?todos=todos');
+            header("Location: /AppForcinitti/imprimir/$vendedor/todos/");
         }
     }
 
@@ -60,7 +68,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="assets/styles/lista.css">
+    <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/lista.css">
 
     <!-- FUENTES -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">
@@ -77,16 +85,16 @@
                 <h2>Gestion de pedidos</h2>
             </header>
             <span>Pedidos</span>
-            <form method="POST" action="gestionar-pedidos.php">                    
+            <form method="POST" action="<?php echo SERVERURL;?>gestionar-pedidos/<?php echo $vendedor;?>">                    
                 <div class="pedido">            
                     <input class="text efecto" type="search" name="search" value="<?php $buscar?>">               
                     <button type="submit" class="fas fa-search boton-buscar efecto-botones"></button>
                 </div>            
             </form>
-            <form action="gestionar-pedidos.php" method="POST">
+            <form action="<?php echo SERVERURL;?>gestionar-pedidos/<?php echo $vendedor;?>" method="POST">
                 <div class="checkbox">
                     <input type="checkbox" name="estado1" value="Listo">Sin preparar
-                    <input type="checkbox" name="estado2" value="Preparado" checked>Preparados
+                    <input type="checkbox" name="estado2" value="Preparado">Preparados
                     <button type="submit" name="ver" class="far fa-eye boton-controles efecto-botones"></button>
                     <button type="submit" name="imprimir" class="fas fa-print boton-controles efecto-botones"></button>                    
                 </div>
@@ -95,7 +103,8 @@
                 <table>
                     <tr>
                         <th>ID</th>
-                        <th>Cliente</th>                    
+                        <th>Cliente</th>
+                        <th>Cabecera</th>                   
                         <th>Estado</th>
                         <th>Controles</th>
                     </tr>
@@ -125,6 +134,7 @@
                                 $idPedido =  $fila['id'];
                                 $idClienteId_pedido = $fila['id_cliente'];
                                 $estadoPedido = $fila['estado'];
+                                $cabecera = $fila['cabecera'];
                                                                                             
                                 $sql2= "SELECT * FROM clientes WHERE id = $idClienteId_pedido";
                                 $resultado2= mysqli_query($conecta, $sql2);
@@ -135,10 +145,11 @@
                                 <tr>              
                                     <td><?php echo $idPedido;?></td>                        
                                     <td><?php echo $nombreCliente;}?></td>
+                                    <td><?php echo $cabecera;?></td>
                                     <td><?php echo $estadoPedido;?></td>
                                     <td class="controles">
                                         <button type="submit" class="far fa-eye boton-controles efecto-botones"></button>
-                                        <a href="imprimir.php?id=<?php echo $idPedido;?>">
+                                        <a href="<?php echo SERVERURL;?>imprimir/<?php echo $vendedor;?>/pedido/<?php echo $idPedido;?>">
                                             <button type="submit" class="fas fa-print boton-controles efecto-botones"></button>
                                         </a>
                                     </td>                
@@ -159,6 +170,7 @@
                                 $idPedido =  $fila['id'];
                                 $idClienteId_pedido = $fila['id_cliente'];
                                 $estadoPedido = $fila['estado'];
+                                $cabecera = $fila['cabecera'];
                                                                                             
                                 $sql2= "SELECT * FROM clientes WHERE id = $idClienteId_pedido";
                                 $resultado2= mysqli_query($conecta, $sql2);
@@ -169,10 +181,11 @@
                                 <tr>              
                                     <td><?php echo $idPedido;?></td>                        
                                     <td><?php echo $nombreCliente;}?></td>
+                                    <td><?php echo $cabecera;?></td>
                                     <td><?php echo $estadoPedido;?></td>
                                     <td class="controles">
                                         <button type="submit" class="far fa-eye boton-controles efecto-botones"></button>
-                                        <a href="imprimir.php?id=<?php echo $idPedido;?>">
+                                        <a href="<?php echo SERVERURL;?>imprimir/<?php echo $vendedor;?>/pedido/<?php echo $idPedido;?>/">
                                             <button type="submit" class="fas fa-print boton-controles efecto-botones"></button>
                                         </a>
                                     </td>                
@@ -191,6 +204,7 @@
                                 $idPedido =  $fila['id'];
                                 $idClienteId_pedido = $fila['id_cliente'];
                                 $estadoPedido = $fila['estado'];
+                                $cabecera = $fila['cabecera'];
                                                                                             
                                 $sql2= "SELECT * FROM clientes WHERE id = $idClienteId_pedido";
                                 $resultado3= mysqli_query($conecta, $sql2);
@@ -201,10 +215,11 @@
                                 <tr>              
                                     <td><?php echo $idPedido;?></td>                        
                                     <td><?php echo $nombreCliente;}?></td>
+                                    <td><?php echo $cabecera;?></td>
                                     <td><?php echo $estadoPedido;?></td>
                                     <td class="controles">
                                         <button type="submit" class="far fa-eye boton-controles efecto-botones"></button>
-                                        <a href="imprimir.php?id=<?php echo $idPedido;?>">
+                                        <a href="<?php echo SERVERURL;?>imprimir/<?php echo $vendedor;?>/pedido/<?php echo $idPedido;?>/">
                                             <button type="submit" class="fas fa-print boton-controles efecto-botones"></button>
                                         </a>
                                     </td>                
@@ -217,13 +232,14 @@
                     else if($buscar != '') 
                     {
                         $nombreCliente = '';
-                        $sql = "SELECT * FROM id_pedido WHERE id LIKE '%".$buscar."%' LIMIT 400";
+                        $sql = "SELECT * FROM id_pedido WHERE cabecera LIKE '%".$buscar."%' LIMIT 400";
                         $resultado= mysqli_query($conecta, $sql);
                         while($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
                         {
                             $idPedido =  $fila['id'];
                             $idClienteId_pedido = $fila['id_cliente'];
                             $estadoPedido = $fila['estado'];
+                            $cabecera = $fila['cabecera'];
                                                                                             
                             $sql2= "SELECT * FROM clientes WHERE id = $idClienteId_pedido";
                             $resultado2= mysqli_query($conecta, $sql2);
@@ -234,10 +250,11 @@
                             <tr>              
                                 <td><?php echo $idPedido;?></td>                        
                                 <td><?php echo $nombreCliente;}?></td>
+                                <td><?php echo $cabecera;?></td>
                                 <td><?php echo $estadoPedido;?></td>
                                 <td class="controles">
                                     <button type="submit" class="far fa-eye boton-controles efecto-botones"></button>
-                                    <a href="imprimir.php?id=<?php echo $idPedido;?>">
+                                    <a href="<?php echo SERVERURL;?>imprimir/<?php echo $vendedor;?>/pedido/<?php echo $idPedido;?>/">
                                         <button type="submit" class="fas fa-print boton-controles efecto-botones"></button>
                                     </a>
                                 </td>                
@@ -250,7 +267,7 @@
                 </table>            
             </div>
             <div class="botones">
-                <a href="menu.php">
+                <a href="<?php echo SERVERURL;?>menu/<?php echo $vendedor;?>">
                     <input class="efecto-botones" type="button" value="Salir">
                 </a>
             </div>

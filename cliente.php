@@ -1,5 +1,6 @@
 <?php
     require ('database.php');
+    require 'config.php';  
     session_start(); 
 
     $conecta = mysqli_connect($server, $nombre, $password, $database);
@@ -17,6 +18,12 @@
     $id_pedido = '';
     $verificacion_cliente = '0';
     $boton_agregar_cliente = '';
+    $vendedor = '';
+
+    if(isset($_GET['vendedor']))
+    {
+        $vendedor = $_GET['vendedor'];
+    }
     
     if(isset($_POST['search']))
     {
@@ -68,8 +75,8 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">   
 
     <!-- CSS -->
-    <link rel="stylesheet" href="assets/styles/lista.css">
-    <link rel="stylesheet" href="assets/styles/message.css">
+    <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/lista.css">
+    <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/message.css">
 
     <!-- ICONOS -->
     <script src="https://kit.fontawesome.com/1b601aa92b.js" crossorigin="anonymous"></script>
@@ -82,7 +89,7 @@
             <header class="titulo">
                 <h2>Clientes</h2>
             </header>
-            <form method="POST" action="cliente.php">
+            <form method="POST" action="<?php echo SERVERURL;?>clientes/<?php echo $vendedor;?>">
                 <div class=productos>
                     <input class="text efecto" type="search" name="search" value="<?php $buscar?>">
                     <button class="fas fa-search boton-buscar efecto-botones" type="submit"></button>                
@@ -113,7 +120,7 @@
                                     <?php echo $cliente?> 
                                 </td>
                                 <td>
-                                    <form method="POST" action="cliente.php">
+                                    <form method="POST" action="<?php echo SERVERURL;?>clientes/<?php echo $vendedor;?>">
                                         <div class="ocultar">
                                             <input type="text" name="id_cliente" value="<?php echo $id_cliente?>">                                      
                                         </div>
@@ -142,7 +149,7 @@
                                     <?php echo $cliente;?> 
                                 </td>
                                 <td>
-                                    <form method="POST" action="cliente.php">
+                                    <form method="POST" action="<?php echo SERVERURL;?>clientes/<?php echo $vendedor;?>">
                                         <div class="ocultar">
                                             <input type="text" name="id_cliente" value="<?php echo $id_cliente?>">                                      
                                         </div>
@@ -163,7 +170,7 @@
                     </div>
             <?php session_unset(); } ?>
             <div class="botones">
-                <a href="pedidos.php?id_cliente=<?php echo $verificacion_cliente;?>">
+                <a href="<?php echo SERVERURL;?>pedidos/<?php echo $vendedor; ?>/<?php echo $verificacion_cliente; ?>">
                     <input class="efecto-botones" type="button" value="Continuar">                
                 </a>
             </div>

@@ -3,9 +3,12 @@
     session_start();
 
     require 'database.php';
+    require 'config.php';
 
+    $usuario = '';
     if(!empty($_POST['nombre']) && !empty($_POST['password']))
     {
+        $usuario = $_POST['nombre'];
         $records = $conn->prepare('SELECT id, nombre, password FROM usuarios WHERE nombre=:nombre');
         $records->bindParam(':nombre', $_POST['nombre']);
         $records->execute();
@@ -13,8 +16,12 @@
 
         if (!empty($results) > 0 && password_verify($_POST['password'], $results['password']))
         {
-            $_SESSION['user_id'] = $results['id'];
-            header('Location: /AppForcinitti/menu.php');
+            // $_SESSION['user_id'] = $results['id'];
+            // $id = $_SESSION['user_id'];
+            if(!empty($usuario))
+            {
+                header("Location: menu/$usuario");
+            }
         }
         else
         {        
@@ -33,8 +40,8 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="assets/styles/login.css">
-    <link rel="stylesheet" href="assets/styles/message.css">
+    <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/login.css">
+    <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/message.css">
     <title>AppPrueba</title>
 </head>
 <body>

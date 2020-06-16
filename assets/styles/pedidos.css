@@ -9,9 +9,10 @@ body
 {
     display: grid;
     grid-template-columns: none;
-    grid-template-rows: 90px 40px 73px 76px 75px 75px 125px;
+    grid-template-rows: 70px 40px 62px 62px 76px 65px 75px 125px;
     grid-template-areas: "titulo"
                          "clientes"
+                         "cabecera"
                          "productos"
                          "informacion"
                          "condicion-iva"
@@ -61,11 +62,19 @@ form button
     width: 45px;
 }
 
+                /* CABECERA */
+
+.cabecera
+{
+    margin-top: 3%;
+    grid-area: cabecera;
+}
+
                 /* PRODUCTOS */
 .productos
 {
     grid-area: productos;
-    margin-top: 5%;
+    margin-top: 3%;
 }
 
 .textbox-productos
@@ -84,7 +93,6 @@ form button
 {
     display: flex;
     margin-top: 5%;
-    margin-bottom: 7px;
     padding-right: 13px;
     justify-content: space-between;
 }
@@ -97,7 +105,7 @@ form button
 
 .textbox-cabecera
 {
-    width: 40%;
+    width: 50%;
     margin-right: 5px;
 }
 
@@ -126,7 +134,7 @@ form button
 .condicion-iva
 {
     grid-area: condicion-iva;
-    margin-top: 5%;
+    margin-top: 3%;
 }
 
 .leable-iva

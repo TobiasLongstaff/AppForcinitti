@@ -1,6 +1,7 @@
 <?php
 
-    require ('database.php');    
+    require ('database.php');
+    require 'config.php';    
     session_start();  
 
     $conecta = mysqli_connect($server, $nombre, $password, $database);
@@ -25,45 +26,35 @@
     $fechaEntrega = '';
     $boton_agregar = '';
     $cabecera = '';
-  
+    $vendedor = '';
     //EXTRAER DATOS
+    
 
-    if (isset($_SESSION['user_id']))
+    if(isset($_GET['vendedor']))
     {
-        $id_usuario = $_SESSION['user_id'];        
-        $records = $conn->prepare('SELECT id, nombre, password FROM usuarios WHERE id =:id');
-        $records->bindParam(':id', $_SESSION['user_id']);
-        $records->execute();
-        $results = $records->fetch(PDO::FETCH_ASSOC);
-
-        $user = null;
-
-        if(count($results) > 0)
+        $url=explode("/", $_GET['vendedor']);
+        $vendedor = $url[0];
+        if($url[1] == 'crear')
         {
-            $user = $results;
+            $sql = "INSERT INTO id_pedido (vendedor) VALUES ('$vendedor')";
+            $resultado = mysqli_query($conexion,$sql);              
         }
-
-        $vendedor = $user['nombre'];
-    }
-
-    if(isset($_GET['crear_pedido']) && !empty($vendedor))
-    {
-        $sql = "INSERT INTO id_pedido (vendedor) VALUES ('$vendedor')";
-        $resultado = mysqli_query($conexion,$sql);               
-    }
-
-    if(isset($_GET['id']))
-    {    
-        $id = $_GET['id'];
-        $sql2 = "SELECT * FROM productos WHERE id = $id";
-        $resultado = mysqli_query($conecta, $sql2);
-        if(mysqli_num_rows($resultado) == 1)     
+        elseif($url[1] == 'producto')
         {
-            $filas = mysqli_fetch_array($resultado);
-            $id_producto = $filas['id'];
-            $nombre = $filas['descripcion'];
-            $precio = $filas['precioMinorista'];
-            $iva = $filas['iva'];
+            $id = $url[2];
+            if(!empty($id))
+            {
+                $sql2 = "SELECT * FROM productos WHERE id = $id";
+                $resultado = mysqli_query($conecta, $sql2);
+                if(mysqli_num_rows($resultado) == 1)     
+                {
+                    $filas = mysqli_fetch_array($resultado);
+                    $id_producto = $filas['id'];
+                    $nombre = $filas['descripcion'];
+                    $precio = $filas['precioMinorista'];
+                    $iva = $filas['iva'];
+                }                
+            }
         }
     }
 
@@ -72,23 +63,12 @@
     while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
     {        
         $id_pedido = $filas['id'];
-        $nombre_usuario_pedido = $filas['vendedor'];
         $domicilio = $filas['entrega'];
         $fechaEntrega = $filas['fecha_entrega'];
         $id_cliente = $filas['id_cliente'];
         $cabecera = $filas['cabecera'];
     }
         
-    $sql="SELECT * FROM usuarios";
-    $resultado = mysqli_query($conecta, $sql);
-    while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
-    {
-        $nombre_usuario_usuarios = $filas['nombre'];
-        if($nombre_usuario_pedido == $nombre_usuario_usuarios)
-        {
-            $id_usuario = $filas['id'];
-        }        
-    }
     //AGREGAR DATOS
 
     if(isset($_POST['cabecera']))
@@ -165,8 +145,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="assets/styles/pedidos.css">
-    <link rel="stylesheet" href="assets/styles/message.css">
+    <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/pedidos.css">
+    <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/message.css">
 
     <!-- ICONOS -->
     <script src="https://kit.fontawesome.com/1b601aa92b.js" crossorigin="anonymous"></script>
@@ -182,11 +162,11 @@
             <header class="titulo">
                 <h2>Pedidos</h2>
             </header>
-            <a class="boton clientes" href="cliente.php">
+            <a class="boton clientes" href="<?php echo SERVERURL;?>clientes/<?php echo $vendedor;?>">
                 <input class="efecto-botones" type="button" value="Clientes">
             </a>
             <!-- CABECERA -->
-            <form class="productos" method="POST" action="pedidos.php">
+            <form class="cabecera" method="POST" action="<?php echo SERVERURL;?>pedidos/<?php echo $vendedor;?>/">
                 <div class="label-productos">
                     <span>Nombre de cabecera</span>                
                 </div>
@@ -196,7 +176,7 @@
 
 
             <!-- PRODUCTOS -->
-            <form class="productos" method="POST" action="productos.php">
+            <form class="productos" method="POST" action="<?php echo SERVERURL;?>productos/<?php echo $vendedor;?>/">
                 <div class="label-productos">
                     <span>Productos</span>                
                 </div>
@@ -204,7 +184,7 @@
                 <button type="submit" class="fas fa-search boton efecto-botones"></button>             
             </form>
             <!-- INFORMACION -->
-            <form method="POST">
+            <form action="<?php echo SERVERURL;?>pedidos/<?php echo $vendedor;?>/producto/<?php echo $id_producto;?>" method="POST">
                 <div class="informacion">
                     <div class="leables">
                         <span class="leable-cantidad">Cantidad</span>
@@ -250,21 +230,21 @@
                 <?php session_unset(); } ?>
                 <!-- BOTONES -->
                 <div class="botones">
-                    <form class="boton boton-agregar" action="pedidos.php" method="POST">
+                    <form class="boton boton-agregar" action="<?php echo SERVERURL;?>pedidos/<?php echo $vendedor;?>/" method="POST">
                         <input class="efecto-botones" name="agregar-producto" type="submit" value="Agregar">                    
                     </form>
-                    <a class="boton-2" href="lista.php">
+                    <a class="boton-2" href="<?php echo SERVERURL;?>lista/<?php echo $vendedor;?>/">
                         <input class="efecto-botones" type="button" value="Ver Lista">
                     </a>
-                    <a href="cancelar-pedido.php?id=<?php echo $id_pedido;?>" class="btn-cancelar boton-eliminar">
+                    <a href="<?php echo SERVERURL;?>cancelar-pedido.php?id=<?php echo $id_pedido;?>&vendedor=<?php echo $vendedor;?>" class="btn-cancelar boton-eliminar">
                         <input class="efecto-botones" type="button" value="Salir">
                     </a> 
                 </div>
             </form>
         </main>        
     </div>
-    <script src="assets/plugins/jquery-3.5.1.min.js"></script>
-	<script src="assets/plugins/sweetalert2.all.min.js"></script>
-	<script src="assets/scripts/app.js"></script>
+    <script src="<?php echo SERVERURL;?>assets/plugins/jquery-3.5.1.min.js"></script>
+	<script src="<?php echo SERVERURL;?>assets/plugins/sweetalert2.all.min.js"></script>
+	<script src="<?php echo SERVERURL;?>assets/scripts/app.js"></script>
 </body>
 </html>

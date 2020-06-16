@@ -1,0 +1,24 @@
+
+Options +FollowSymLinks
+RewriteEngine On
+RewriteRule ^menu/([a-zA-Z0-9/]+)$ menu.php?vendedor=$1
+
+RewriteRule ^pedidos/([a-zA-Z0-9/]+)$ pedidos.php?vendedor=$1
+
+RewriteRule ^clientes/([a-zA-Z0-9/]+)$ cliente.php?vendedor=$1
+
+RewriteRule ^productos/([a-zA-Z0-9/]+)$ productos.php?vendedor=$1
+
+RewriteRule ^lista/([a-zA-Z0-9/]+)$ lista.php?vendedor=$1
+
+RewriteRule ^gestionar-pedidos/([a-zA-Z0-9/]+)$ gestionar-pedidos.php?vendedor=$1
+
+RewriteRule ^imprimir/([a-zA-Z0-9/]+)$ imprimir.php?vendedor=$1
+
+RewriteRule ^preparar-pedidos/([a-zA-Z0-9/]+)$ preparar-pedidos.php?vendedor=$1
+
+RewriteRule ^preparar-pedidos-panel/([a-zA-Z0-9/]+)$ preparar-pedido-panel.php?vendedor=$1
+
+RewriteRule ^actualizar-pedido-preparado/([a-zA-Z0-9/]+)$ actualizar-producto-preparado.php?vendedor=$1
+
+RewriteRule ^agregar-producto-preparado/([a-zA-Z0-9/]+)$ agregar-producto-preparado.php?vendedor=$1

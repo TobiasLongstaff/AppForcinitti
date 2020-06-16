@@ -1,6 +1,7 @@
 <?php
 
     include 'database.php';
+    require 'config.php';
 
     $conecta = mysqli_connect($server, $nombre, $password, $database);
     if (mysqli_connect_errno())
@@ -14,10 +15,13 @@
     $idPedido = '';
     $id_usuario = '';
     $boton_preparado = '';
+    $vendedor = '';
 
-    if(isset($_GET['id_update']))
+    if(isset($_GET['vendedor']))
     {
-        $idPedido = $_GET['id_update'];
+        $url=explode("/", $_GET['vendedor']);
+        $vendedor = $url[0];
+        $idPedido = $url[1];
     }
 
     $sql="SELECT * FROM clientes WHERE $idPedido";
@@ -34,8 +38,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="assets/styles/lista.css">
-    <link rel="stylesheet" href="assets/styles/message.css">
+    <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/lista.css">
+    <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/message.css">
     
     <!-- ICONOS -->
     <script src="https://kit.fontawesome.com/1b601aa92b.js" crossorigin="anonymous"></script>
@@ -89,10 +93,10 @@
                         <td><?php echo $cantidadListaPreparar?></td>
                         <td><?php echo $descripcionListaPreparar?></td>
                         <td class="controles">
-                            <a href="actualizar-producto-preparado.php?id_update=<?php echo $id;?>">
+                            <a href="<?php echo SERVERURL;?>actualizar-pedido-preparado/<?php echo $vendedor;?>/<?php echo $id;?>/">
                                 <button type="submit" class="fas fa-edit boton-controles efecto-botones"></button>
                             </a>
-                            <a class="btn-eliminar" href="eliminar-producto-preparado.php?id=<?php echo $id;?>">
+                            <a class="btn-eliminar" href="<?php echo SERVERURL;?>eliminar-producto-preparado.php?id=<?php echo $id;?>&vendedor=<?php echo $vendedor;?>">
                                 <button class="fas fa-trash-alt boton-controles efecto-botones"></button> 
                             </a>
                         </td>
@@ -102,20 +106,20 @@
                 ?>   
             </table>
             <div class="botones">
-                <a class="form-botones btn-finalizar" href="preparar-pedido-preparado.php?id_update=<?php echo $idPedido;?>">
+                <a class="form-botones btn-finalizar" href="<?php echo SERVERURL;?>preparar-pedido-preparado.php?id_update=<?php echo $idPedido;?>&vendedor=<?php echo $vendedor;?>">
                     <input class="efecto-botones " type="submit" value="Preparado">   
                 </a>
-                <a href="agregar-producto-preparado.php?id_pedido=<?php echo $idPedido;?>">
+                <a href="<?php echo SERVERURL;?>agregar-producto-preparado/<?php echo $vendedor;?>/agregar/<?php echo $idPedido;?>/">
                     <input class="efecto-botones" type="submit" value="Agregar">                
                 </a>
-                <a href="preparar-pedidos.php">
+                <a href="<?php echo SERVERURL;?>preparar-pedidos/<?php echo $vendedor;?>">
                     <input class="efecto-botones" type="submit" name="pedido-cancelado" value="Salir"> 
                 </a>  
             </div>
         </main>
     </div>
-    <script src="assets/plugins/jquery-3.5.1.min.js"></script>
-	<script src="assets/plugins/sweetalert2.all.min.js"></script>
-	<script src="assets/scripts/app.js"></script>
+    <script src="<?php echo SERVERURL;?>assets/plugins/jquery-3.5.1.min.js"></script>
+	<script src="<?php echo SERVERURL;?>assets/plugins/sweetalert2.all.min.js"></script>
+	<script src="<?php echo SERVERURL;?>assets/scripts/app.js"></script>
 </body>
 </html>

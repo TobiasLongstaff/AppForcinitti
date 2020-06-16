@@ -16,9 +16,10 @@
     $id_cliente = '';
     $id_lista = '';
     
-    if(isset($_GET['id']))
+    if(isset($_GET['id']) && isset($_GET['vendedor']))
     {
         $idPedido = $_GET['id'];
+        $vendedor = $_GET['vendedor'];
 
         $sql="SELECT * FROM id_pedido WHERE id = '$idPedido'";
         $resultado = mysqli_query($conecta, $sql);
@@ -61,17 +62,17 @@
                     }
                     else
                     {
-                        header("Location: /AppForcinitti/menu.php?id=$id_usuario");
+                        header("Location: menu/$vendedor");
                     }                     
                 }
                 else
                 {
-                    header("Location: /AppForcinitti/lista.php?error=2");
+                    header("Location: lista/$vendedor/2/");
                 }
             }
             else
             {
-                header("Location: /AppForcinitti/lista.php?error=1");
+                header("Location: lista/$vendedor/1/");
             }
         }
     }

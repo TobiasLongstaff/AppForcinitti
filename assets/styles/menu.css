@@ -84,7 +84,7 @@ header input
 {
     html
     {
-        height: 100%;
+        height: 110%;
     }
 
     body
@@ -119,6 +119,7 @@ header input
     .contenido
     {
         margin-top: 2%;
+
     }
 }
 
@@ -139,6 +140,6 @@ header input
 
     .botones input
     {
-        margin: 10px;
+        margin: 10px 0;
     }
 }

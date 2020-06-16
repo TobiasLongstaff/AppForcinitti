@@ -40,7 +40,7 @@
 <body>
     <main class="contenido">
         <div class="login">
-            <form action="index.php" method="POST" class="formulario">            
+            <form action="crear.php" method="POST" class="formulario">            
                 <header class="titulo">
                     <h2>Registrarse</h2>        
                 </header>

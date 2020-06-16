@@ -11,11 +11,12 @@
     mysqli_select_db($conecta, $database) or die ('Error al conectar');
     mysqli_set_charset($conecta, 'utf8');
 
-    $idPedido = '';
+    $vendedor = '';
 
-    if(isset($_GET['id_update']))
+    if(isset($_GET['id_update']) && isset($_GET['vendedor']))
     {
-        $idPedido = $_GET['id_update'];        
+        $idPedido = $_GET['id_update'];
+        $vendedor = $_GET['vendedor'];        
         $sql = "UPDATE id_pedido SET estado = 'Preparado' WHERE id = '$idPedido'";
         $resultado = mysqli_query($conexion,$sql);
         if (!$resultado)
@@ -24,7 +25,7 @@
         }
         else
         {
-            header("Location: /AppForcinitti/menu.php?id=$id_usuario");
+            header("Location: menu/$vendedor");
         } 
     }
 ?>

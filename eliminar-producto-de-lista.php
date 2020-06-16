@@ -11,9 +11,12 @@
     mysqli_select_db($conecta, $database) or die ('Error al conectar');
     mysqli_set_charset($conecta, 'utf8');
 
-    if(isset($_GET['id']))
+    $vendedor = '';
+
+    if(isset($_GET['id']) && isset($_GET['vendedor']))
     {
         $id = $_GET['id'];
+        $vendedor = $_GET['vendedor'];
         $sql = "DELETE FROM lista WHERE id = $id";
         $resultado = mysqli_query($conecta, $sql);
         $sql2 = "DELETE FROM lista_preparar WHERE id = $id";
@@ -24,7 +27,7 @@
         } 
         else
         {
-            header('Location: lista.php');
+            header("Location: lista/$vendedor");
         }
     }
     mysqli_close($conecta);

@@ -1,5 +1,6 @@
 <?php
     require ('database.php');
+    require 'config.php';  
 
     $conecta = mysqli_connect($server, $nombre, $password, $database);
     if (mysqli_connect_errno())
@@ -12,32 +13,39 @@
 
     $preparado = '';    
     $buscar = $_POST['search']; 
-    $destino = 'pedidos.php'; 
+    $destino = 'pedidos'; 
     $preparado = '';
     $id = '';
+    $vendedor = '';
 
-    if(isset($_GET['id_update']))
+    if(isset($_GET['vendedor']))
     {
-        $id = $_GET['id_update']; 
+        $url=explode("/", $_GET['vendedor']);
+        $vendedor = $url[0];
+
+        if(!empty($url[2]))
+        {
+            $id = $url[2];
+        }
+
+        if(!empty($url[1]))
+        {
+            $preparado = $url[1];
+            if($preparado == '1')
+            {
+                $destino = 'agregar-producto-preparado';
+            }
+            else if($preparado == '2')
+            {
+                $destino = 'actualizar-pedido-preparado';
+            }
+            else
+            {
+                $destino = 'pedidos';
+            }
+        }
     }
 
-    if(isset($_GET['preparado']))
-    {
-        $preparado = $_GET['preparado'];
-
-        if($preparado == '1')
-        {
-            $destino = 'agregar-producto-preparado.php';
-        }
-        else if($preparado == '2')
-        {
-            $destino = 'actualizar-producto-preparado.php';
-        }
-        else
-        {
-            $destino = 'pedidos.php';
-        }
-    }
 ?>
 
 <!DOCTYPE html>
@@ -50,7 +58,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet"> 
     
     <!-- CSS -->
-    <link rel="stylesheet" href="assets/styles/lista.css">
+    <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/lista.css">
 
     <!-- ICONOS -->
     <script src="https://kit.fontawesome.com/1b601aa92b.js" crossorigin="anonymous"></script>
@@ -64,7 +72,8 @@
                 <h2>Productos</h2>
             </header>
             <span>Productos</span>
-            <form method="POST" action="productos.php?preparado=<?php echo $preparado;?>&id_update=<?php echo $id;?>">
+            <!--preparado y id update-->
+            <form method="POST" action="<?php echo SERVERURL;?>productos/<?php echo $vendedor;?>/<?php echo $preparado;?>/<?php echo $id;?>/">
                 <div class="productos">
                     <input class="text efecto" type="search" name="search" value="<?php echo $buscar;?>">
                     <button class="boton-buscar fas fa-search efecto-botones" type="submit"></button>                
@@ -91,7 +100,8 @@
                                         <?php echo $filas['descripcion'];?> 
                                     </td>
                                     <td>
-                                        <a href="<?php echo $destino;?>?id=<?php echo $filas['id'];?>&id_update=<?php echo $id;?>"> 
+                                        <!--id pedido y id update-->
+                                        <a href="<?php echo SERVERURL; echo $destino;?>/<?php echo $vendedor;?>/producto/<?php echo $filas['id'];?>/<?php echo $id;?>/"> 
                                             <button class="fas fa-cart-plus boton-controles efecto-botones" type="button"></button>
                                         </a>
                                     </td>
@@ -115,7 +125,8 @@
                                         <?php echo $filas['descripcion'];?> 
                                     </td>
                                     <td>
-                                        <a href="<?php echo $destino;?>?id=<?php echo $filas['id'];?>&id_update=<?php echo $id;?>"> 
+                                        <!--id pedido y id update-->
+                                        <a href="<?php echo SERVERURL; echo $destino;?>/<?php echo $vendedor;?>/producto/<?php echo $filas['id'];?>/<?php echo $id;?>/"> 
                                             <button class="fas fa-cart-plus boton-controles efecto-botones" type="button"></button>
                                         </a>
                                     </td>
@@ -127,9 +138,9 @@
                     ?>
                 </table>
                 <div class="botones">
-                    <input class="efecto-botones" type="submit" value="Agregar">
-                    <input class="efecto-botones" type="submit" value="Mas Info.">
-                    <a href="<?php echo $destino; ?>">
+                    <input class="efecto-botones" type="submit" value="Agregar" disabled>
+                    <input class="efecto-botones" type="submit" value="Mas Info." disabled>
+                    <a href="<?php echo SERVERURL; echo $destino; ?>/<?php echo $vendedor;?>/">
                         <input class="efecto-botones" type="button" value="Salir">                        
                     </a>
                 </div>
