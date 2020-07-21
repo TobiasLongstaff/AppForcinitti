@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3307
--- Tiempo de generación: 21-07-2020 a las 18:14:00
+-- Tiempo de generación: 21-07-2020 a las 18:36:05
 -- Versión del servidor: 10.4.13-MariaDB
 -- Versión de PHP: 7.4.7
 
@@ -687,6 +687,13 @@ CREATE TABLE `id_pedido` (
   `cabecera` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `id_pedido`
+--
+
+INSERT INTO `id_pedido` (`id`, `vendedor`, `fecha_del_pedido`, `estado`, `entrega`, `id_cliente`, `fecha_entrega`, `total`, `cabecera`) VALUES
+(1, 'TobiasLongstaff', '2020-07-21 16:28:38', '', '', 0, '0000-00-00', 0, '');
+
 -- --------------------------------------------------------
 
 --
@@ -1364,7 +1371,7 @@ ALTER TABLE `clientes`
 -- AUTO_INCREMENT de la tabla `id_pedido`
 --
 ALTER TABLE `id_pedido`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `lista`
