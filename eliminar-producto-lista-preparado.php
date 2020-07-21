@@ -11,10 +11,16 @@
     mysqli_select_db($conecta, $database) or die ($_SESSION['message-error'] = 'Error al conectar');
     mysqli_set_charset($conecta, 'utf8');
 
-    if(isset($_GET['vendedor']) &&  isset($_GET['id']))
+    $tipo = '';
+
+    if(isset($_GET['vendedor']) && isset($_GET['id']))
     {
         $vendedor = $_GET['vendedor'];
         $idPedido = $_GET['id'];
+        if(!empty($_GET['gestionar']))
+        {
+            $tipo = 'gestionar/';
+        }
 
         $sql = "DELETE FROM lista_preparar WHERE descripcion = ''";
         $resultado = mysqli_query($conecta, $sql);  
@@ -24,9 +30,8 @@
         }
         else
         {
-            header("Location: preparar-pedidos-panel/$vendedor/$idPedido/");
+            header("Location: preparar-pedidos-panel/$vendedor/$idPedido/$tipo");
         }
     }
-
-
+    mysqli_close($conexion); 
 ?>

@@ -20,6 +20,7 @@
     $cantidad = '';
     $total = 0;
     $id_usuario = '';
+    $id_preparar = '';
 
 
     //EXTRAER DATOS
@@ -51,7 +52,7 @@
     $resultado = mysqli_query($conecta, $sql);
     while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
     {        
-        $cliente = $filas['cliente'];
+        $cliente = $filas['nombre'];
     }
 
     $sql="SELECT * FROM usuarios";
@@ -63,13 +64,17 @@
         {
             $id_usuario = $filas['id'];
         }        
-    } 
+    }
+    mysqli_close($conexion); 
 ?> 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- LOGO -->
+    <link rel="icon" href="<?php echo SERVERURL;?>assets/img/logo.ico">
 
     <!-- FUENTES -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">   
@@ -80,7 +85,10 @@
 
     <!-- ICONOS -->
     <script src="https://kit.fontawesome.com/1b601aa92b.js" crossorigin="anonymous"></script>
-    
+
+    <!-- ANIMACIONES -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css">
+        
     <title>Lista</title>
 </head>
 <body>
@@ -99,21 +107,22 @@
                         $precio = $filas['precio'];
                         $cantidad = $filas['cantidad'];
                         $descuento = $filas['descuento'];
+                        $idmedida = $filas['medida'];
 
                         $sql2= "SELECT SUM((precio * cantidad) - descuento) AS total FROM lista WHERE id_pedido = $idPedido";
                         $resultado2= mysqli_query($conecta, $sql2);
                         while($fila= mysqli_fetch_array($resultado2, MYSQLI_ASSOC))
                         {
                             $total= $fila['total'];
-                        }
+                        }                           
                     }
                 ?>
                 
-                <div class="cliente preparar-panel">
+                <div class="cliente preparar-panel animate__animated animate__fadeIn">
                     <span>ID del pedido: <?php echo $idPedido?> </span> <br>
                     <span>Cliente: <?php echo $cliente?></span>
                 </div>
-                <div class="datos preparar-panel">
+                <div class="datos preparar-panel animate__animated animate__fadeIn">
                     <span>CANTIDAD TOTAL DE PRODUCTOS</span>
                     <hr>
                     <?php
@@ -127,12 +136,12 @@
                     <span>Cantidad: <?php echo $cantidadDeProductos;?></span>
                 </div>                    
             </div>
-            <div class="tabla-lista">
+            <div class="tabla-lista animate__animated animate__fadeIn animate__delay-1s animacion2">
                 <table>
                     <tr>
                         <th>Cant.</th>
                         <th>Descripcion</th>
-                        <th>Precio</th>
+                        <th>Precio x kg o un</th>
                         <th>Controles</th>
                     </tr>
                     <?php
@@ -164,9 +173,15 @@
                             </td>
                     <?php
                             }
+                            $sql3 = "SELECT * FROM lista_preparar";
+                            $resultado3 = mysqli_query($conecta, $sql3);      
+                            while($filas = mysqli_fetch_array($resultado3, MYSQLI_ASSOC))   
+                            {
+                                $id_preparar = $filas['id'];
+                            }
                     ?>
                             <td>
-                                <a class="btn-eliminar" href="<?php echo SERVERURL;?>eliminar-producto-de-lista.php?id=<?php echo $fila['id'] ?>"> 
+                                <a class="btn-eliminar" href="<?php echo SERVERURL;?>eliminar-producto-de-lista.php?id=<?php echo $fila['id'];?>&vendedor=<?php echo $vendedor;?>&id_preparar=<?php echo $id_preparar;?>"> 
                                     <button class="fas fa-trash-alt boton-controles efecto-botones"></button> 
                                 </a>
                             </td> 
@@ -177,8 +192,8 @@
                     ?>
                 </table>
             </div>
-            <div class="precio-final">
-                <span>Total: $<?php echo $total;?> </span>
+            <div class="precio-final animate__animated animate__fadeIn animate__delay-1s animacion4">
+                <span>Total: $<?php echo round($total * 100) / 100;?></span>
             </div>
             <!--ALERTAS-->
             <?php if(!empty($_SESSION['message-error'])){?>
@@ -188,14 +203,14 @@
             <?php session_unset(); } ?>
             <div class="botones">
                 <a class="btn-finalizar form-botones" href="<?php echo SERVERURL;?>terminar-pedido.php?id=<?php echo $idPedido?>&total=<?php echo $total;?>&vendedor=<?php echo $vendedor;?> ">
-                    <input class="efecto-botones" type="button" value="Terminar">   
+                    <input class="efecto-botones animate__animated animate__fadeIn animate__delay-1s animacion7" type="button" value="Terminar">   
                 </a>
                 
                 <a href="<?php echo SERVERURL;?>pedidos/<?php echo $vendedor;?>/">
-                    <input class="efecto-botones" type="submit" value="Agregar">                
+                    <input class="efecto-botones animate__animated animate__fadeIn animate__delay-1s animacion6" type="submit" value="Agregar">                
                 </a>
                 <a class="form-botones btn-cancelar" href="<?php echo SERVERURL;?>cancelar-pedido.php?id=<?php echo $idPedido;?>&vendedor=<?php echo $vendedor;?>">
-                    <input class="efecto-botones " type="button" value="Cancelar"> 
+                    <input class="efecto-botones animate__animated animate__fadeIn animate__delay-1s animacion5" type="button" value="Cancelar"> 
                 </a>               
             </div>
         </main>        

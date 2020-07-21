@@ -1,0 +1,415 @@
+body
+{
+    margin: 0;
+    font-family: 'Roboto Medium', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #707070;
+}
+
+.contenido
+{
+    display: grid;
+    grid-template-columns: none;
+    grid-template-rows: 70px 40px 62px 62px 76px 65px 75px 125px;
+    grid-template-areas: "titulo"
+                         "clientes"
+                         "cabecera"
+                         "productos"
+                         "informacion"
+                         "condicion-iva"
+                         "entrega"
+                         "botones";
+    padding: 0 7% ;
+}
+
+.contenido-actualizar
+{
+    display: grid;
+    grid-template-columns: none;
+    grid-template-rows: 70px 70px 72px 62px;
+    grid-template-areas: "titulo"
+                         "productos"
+                         "informacion"
+                         "condicion-iva";
+    padding: 0 7% ;
+}
+
+.contenido input, .contenido-actualizar input
+{
+    border-radius: 15px;
+    border-color: #60a5d6;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 15px;
+    padding: 5px 10px;
+    color: #707070;
+    outline: 0;
+}
+
+                /* TITULO */
+
+.titulo
+{
+    grid-area: titulo;
+    display: flex;
+    align-items: flex-end;
+}
+
+.titulo h2
+{
+    font-family: 'Roboto thin', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 25px;
+    color: #707070;    
+}
+
+                /* BOTON DE CLIENTES  */
+
+.clientes
+{
+    grid-area: clientes;
+    display: grid;
+}
+
+form button
+{
+    width: 45px;
+}
+
+                /* CABECERA */
+
+.cabecera
+{
+    margin-top: 3%;
+    grid-area: cabecera;
+}
+
+                /* PRODUCTOS */
+.productos
+{
+    grid-area: productos;
+    margin-top: 3%;
+}
+
+.textbox-productos
+{
+    width: 70%;
+    height: 2em;
+    margin-right: 5px;
+}
+                /* INFORMACION */
+.informacion
+{
+    grid-area: informacion;
+}
+
+.leables
+{
+    display: flex;
+    margin-top: 5%;
+    padding-right: 13px;
+    justify-content: space-between;
+}
+
+.contenedor-textbox
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+.textbox-cabecera
+{
+    width: 50%;
+    margin-right: 5px;
+}
+
+.textbox-cantidad
+{
+    width: 20%;
+}
+
+.textbox-precio
+{
+    width: 30%;
+}
+
+.textbox-descuento
+{
+    width: 20%;
+}
+
+                /* IVA */
+
+.textbox-iva
+{
+    width: 8%;
+}
+
+.condicion-iva
+{
+    grid-area: condicion-iva;
+    margin-top: 3%;
+}
+
+.leable-iva
+{
+    margin-bottom: 7px;
+}
+
+                /* ENTREGA */
+
+.entrega
+{
+    margin-top: 5%;
+    grid-area: entrega;
+}
+
+.leables-entrega
+{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 7px;    
+}
+
+.textbox-entrega
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+.leable-fecha
+{
+    padding-right: 5%;
+}
+
+.textbox-entrega input, .leable-fecha, .leable-domicilio
+{
+    width: 40%;
+}
+
+                /* BOTONES */
+
+.boton input, .boton
+{
+    text-decoration: none;
+    background: linear-gradient(180deg,#0195ff 0%, #0555bd 100%);
+    border: 0;
+    border-radius: 5px;
+    color: white;
+    font-size: 20px;
+    height: 40px;
+    font-family: 'Roboto light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    outline: 0;
+}
+
+.botones, .botones-actualizar
+{
+    position: fixed;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 20% 36px 10px;
+    left: 0;
+    bottom: 0;
+    width: 90%;
+}
+
+.botones input, .botones-actualizar input
+{
+    width: 100px;
+    height: 90px;
+    border-radius: 10px;
+    font-family: 'Roboto light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.boton-agregar
+{
+    border-radius: 10px;
+}
+
+.boton-2 input
+{
+    margin: 0 5px;
+    background-color: white;
+    border-color: #0555bd;
+    color: #0555bd;
+    padding: 0;
+}
+
+.boton-eliminar input
+{  
+    background-color: white;
+    border-color: #eb4d4b;
+    color: #eb4d4b;
+    border-style: solid;
+    border-width: 1px;
+    padding: 0;
+}
+
+.efecto-botones:active
+{
+    box-shadow: 1px 1px 10px #0555bd ;
+}
+
+.efecto:active
+{
+    box-shadow: 1px 1px 10px #60a5d6;
+}
+
+@media screen and (min-width: 427px)
+{
+    .textbox-cantidad,.leable-cantidad 
+    {
+        width: 20%;
+    }
+    
+    .textbox-precio, .leable-precio
+    {
+        width: 30%;
+    }
+    
+    .textbox-descuento, .leable-descuento
+    {
+        width: 20%;
+    }
+    
+    .textbox-iva, .leable-iva
+    {
+        width: 8%;
+    } 
+}
+
+@media screen and (min-width: 500px)
+{
+    .leable-fecha
+    {
+        padding-right: 3%;
+    } 
+}
+
+@media screen and (min-width: 760px)
+{
+    html
+    {
+        height: 100%;
+    }
+
+    body
+    {
+        background: linear-gradient(#0555bd, #5dbbff);  
+    }
+
+    .contenido, .contenido-actualizar
+    {        
+        display: block;
+        margin-top: 10%;
+        padding: 0 5%;
+        padding-top: 5%;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0px 2px 14px 0px #000000a1;
+        height: calc(100vh - 150px);  
+    }
+    
+    .pedidos
+    {
+        padding: 0 10%;
+    }
+
+    .botones
+    {
+        width: 83.1%;
+        padding-bottom: 260px;
+    }
+
+    .botones-actualizar
+    {
+        width: 83.1%;
+        padding-bottom: 260px;
+    }
+
+}
+
+@media screen and (min-width: 876px)
+{
+    .pedidos
+    {
+        display: flex;
+        justify-content: center;
+    }
+
+    .contenido, .contenido-actualizar
+    {
+        width: 500px;
+        height: calc(100vh - 250px);  
+    }
+
+    .botones, .botones-actualizar
+    {
+        margin-top: 20%;
+        display: flex;
+        position: relative;
+        padding: 0;
+        width: 100%;
+        justify-content: flex-end;
+    }
+}
+
+@media screen and (min-width: 1100px)
+{
+    .contenido, .contenido-actualizar
+    {
+        margin: 4%;
+    }
+}
+
+@media screen and (min-height: 1300px)
+{
+    .contenido, .contenido-actualizar
+    {
+        height: 900px;
+    }
+}
+
+@media screen and (max-height: 1000px)
+{
+    .contenido, .contenido-actualizar
+    {
+        height: 800px;
+    }
+}
+
+@media screen and (max-height: 900px)
+{
+    .contenido
+    {
+        height: 700px;
+    }
+
+    .contenido-actualizar
+    {
+        height: 520px;
+    }
+
+    .botones, .botones-actualizar
+    {
+        margin-top: 50px;
+    }
+}
+
+@media screen and (max-height: 800px)
+{
+    .contenido
+    {
+        padding-top: 20px;
+        height: 650px;
+    }
+
+    .botones
+    {
+        margin-top: 20px;
+    }
+}
+
+
+
+

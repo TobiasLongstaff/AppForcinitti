@@ -54,6 +54,7 @@
     {
         $buscar = $_POST['search'];  
     }
+    mysqli_close($conexion); 
 ?>
 
 <!DOCTYPE html>
@@ -61,6 +62,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- LOGO -->
+    <link rel="icon" href="<?php echo SERVERURL;?>assets/img/logo.ico">
 
     <!-- CSS -->
     <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/lista.css">
@@ -72,11 +76,14 @@
     <!-- FUENTES -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">   
 
+    <!-- ANIMACIONES -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css">
+
     <title>Preparado</title>
 </head>
 <body>
     <div class="contenido-productos">
-        <main class="contenido">
+        <main class="contenido animate__animated animate__backInRight">
             <header class="titulo">
                 <h2>Preparar pedidos</h2>
             </header>
@@ -117,7 +124,7 @@
                                 $resultado2= mysqli_query($conecta, $sql2);
                                 while($filas= mysqli_fetch_array($resultado2, MYSQLI_ASSOC))
                                 {
-                                    $nombreCliente = $filas['cliente']; 
+                                    $nombreCliente = $filas['nombre']; 
                     ?>     
                     <tr>              
                                 <td><?php echo $idPedido;?></td>                        

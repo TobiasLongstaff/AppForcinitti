@@ -1,0 +1,163 @@
+body
+{
+    margin: 0;
+    font-family: 'Roboto Thin', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;   
+    color: #707070;
+}
+
+.contenido
+{
+    padding: 20% 10%;
+    display: grid;
+    grid-template-rows: 100px 200px 40px;
+    grid-template-areas: "titulo"
+                         "contenido"
+                         "boton";
+}
+
+.titulo
+{
+    display: flex;
+    justify-content: center;
+    grid-area: titulo;
+    font-size: 25px;
+}
+
+.formulario span
+{
+    font-size: 15px;
+}
+
+.formulario input
+{
+    border-radius: 20px;
+    border-color: #60a5d6;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 15px;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #707070;
+    outline: 0;
+}
+
+.login
+{
+    grid-area: contenido;
+    
+}
+
+.leable_usuario, .leable_contraseña
+{
+    font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 10px 30px 5px;
+}
+
+.textbox_usuario
+{
+    display: flex;
+    justify-content: center;
+}
+
+.textbox_contraseña
+{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 32px;
+}
+
+.boton
+{
+    display: grid;
+    grid-area: boton;
+}
+
+.boton input
+{    
+    border-radius: 5px;
+    border-style: none;
+    background: linear-gradient(180deg,#0195ff 0%, #0555bd 100%);
+    color: white;
+    font-size: 20px;
+    font-family: 'Roboto Light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.efecto:active
+{
+    box-shadow: 1px 1px 10px #60a5d6;
+}
+
+.efecto-botones:active
+{
+    box-shadow: 1px 1px 10px #0555bd;
+}
+
+
+
+/* media */
+@media screen and (max-width: 360px)
+{
+    .contenido
+    {
+        padding: 3% 10%;
+    }
+}
+
+
+@media screen and (min-width: 365px)
+{
+    .leable_usuario, .leable_contraseña
+    {
+        padding: 10px 40px 5px;
+    }    
+}
+
+
+@media screen and (min-width: 400px)
+{
+    html
+    {
+        height: 100%;
+    }
+
+    body
+    {
+        background: linear-gradient(#0555bd, #5dbbff);  
+    }
+
+    .contenido 
+    {
+        grid-template-columns: 400px;
+        display: flex;
+        justify-content: center;
+        padding: 10% 0;
+    }
+
+    .formulario
+    {
+        background-color: white;
+        padding: 50px;
+        border-radius: 10px;
+        width: 288px;
+        box-shadow: 0px 2px 14px 0px #000000a1;
+    }
+
+    .leable_usuario, .leable_contraseña
+    {
+        padding: 10px 10px 5px;
+    } 
+}
+
+@media screen and (min-width: 440px)
+{
+    .contenido
+    {
+        padding: 20% 10%;
+    }
+
+    .leable_usuario, .leable_contraseña
+    {
+        padding: 10px 30px 5px;
+    }
+}

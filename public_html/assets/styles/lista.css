@@ -1,0 +1,283 @@
+body
+{
+    margin: 0;
+    font-family: 'Roboto Medium', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;   
+    color: #707070;    
+    font-size: 15px;
+}
+
+.contenido
+{
+    padding: 7%;
+}
+
+table
+{
+    border-radius: 0.25em;
+    border-collapse: collapse;
+    width: 100%;
+    background:#e4dfdf;
+    color: #707070;
+}
+
+.titulo h2, th
+{
+    font-family: 'Roboto thin', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  
+}
+
+.titulo
+{
+    margin-bottom: 20px;
+}
+
+hr
+{
+    margin: 3px;
+}
+
+.informacion
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+.preparar-panel
+{
+    width: 42%;
+    height: 58px;
+}
+
+.ocultar
+{
+    display: none;
+}
+
+.cliente, .pedido
+{
+    margin-bottom: 15px;
+}
+
+.productos, .pedido
+{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.text
+{
+    border-radius: 15px;
+    border-color: #60a5d6;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 15px;
+    height: 2.2em;
+    padding: 5px 10px;
+    width: 80%;
+    color: #707070;
+    outline: 0;
+}
+
+input[type="submit"]
+{
+    font-size: 15px;
+    width: 60px;
+}
+
+.boton-buscar, .boton-controles
+{
+    font-family: "Font Awesome 5 Free";
+    background: linear-gradient(180deg,#0195ff 0%, #0555bd 100%);
+    border: 0;
+    padding: 0;
+    border-radius: 5px;
+    color: white;
+    font-size: 20px;
+    height: 40px;
+    width: 47px;
+    font-family: 'Roboto light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-left: 10px;
+    outline: 0;
+}
+
+.controles
+{
+    display: flex;
+    justify-content: center;
+}
+
+td, th 
+{
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even)
+{
+    color: #707070;
+    background-color: #ffffff;
+}
+
+.cabecera
+{
+    display: flex;
+}
+
+.precio-final
+{
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    padding: 15px;
+    margin-top: 10px;
+    color: white;
+    background: linear-gradient(60deg,#0195ff 30%, #0555bd 100%);
+    width: 80px;
+    margin-left: 60%;
+    height: 10px;
+}
+
+.cliente
+{
+    border-radius: 5px;
+    margin-bottom: 5px;
+    padding: 10px;
+    color: white;
+    background: linear-gradient(60deg,rgb(225, 108, 100) 30%, rgb(250, 108, 34) 60%);  
+}
+
+.datos
+{
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 10px;
+    color: white;
+    background: linear-gradient(60deg,rgb(44, 183, 190) 30%, rgb(44, 183, 127) 60%);
+}
+
+.form-botones
+{
+    display: inline-flex;
+}
+
+.botones
+{
+    position: fixed;
+    justify-content: space-between;
+    padding: 10px 0 20px 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    text-align: center;
+    background-color: white;
+}
+
+.botones input
+{
+    background: linear-gradient(180deg,#0195ff 0%, #0555bd 100%);
+    border: 0;
+    border-radius: 5px;
+    color: white;
+    font-size: 18px;
+    height: 35px;
+    width: 90px;
+    font-family: 'Roboto light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    outline: 0;
+}
+
+a
+{
+    text-decoration: dashed;
+}
+
+.efecto-botones:active
+{
+    box-shadow: 1px 1px 10px #0555bd ;
+}
+
+.efecto:active
+{
+    box-shadow: 1px 1px 10px #60a5d6;
+}
+
+.checkbox
+{
+    margin-bottom: 10px;
+}
+
+.tabla
+{
+    height: 400px;
+    overflow: auto;
+}
+
+.tabla-lista
+{
+    height: 320px;
+    overflow: auto;
+}
+
+.tabla::-webkit-scrollbar, .tabla-lista::-webkit-scrollbar {
+	width: 7px;
+}
+
+.tabla::-webkit-scrollbar-thumb, .tabla-lista::-webkit-scrollbar-thumb {
+	background: linear-gradient(#0555bd, #5dbbff);  
+	border-radius: 5px;
+}
+
+
+
+@media screen and (min-width: 760px)
+{
+    .contenido-productos
+    {
+        display: flex;
+        justify-content: center;        
+    }
+
+    html
+    {
+        height: 100%;
+    }
+
+    body
+    {
+        background: linear-gradient(#0555bd, #5dbbff);  
+    }
+
+    .contenido
+    {        
+        width: 600px;
+        margin-top: 10%;
+        padding-top: 5%;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0px 2px 14px 0px #000000a1;
+        height: calc(100vh - 300px);  
+    }
+
+    .botones
+    {
+        background-color: transparent;
+        padding-bottom: 150px;
+    }
+
+}
+
+@media screen and (min-width: 1060px)
+{
+    .contenido
+    {
+        margin-top: 5%;
+    }
+}
+
+@media screen and (min-width: 1600px)
+{
+    .contenido
+    {
+        height: 600px;
+    }
+}

@@ -23,6 +23,9 @@
     $condicionIva = '';
     $boton_volver = '';
     $vendedor = '';
+    $idmedida = '';
+    $medida = '';
+    $tipo = '';
 
 
     if(isset($_GET['vendedor']))
@@ -31,8 +34,18 @@
         $vendedor = $url[0];
         $idPedido = $url[1];
 
+        if($url[2] == 'gestionar')
+        {
+            $tipo = 'gestionar/';
+        }
+
         if($idPedido == 'producto')
         {
+            if($url[4] == 'gestionar')
+            {
+                $tipo = 'gestionar/';
+            }
+
             $id = $url[2];
             if(!empty($url[3]))
             {
@@ -45,19 +58,33 @@
                 $filas = mysqli_fetch_array($resultado);
                 $id_producto = $filas['id'];
                 $nombre = $filas['descripcion'];
-                $precio = $filas['precioMinorista'];
+                $precio = $filas['preciominorista'];
                 $iva = $filas['iva'];
+                $idmedida = $filas['idmedida'];
+
+                if($idmedida == 3 or $idmedida == 1)
+                {
+                    $medida = 'un';
+                }
+                else
+                {
+                    $medida = 'kg';
+                }
             }
         }
         elseif($idPedido == 'agregar')
         {
+            if($url[3] == 'gestionar')
+            {
+                $tipo = 'gestionar/';
+            }
             $idPedido = $url[2];
             $sql = "INSERT INTO lista_preparar (id_pedido) VALUES ('$idPedido')";
             $resultado = mysqli_query($conexion,$sql);            
         }
         else
         {
-            $idPedido = $url[2];
+            $idPedido = $url[1];
             $sql="SELECT * FROM lista_preparar WHERE descripcion = ''";
             $resultado = mysqli_query($conecta, $sql);
             if($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
@@ -84,30 +111,24 @@
     {
         if(!empty($id_producto))
         {
-            if(!empty($_POST['cantidad']))
+            $sql = "UPDATE lista_preparar SET id_producto = '$id_producto', cantidad = '$cantidad', descuento = '$descuento', condicionIva = '$condicionIva', descripcion = '$nombre', precio = '$precio', medida = '$idmedida' WHERE id_producto = ''";
+            $resultado = mysqli_query($conexion,$sql);
+            if($resultado)
             {
-                $sql = "UPDATE lista_preparar SET id_producto = '$id_producto', cantidad = '$cantidad', descuento = '$descuento', condicionIva = '$condicionIva', descripcion = '$nombre', precio = '$precio' WHERE id_producto = ''";
-                $resultado = mysqli_query($conexion,$sql);
-                if($resultado)
-                {
-                    $_SESSION['message-correcto'] = 'Producto aregardo';
-                }
+                $_SESSION['message-correcto'] = 'Producto Agregardo';
             }
-            else
-            {
-                $_SESSION['message-error'] = 'Coloque la cantidad';
-            }            
         }
         else
         {
-            $_SESSION['message-error'] = 'Seleccione un producto';
-        }        
+            $_SESSION['message-error'] = 'Colocar Producto';
+        }
     }
 
     if(isset($_POST['boton-volver']))
     {
         $boton_volver = $_POST['boton-volver'];
     }
+    mysqli_close($conexion); 
 ?>
 
 
@@ -116,6 +137,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- LOGO -->
+    <link rel="icon" href="<?php echo SERVERURL;?>assets/img/logo.ico">
 
     <!-- CSS -->
     <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/pedidos.css">
@@ -127,16 +151,19 @@
     <!-- FUENTES -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet"> 
 
+    <!-- ANIMACIONES -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css">
+
     <title>Agregar Producto</title>
 </head>
 <body>
     <div class="pedidos">
-        <main class="contenido">
+        <main class="contenido-actualizar">
             <header class="titulo">
                 <h2>Agregar Producto</h2>
             </header>
             <!-- PRODUCTOS -->
-            <form class="productos" method="POST" action="<?php echo SERVERURL;?>productos/<?php echo $vendedor;?>/1/<?php echo $idPedido;?>/">
+            <form class="productos animate__animated animate__fadeIn" method="POST" action="<?php echo SERVERURL;?>productos/<?php echo $vendedor;?>/1/<?php echo $idPedido;?>/<?php echo $tipo;?>">
                 <div class="label-productos">
                     <span>Productos</span>                
                 </div>
@@ -145,22 +172,24 @@
             </form>
             <!-- INFORMACION -->
             <form method="POST">
-                <div class="informacion">
+                <div class="informacion animate__animated animate__fadeIn animate__delay-1s animacion2">
                     <div class="leables">
                         <span class="leable-cantidad">Cantidad</span>
+                        <span class="leable-medida">Me.</span>
                         <span class="leable-precio">Precio Unitario</span>
-                        <span class="leable-descuento">Descuento</span>
+                        <span class="leable-descuento">Dto.</span>
                         <span class="leable-iva">IVA</span>                
                     </div>
-                    <div class="contenedor-textbox">
-                        <input class="textbox-cantidad efecto" type="text" name="cantidad">
-                        <input class="textbox-precio efecto" type="text" name="precio" value="<?php echo $precio;?>$">
+                    <div class="contenedor-textbox animate__animated animate__fadeIn animate__delay-1s animacion2">
+                        <input class="textbox-cantidad efecto" type="text" name="cantidad" required="" pattern="[1-9]+" value="<?php echo $cantidad;?>">
+                        <input class="textbox-iva efecto" type="text" name="cantidad" value="<?php echo $medida;?>"disabled>
+                        <input class="textbox-precio efecto" type="text" name="precio" required="" pattern="[0-9]+.[0-9]+" value="<?php echo $precio;?>">
                         <input class="textbox-descuento efecto" type="text" name="descuento">
-                        <input class="textbox-iva efecto" type="text" value="<?php echo $iva;?>%">                 
+                        <input class="textbox-iva efecto" type="text" value="<?php echo $iva.'%';?>">                 
                     </div>   
                 </div>
                 <!-- CONDICION IVA -->
-                <div class="condicion-iva">
+                <div class="condicion-iva animate__animated animate__fadeIn animate__delay-1s animacion3">
                     <div class="leable-iva">
                         <span>Condicion IVA</span>                
                     </div>
@@ -178,12 +207,12 @@
                     </div>
                 <?php session_unset(); } ?>
                 <!-- BOTONES -->
-                <div class="botones">
+                <div class="botones-actualizar">
                     <form class="boton boton-agregar" action="<?php echo SERVERURL;?>agregar-producto-preparado/<?php echo $vendedor;?>" method="POST">
-                        <input class="efecto-botones" name="agregar-producto" type="submit" value="Agregar">                    
+                        <input class="efecto-botones animate__animated animate__fadeIn animate__delay-1s animacion4" name="agregar-producto" type="submit" value="Agregar">                   
                     </form>
-                    <form class="boton-2" action="<?php echo SERVERURL;?>eliminar-producto-lista-preparado.php?vendedor=<?php echo $vendedor;?>&id=<?php echo $idPedido;?>" method="POST">
-                        <input class="efecto-botones" type="submit" name="boton-volver" value="Volver">
+                    <form class="boton-2" action="<?php echo SERVERURL;?>eliminar-producto-lista-preparado.php?vendedor=<?php echo $vendedor;?>&id=<?php echo $idPedido;?>&gestionar=<?php echo $tipo;?>" method="POST">
+                        <input class="efecto-botones animate__animated animate__fadeIn animate__delay-1s animacion5" type="submit" name="boton-volver" value="Volver">
                     </form>
                 </div>
             </form>

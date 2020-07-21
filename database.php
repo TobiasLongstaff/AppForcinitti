@@ -1,8 +1,8 @@
 <?php
 
-    $conexion = mysqli_connect("localhost", "root", "", "php_appforcinitti_database");
+    $conexion = mysqli_connect("localhost:3307", "root", "", "php_appforcinitti_database");
 
-    $server = 'localhost';
+    $server = 'localhost:3307';
     $nombre = 'root';
     $password = '';
     $database = 'php_appforcinitti_database';

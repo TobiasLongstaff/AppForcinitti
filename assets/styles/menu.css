@@ -17,6 +17,31 @@ header a
     padding-left: 10px;
 }
 
+.boton2
+{
+    --animate-delay: 0.25s;
+}
+
+.boton3
+{
+    --animate-delay: 0.5s;
+}
+
+.boton4
+{
+    --animate-delay: 0.75s;
+}
+
+.boton5
+{
+    --animate-delay: 1s;
+}
+
+.boton6
+{
+    --animate-delay: 1.25s;
+}
+
 header input
 {
     background-color: white;

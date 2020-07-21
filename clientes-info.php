@@ -9,6 +9,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- LOGO -->
+    <link rel="icon" href="<?php echo SERVERURL;?>assets/img/logo.ico">
+
     <!-- CSS -->
     <link rel="stylesheet" href="assets/styles/clientes.css">
 

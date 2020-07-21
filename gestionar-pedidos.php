@@ -58,7 +58,7 @@
             header("Location: /AppForcinitti/imprimir/$vendedor/todos/");
         }
     }
-
+    mysqli_close($conexion); 
 ?>
 
 <!DOCTYPE html>
@@ -66,6 +66,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- LOGO -->
+    <link rel="icon" href="<?php echo SERVERURL;?>assets/img/logo.ico">
 
     <!-- CSS -->
     <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/lista.css">
@@ -76,11 +79,14 @@
     <!-- ICONOS -->
     <script src="https://kit.fontawesome.com/1b601aa92b.js" crossorigin="anonymous"></script>
 
+    <!-- ANIMACIONES -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css">
+
     <title>Gestionar pedidos</title>
 </head>
 <body>
     <div class="contenido-productos">
-        <main class="contenido">
+        <main class="contenido animate__animated animate__backInRight">
             <header class="titulo">
                 <h2>Gestion de pedidos</h2>
             </header>
@@ -95,39 +101,151 @@
                 <div class="checkbox">
                     <input type="checkbox" name="estado1" value="Listo">Sin preparar
                     <input type="checkbox" name="estado2" value="Preparado">Preparados
-                    <button type="submit" name="ver" class="far fa-eye boton-controles efecto-botones"></button>
-                    <button type="submit" name="imprimir" class="fas fa-print boton-controles efecto-botones"></button>                    
+                    <button type="submit" name="ver" class="boton-secundario efecto-botones">Ver</button>
+                    <button type="submit" name="imprimir" class="boton-secundario efecto-botones">Imprimir</button>                    
                 </div>
             </form>
             <div class="tabla">
-                <table>
-                    <tr>
-                        <th>ID</th>
-                        <th>Cliente</th>
-                        <th>Cabecera</th>                   
-                        <th>Estado</th>
-                        <th>Controles</th>
-                    </tr>
-                    <?php
+                <div class="tabla-lista">                
+                    <table>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Cabecera</th>                   
+                            <th>Estado</th>
+                            <th>Controles</th>
+                        </tr>
+                        <?php
 
-                    if(isset($_POST['ver']))
-                    {
-                        if(!empty($_POST['estado1']))
+                        if(isset($_POST['ver']))
                         {
-                            $estado1 = $_POST['estado1'];
-                        } 
+                            if(!empty($_POST['estado1']))
+                            {
+                                $estado1 = $_POST['estado1'];
+                            } 
 
-                        if(!empty($_POST['estado2']))
-                        {
-                            $estado2 = $_POST['estado2'];
-                        }
+                            if(!empty($_POST['estado2']))
+                            {
+                                $estado2 = $_POST['estado2'];
+                            }
 
-                        if ($estado1 != '')
+                            if ($estado1 != '')
+                            {
+                                $estado = $estado1;  
+                                
+                                $nombreCliente = '';
+                                $sql= "SELECT * FROM id_pedido WHERE estado = '$estado'";
+                                $resultado= mysqli_query($conecta, $sql);
+                                while($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+                                {
+                                    $idPedido =  $fila['id'];
+                                    $idClienteId_pedido = $fila['id_cliente'];
+                                    $estadoPedido = $fila['estado'];
+                                    $cabecera = $fila['cabecera'];
+                                                                                                
+                                    $sql2= "SELECT * FROM clientes WHERE id = $idClienteId_pedido";
+                                    $resultado2= mysqli_query($conecta, $sql2);
+                                    while($filas= mysqli_fetch_array($resultado2, MYSQLI_ASSOC))
+                                    {
+                                        $nombreCliente = $filas['nombre']; 
+                                    ?>     
+                                    <tr>              
+                                        <td><?php echo $idPedido;?></td>                        
+                                        <td><?php echo $nombreCliente;}?></td>
+                                        <td><?php echo $cabecera;?></td>
+                                        <td><?php echo $estadoPedido;?></td>
+                                        <td class="controles">
+                                            <a href="<?php echo SERVERURL;?>preparar-pedidos-panel/<?php echo $vendedor;?>/<?php echo $idPedido;?>/gestionar/">
+                                                <button type="submit" class="far fa-eye boton-controles efecto-botones"></button>
+                                            </a>
+                                            <a href="<?php echo SERVERURL;?>imprimir/<?php echo $vendedor;?>/pedido/<?php echo $idPedido;?>">
+                                                <button type="submit" class="fas fa-print boton-controles efecto-botones"></button>
+                                            </a>
+                                        </td>                
+                                    </tr>
+                                    <?php
+                                }
+                                mysqli_close($conecta);  
+                            }
+                            elseif($estado2 != '')
+                            {
+                                $estado = $estado2;
+
+                                $nombreCliente = '';
+                                $sql= "SELECT * FROM id_pedido WHERE estado = '$estado'";
+                                $resultado= mysqli_query($conecta, $sql);
+                                while($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+                                {
+                                    $idPedido =  $fila['id'];
+                                    $idClienteId_pedido = $fila['id_cliente'];
+                                    $estadoPedido = $fila['estado'];
+                                    $cabecera = $fila['cabecera'];
+                                                                                                
+                                    $sql2= "SELECT * FROM clientes WHERE id = $idClienteId_pedido";
+                                    $resultado2= mysqli_query($conecta, $sql2);
+                                    while($filas= mysqli_fetch_array($resultado2, MYSQLI_ASSOC))
+                                    {
+                                        $nombreCliente = $filas['nombre']; 
+                                    ?>     
+                                    <tr>              
+                                        <td><?php echo $idPedido;?></td>                        
+                                        <td><?php echo $nombreCliente;}?></td>
+                                        <td><?php echo $cabecera;?></td>
+                                        <td><?php echo $estadoPedido;?></td>
+                                        <td class="controles">
+                                            <a href="<?php echo SERVERURL;?>preparar-pedidos-panel/<?php echo $vendedor;?>/<?php echo $idPedido;?>/gestionar/">
+                                                <button type="submit" class="far fa-eye boton-controles efecto-botones"></button>
+                                            </a>
+                                            <a href="<?php echo SERVERURL;?>imprimir/<?php echo $vendedor;?>/pedido/<?php echo $idPedido;?>/">
+                                                <button type="submit" class="fas fa-print boton-controles efecto-botones"></button>
+                                            </a>
+                                        </td>                
+                                    </tr>
+                                    <?php
+                                }
+                                mysqli_close($conecta);  
+                            }
+                            elseif(!empty($estado1) && !empty($estado2))
+                            {
+                                $nombreCliente = '';
+                                $sql= "SELECT * FROM id_pedido WHERE estado != 'Cancelado'";
+                                $resultado2= mysqli_query($conecta, $sql);
+                                while($fila = mysqli_fetch_array($resultado2, MYSQLI_ASSOC))
+                                {
+                                    $idPedido =  $fila['id'];
+                                    $idClienteId_pedido = $fila['id_cliente'];
+                                    $estadoPedido = $fila['estado'];
+                                    $cabecera = $fila['cabecera'];
+                                                                                                
+                                    $sql2= "SELECT * FROM clientes WHERE id = $idClienteId_pedido";
+                                    $resultado3= mysqli_query($conecta, $sql2);
+                                    while($filas= mysqli_fetch_array($resultado3, MYSQLI_ASSOC))
+                                    {
+                                        $nombreCliente = $filas['cliente']; 
+                                    ?>     
+                                    <tr>              
+                                        <td><?php echo $idPedido;?></td>                        
+                                        <td><?php echo $nombreCliente;}?></td>
+                                        <td><?php echo $cabecera;?></td>
+                                        <td><?php echo $estadoPedido;?></td>
+                                        <td class="controles">
+                                            <a href="<?php echo SERVERURL;?>preparar-pedidos-panel/<?php echo $vendedor;?>/<?php echo $idPedido;?>/gestionar/">
+                                                <button type="submit" class="far fa-eye boton-controles efecto-botones"></button>
+                                            </a>
+                                            <a href="<?php echo SERVERURL;?>imprimir/<?php echo $vendedor;?>/pedido/<?php echo $idPedido;?>/">
+                                                <button type="submit" class="fas fa-print boton-controles efecto-botones"></button>
+                                            </a>
+                                        </td>                
+                                    </tr>
+                                    <?php
+                                }
+                                mysqli_close($conecta);   
+                            }                                  
+                        }   
+                        else if($buscar != '') 
                         {
-                            $estado = $estado1;  
-                            
                             $nombreCliente = '';
-                            $sql= "SELECT * FROM id_pedido WHERE estado = '$estado'";
+                            $sql = "SELECT * FROM id_pedido WHERE cabecera LIKE '%".$buscar."%' LIMIT 400";
                             $resultado= mysqli_query($conecta, $sql);
                             while($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
                             {
@@ -135,7 +253,7 @@
                                 $idClienteId_pedido = $fila['id_cliente'];
                                 $estadoPedido = $fila['estado'];
                                 $cabecera = $fila['cabecera'];
-                                                                                            
+                                                                                                
                                 $sql2= "SELECT * FROM clientes WHERE id = $idClienteId_pedido";
                                 $resultado2= mysqli_query($conecta, $sql2);
                                 while($filas= mysqli_fetch_array($resultado2, MYSQLI_ASSOC))
@@ -148,43 +266,9 @@
                                     <td><?php echo $cabecera;?></td>
                                     <td><?php echo $estadoPedido;?></td>
                                     <td class="controles">
-                                        <button type="submit" class="far fa-eye boton-controles efecto-botones"></button>
-                                        <a href="<?php echo SERVERURL;?>imprimir/<?php echo $vendedor;?>/pedido/<?php echo $idPedido;?>">
-                                            <button type="submit" class="fas fa-print boton-controles efecto-botones"></button>
+                                        <a href="<?php echo SERVERURL;?>preparar-pedidos-panel/<?php echo $vendedor;?><?php echo $idPedido;?>/gestionar/">
+                                            <button type="submit" class="far fa-eye boton-controles efecto-botones"></button>
                                         </a>
-                                    </td>                
-                                </tr>
-                                <?php
-                            }
-                            mysqli_close($conecta);  
-                        }
-                        elseif($estado2 != '')
-                        {
-                            $estado = $estado2;
-
-                            $nombreCliente = '';
-                            $sql= "SELECT * FROM id_pedido WHERE estado = '$estado'";
-                            $resultado= mysqli_query($conecta, $sql);
-                            while($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
-                            {
-                                $idPedido =  $fila['id'];
-                                $idClienteId_pedido = $fila['id_cliente'];
-                                $estadoPedido = $fila['estado'];
-                                $cabecera = $fila['cabecera'];
-                                                                                            
-                                $sql2= "SELECT * FROM clientes WHERE id = $idClienteId_pedido";
-                                $resultado2= mysqli_query($conecta, $sql2);
-                                while($filas= mysqli_fetch_array($resultado2, MYSQLI_ASSOC))
-                                {
-                                    $nombreCliente = $filas['cliente']; 
-                                ?>     
-                                <tr>              
-                                    <td><?php echo $idPedido;?></td>                        
-                                    <td><?php echo $nombreCliente;}?></td>
-                                    <td><?php echo $cabecera;?></td>
-                                    <td><?php echo $estadoPedido;?></td>
-                                    <td class="controles">
-                                        <button type="submit" class="far fa-eye boton-controles efecto-botones"></button>
                                         <a href="<?php echo SERVERURL;?>imprimir/<?php echo $vendedor;?>/pedido/<?php echo $idPedido;?>/">
                                             <button type="submit" class="fas fa-print boton-controles efecto-botones"></button>
                                         </a>
@@ -192,79 +276,11 @@
                                 </tr>
                                 <?php
                             }
-                            mysqli_close($conecta);  
+                            mysqli_close($conecta);
                         }
-                        elseif(!empty($estado1) && !empty($estado2))
-                        {
-                            $nombreCliente = '';
-                            $sql= "SELECT * FROM id_pedido WHERE estado != 'Cancelado'";
-                            $resultado2= mysqli_query($conecta, $sql);
-                            while($fila = mysqli_fetch_array($resultado2, MYSQLI_ASSOC))
-                            {
-                                $idPedido =  $fila['id'];
-                                $idClienteId_pedido = $fila['id_cliente'];
-                                $estadoPedido = $fila['estado'];
-                                $cabecera = $fila['cabecera'];
-                                                                                            
-                                $sql2= "SELECT * FROM clientes WHERE id = $idClienteId_pedido";
-                                $resultado3= mysqli_query($conecta, $sql2);
-                                while($filas= mysqli_fetch_array($resultado3, MYSQLI_ASSOC))
-                                {
-                                    $nombreCliente = $filas['cliente']; 
-                                ?>     
-                                <tr>              
-                                    <td><?php echo $idPedido;?></td>                        
-                                    <td><?php echo $nombreCliente;}?></td>
-                                    <td><?php echo $cabecera;?></td>
-                                    <td><?php echo $estadoPedido;?></td>
-                                    <td class="controles">
-                                        <button type="submit" class="far fa-eye boton-controles efecto-botones"></button>
-                                        <a href="<?php echo SERVERURL;?>imprimir/<?php echo $vendedor;?>/pedido/<?php echo $idPedido;?>/">
-                                            <button type="submit" class="fas fa-print boton-controles efecto-botones"></button>
-                                        </a>
-                                    </td>                
-                                </tr>
-                                <?php
-                            }
-                            mysqli_close($conecta);   
-                        }                                  
-                    }   
-                    else if($buscar != '') 
-                    {
-                        $nombreCliente = '';
-                        $sql = "SELECT * FROM id_pedido WHERE cabecera LIKE '%".$buscar."%' LIMIT 400";
-                        $resultado= mysqli_query($conecta, $sql);
-                        while($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
-                        {
-                            $idPedido =  $fila['id'];
-                            $idClienteId_pedido = $fila['id_cliente'];
-                            $estadoPedido = $fila['estado'];
-                            $cabecera = $fila['cabecera'];
-                                                                                            
-                            $sql2= "SELECT * FROM clientes WHERE id = $idClienteId_pedido";
-                            $resultado2= mysqli_query($conecta, $sql2);
-                            while($filas= mysqli_fetch_array($resultado2, MYSQLI_ASSOC))
-                            {
-                                $nombreCliente = $filas['cliente']; 
-                            ?>     
-                            <tr>              
-                                <td><?php echo $idPedido;?></td>                        
-                                <td><?php echo $nombreCliente;}?></td>
-                                <td><?php echo $cabecera;?></td>
-                                <td><?php echo $estadoPedido;?></td>
-                                <td class="controles">
-                                    <button type="submit" class="far fa-eye boton-controles efecto-botones"></button>
-                                    <a href="<?php echo SERVERURL;?>imprimir/<?php echo $vendedor;?>/pedido/<?php echo $idPedido;?>/">
-                                        <button type="submit" class="fas fa-print boton-controles efecto-botones"></button>
-                                    </a>
-                                </td>                
-                            </tr>
-                            <?php
-                        }
-                        mysqli_close($conecta);
-                    }
-                    ?>
-                </table>            
+                        ?>
+                    </table>     
+                </div>
             </div>
             <div class="botones">
                 <a href="<?php echo SERVERURL;?>menu/<?php echo $vendedor;?>">

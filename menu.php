@@ -31,6 +31,7 @@
             $idUsuario = $filas['id'];
         }
     }
+    mysqli_close($conexion); 
 ?>
 
 <!DOCTYPE html>
@@ -38,11 +39,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- LOGO -->
+    <link rel="icon" href="<?php echo SERVERURL;?>assets/img/logo.ico">
+
     <!-- FUENTES -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">
 
     <!-- CSS -->
     <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/menu.css">
+
+    <!-- ANIMACIONES -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css">
+
     <title>Menu</title>
 </head>
 <body>
@@ -61,34 +70,34 @@
         </div>            
         <selection class="botones">
             <form action="<?php echo SERVERURL;?>pedidos/<?php echo $vendedor;?>/crear/" method="POST">
-                <input class="efecto-botones" type="submit" value="Pedidos" <?php if($nivel != '4' && $nivel != '1'){?> 
+                <input class="efecto-botones animate__animated animate__fadeIn" type="submit" value="Pedidos" <?php if($nivel != '4' && $nivel != '1'){?> 
                                                                                     disabled
                                                                             <?php } ?>>   
             </form>
              
             <a href="<?php echo SERVERURL;?>gestionar-pedidos/<?php echo $vendedor;?>">
-                <input class="efecto-botones" type="button" value="Gestionar Pedidos" <?php if($nivel != '2' && $nivel != '1'){?> 
+                <input class="efecto-botones animate__animated animate__fadeIn animate__delay-1s boton2" type="button" value="Gestionar Pedidos" <?php if($nivel != '2' && $nivel != '1'){?> 
                                                                                         disabled
                                                                                       <?php } ?>>                
             </a>            
             <a href="<?php echo SERVERURL;?>preparar-pedidos/<?php echo $vendedor?>">
-                <input class="efecto-botones" type="button" value="Preparar Pedidos"  <?php if($nivel != '3' && $nivel != '1'){?> 
+                <input class="efecto-botones animate__animated animate__fadeIn animate__delay-1s boton3" type="button" value="Preparar Pedidos"  <?php if($nivel != '3' && $nivel != '1'){?> 
                                                                                         disabled
                                                                                       <?php } ?>>                
             </a>
             <a href="<?php echo SERVERURL;?>agregar-productos.php">
-                <input class="efecto-botones" type="button" value="Agregar Producto"  <?php if($nivel != '1'){?> 
+                <input class="efecto-botones animate__animated animate__fadeIn animate__delay-1s boton4" type="button" value="Agregar Producto"  <?php if($nivel != '1'){?> 
                                                                                         disabled
                                                                                       <?php } ?>>                
             </a>
 
             <a href="<?php echo SERVERURL;?>cliente.php">
-                <input class="efecto-botones" type="button" value="Clientes" <?php if($nivel != '1'){?> 
+                <input class="efecto-botones animate__animated animate__fadeIn animate__delay-1s boton5" type="button" value="Clientes" <?php if($nivel != '1'){?> 
                                                                                 disabled
                                                                              <?php } ?>>                
             </a>
             <a href="<?php echo SERVERURL;?>productos.php">
-                <input class="efecto-botones" type="button" value="Productos" <?php if($nivel != '1'){?> 
+                <input class="efecto-botones animate__animated animate__fadeIn animate__delay-1s boton6" type="button" value="Productos" <?php if($nivel != '1'){?> 
                                                                                 disabled
                                                                               <?php } ?>>                  
             </a>

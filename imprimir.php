@@ -52,7 +52,7 @@
                 $resultado1 = mysqli_query($conecta, $sql2);
                 while($filas = mysqli_fetch_array($resultado1, MYSQLI_ASSOC))
                 {
-                    $cliente = $filas['cliente'];
+                    $cliente = $filas['nombre'];
                 }
 
                 $pdf->Cell (25,6,'Pedido ID: '.$idPedido,1,1,'L',1); 
@@ -121,7 +121,7 @@
                 $resultado1 = mysqli_query($conecta, $sql2);
                 while($filas = mysqli_fetch_array($resultado1, MYSQLI_ASSOC))
                 {
-                    $cliente = $filas['cliente'];
+                    $cliente = $filas['nombre'];
                 }
 
                 $pdf->Cell (25,6,'Pedido ID: '.$idPedido,1,1,'L',1); 
@@ -193,7 +193,7 @@
                 $resultado1 = mysqli_query($conecta, $sql2);
                 while($filas = mysqli_fetch_array($resultado1, MYSQLI_ASSOC))
                 {
-                    $cliente = $filas['cliente'];
+                    $cliente = $filas['nombre'];
                 }
 
                 $pdf->Cell (25,6,'Pedido ID: '.$idPedido,1,1,'L',1); 
@@ -236,4 +236,5 @@
         }
     }
     $pdf->Output();
+    mysqli_close($conexion); 
 ?>

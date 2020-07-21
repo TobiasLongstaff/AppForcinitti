@@ -17,11 +17,16 @@
     $preparado = '';
     $id = '';
     $vendedor = '';
+    $tipo = '';
 
     if(isset($_GET['vendedor']))
     {
         $url=explode("/", $_GET['vendedor']);
         $vendedor = $url[0];
+        if(!empty($url[3]))
+        {
+            $tipo = 'gestionar/';
+        }
 
         if(!empty($url[2]))
         {
@@ -45,7 +50,7 @@
             }
         }
     }
-
+    mysqli_close($conexion); 
 ?>
 
 <!DOCTYPE html>
@@ -53,6 +58,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- LOGO -->
+    <link rel="icon" href="<?php echo SERVERURL;?>assets/img/logo.ico">
 
     <!-- FUENTES -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet"> 
@@ -63,6 +71,9 @@
     <!-- ICONOS -->
     <script src="https://kit.fontawesome.com/1b601aa92b.js" crossorigin="anonymous"></script>
 
+    <!-- ANIMACIONES -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css">
+   
     <title>Producto</title>
 </head>
 <body>
@@ -71,77 +82,80 @@
             <header class="titulo">
                 <h2>Productos</h2>
             </header>
-            <span>Productos</span>
-            <!--preparado y id update-->
-            <form method="POST" action="<?php echo SERVERURL;?>productos/<?php echo $vendedor;?>/<?php echo $preparado;?>/<?php echo $id;?>/">
-                <div class="productos">
+            
+            <form method="POST" action="<?php echo SERVERURL;?>productos/<?php echo $vendedor;?>/<?php echo $preparado;?>/<?php echo $id;?>/<?php echo $tipo;?>">
+                <span class="animate__animated animate__fadeIn">Productos</span>                
+                <div class="productos animate__animated animate__fadeIn">
                     <input class="text efecto" type="search" name="search" value="<?php echo $buscar;?>">
                     <button class="boton-buscar fas fa-search efecto-botones" type="submit"></button>                
                 </div>
-                <table>
-                    <tr>        
-                        <th>Código</th>
-                        <th>Descripcion</th>
-                        <th>Controles</th>
-                    </tr>
-                    <?php
-                        if($buscar == '')
-                        {
-                            $sql="SELECT * FROM productos";
-                            $resultado = mysqli_query($conecta, $sql);
-                            while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+                <div class="tabla-lista animate__animated animate__fadeIn animate__delay-1s animacion2">
+                    <table>
+                        <tr>        
+                            <th>Código</th>
+                            <th>Descripcion</th>
+                            <th>Controles</th>
+                        </tr>
+                        <?php
+                            if($buscar == '')
                             {
-                    ?>
-                                <tr>
-                                    <td> 
-                                        <?php echo $filas['codigo'];?> 
-                                    </td>
-                                    <td> 
-                                        <?php echo $filas['descripcion'];?> 
-                                    </td>
-                                    <td>
-                                        <!--id pedido y id update-->
-                                        <a href="<?php echo SERVERURL; echo $destino;?>/<?php echo $vendedor;?>/producto/<?php echo $filas['id'];?>/<?php echo $id;?>/"> 
-                                            <button class="fas fa-cart-plus boton-controles efecto-botones" type="button"></button>
-                                        </a>
-                                    </td>
-                                </tr>
-                    <?php
+                                $sql="SELECT * FROM productos";
+                                $resultado = mysqli_query($conecta, $sql);
+                                while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+                                {
+                        ?>
+                                    <tr>
+                                        <td> 
+                                            <?php echo $filas['codigo'];?> 
+                                        </td>
+                                        <td class="td-descripcion"> 
+                                            <?php echo $filas['descripcion'];?> 
+                                        </td>
+                                        <td>
+                                            <!--id pedido y id update-->
+                                            <a href="<?php echo SERVERURL; echo $destino;?>/<?php echo $vendedor;?>/producto/<?php echo $filas['id'];?>/<?php echo $id;?>/<?php echo $tipo;?>"> 
+                                                <button class="fas fa-cart-plus boton-controles efecto-botones" type="button"></button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                        <?php
+                                }
+                                mysqli_close($conecta);  
                             }
-                            mysqli_close($conecta);  
-                        }
-                        else
-                        {
-                            $query = "SELECT * FROM productos WHERE descripcion LIKE '%".$buscar."%' LIMIT 400";
-                            $resultado = mysqli_query($conecta, $query);
-                            while ($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+                            else
                             {
-                    ?>
-                                <tr>
-                                    <td> 
-                                        <?php echo $filas['codigo'];?> 
-                                    </td>
-                                    <td> 
-                                        <?php echo $filas['descripcion'];?> 
-                                    </td>
-                                    <td>
-                                        <!--id pedido y id update-->
-                                        <a href="<?php echo SERVERURL; echo $destino;?>/<?php echo $vendedor;?>/producto/<?php echo $filas['id'];?>/<?php echo $id;?>/"> 
-                                            <button class="fas fa-cart-plus boton-controles efecto-botones" type="button"></button>
-                                        </a>
-                                    </td>
-                                </tr>
-                    <?php
+                                $query = "SELECT * FROM productos WHERE descripcion LIKE '%".$buscar."%' LIMIT 400";
+                                $resultado = mysqli_query($conecta, $query);
+                                while ($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+                                {
+                        ?>
+                                    <tr>
+                                        <td> 
+                                            <?php echo $filas['codigo'];?> 
+                                        </td>
+                                        <td class="td-descripcion"> 
+                                            <?php echo $filas['descripcion'];?> 
+                                        </td>
+                                        <td>
+                                            <!--id pedido y id update-->
+                                            <a href="<?php echo SERVERURL; echo $destino;?>/<?php echo $vendedor;?>/producto/<?php echo $filas['id'];?>/<?php echo $id;?>/<?php echo $tipo;?>"> 
+                                                <button class="fas fa-cart-plus boton-controles efecto-botones" type="button"></button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                        <?php
+                                }
+                                mysqli_close($conecta);        
                             }
-                            mysqli_close($conecta);        
-                        }
-                    ?>
-                </table>
+                        ?>
+                    </table>                
+                </div>
+
                 <div class="botones">
-                    <input class="efecto-botones" type="submit" value="Agregar" disabled>
-                    <input class="efecto-botones" type="submit" value="Mas Info." disabled>
-                    <a href="<?php echo SERVERURL; echo $destino; ?>/<?php echo $vendedor;?>/">
-                        <input class="efecto-botones" type="button" value="Salir">                        
+                    <input class="efecto-botones animate__animated animate__fadeIn animate__delay-1s animacion3" type="submit" value="Agregar" disabled>
+                    <input class="efecto-botones animate__animated animate__fadeIn animate__delay-1s animacion4" type="submit" value="Mas Info." disabled>
+                    <a href="<?php echo SERVERURL; echo $destino; ?>/<?php echo $vendedor;?>/<?php echo $id?>/<?php echo $tipo;?>">
+                        <input class="efecto-botones animate__animated animate__fadeIn animate__delay-1s animacion5" type="button" value="Salir">                        
                     </a>
                 </div>
             </form>

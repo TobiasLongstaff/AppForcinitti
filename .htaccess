@@ -1,4 +1,10 @@
 
+# HTID:14073271: DO NOT REMOVE OR MODIFY THIS LINE AND THE LINES BELOW
+php_value display_errors 1
+
+php_flag output_buffering on
+# DO NOT REMOVE OR MODIFY THIS LINE AND THE LINES ABOVE HTID:14073271:
+
 Options +FollowSymLinks
 RewriteEngine On
 RewriteRule ^menu/([a-zA-Z0-9/]+)$ menu.php?vendedor=$1

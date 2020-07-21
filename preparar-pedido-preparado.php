@@ -28,4 +28,5 @@
             header("Location: menu/$vendedor");
         } 
     }
+    mysqli_close($conexion); 
 ?>

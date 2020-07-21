@@ -31,4 +31,5 @@
             header("Location: /AppForcinitti/menu/$vendedor");
         }          
     }
+    mysqli_close($conexion); 
 ?>

@@ -28,6 +28,7 @@
             $_SESSION['message'] = 'Los datos ingresados no coinciden';
         }
     }
+    mysqli_close($conexion); 
 ?>
 
 <!DOCTYPE html>
@@ -36,12 +37,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- LOGO -->
+    <link rel="icon" href="<?php echo SERVERURL;?>assets/img/logo.ico">
+
     <!--FUENTES-->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">
 
     <!-- CSS -->
     <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/login.css">
     <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/message.css">
+
+    <!-- ANIMACIONES -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css">
+
     <title>AppPrueba</title>
 </head>
 <body>
@@ -49,7 +57,7 @@
         <div class="login">
             <form action="index.php" method="POST" class="formulario">            
                 <header class="titulo">
-                    <h2>Registrarse</h2>        
+                    <h2 class="animate__animated animate__backInRight">Registrarse</h2>        
                 </header>
                 <div class="leable_usuario">
                     <span>Usuario</span>                
