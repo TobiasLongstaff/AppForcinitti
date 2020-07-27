@@ -111,12 +111,24 @@
     {
         if(!empty($id_producto))
         {
-            $sql = "UPDATE lista_preparar SET id_producto = '$id_producto', cantidad = '$cantidad', descuento = '$descuento', condicionIva = '$condicionIva', descripcion = '$nombre', precio = '$precio', medida = '$idmedida' WHERE id_producto = ''";
-            $resultado = mysqli_query($conexion,$sql);
-            if($resultado)
+            if($cantidad != '0')
             {
-                $_SESSION['message-correcto'] = 'Producto Agregardo';
+                $sql = "UPDATE lista_preparar SET id_producto = '$id_producto', cantidad = '$cantidad', descuento = '$descuento', condicionIva = '$condicionIva', descripcion = '$nombre', precio = '$precio', medida = '$idmedida' WHERE id_producto = ''";
+                $resultado = mysqli_query($conexion,$sql);
+                if($resultado)
+                {
+                    $_SESSION['message-correcto'] = 'Producto Agregardo';
+                }
+                else
+                {
+                    $_SESSION['message-error'] = 'Error al agregar el producto';
+                }
             }
+            else
+            {
+                $_SESSION['message-error'] = 'La cantidad no puede ser cero';
+            }
+
         }
         else
         {
@@ -181,7 +193,19 @@
                         <span class="leable-iva">IVA</span>                
                     </div>
                     <div class="contenedor-textbox animate__animated animate__fadeIn animate__delay-1s animacion2">
-                        <input class="textbox-cantidad efecto" type="text" name="cantidad" required="" pattern="[1-9]+" value="<?php echo $cantidad;?>">
+                        <input class="textbox-cantidad efecto" type="text" name="cantidad" required="" <?php if($medida == 'un')
+                                                                                                            {
+                                                                                                        ?>
+                                                                                                                pattern="[0-9]+"
+                                                                                                        <?php  
+                                                                                                            }
+                                                                                                            elseif($medida == 'kg')
+                                                                                                            {
+                                                                                                        ?>
+                                                                                                                pattern="[0-9]+(\.[0-9][0-9]?)?"
+                                                                                                        <?php      
+                                                                                                            }
+                                                                                                        ?> value="<?php echo $cantidad;?>">
                         <input class="textbox-iva efecto" type="text" name="cantidad" value="<?php echo $medida;?>"disabled>
                         <input class="textbox-precio efecto" type="text" name="precio" required="" pattern="[0-9]+.[0-9]+" value="<?php echo $precio;?>">
                         <input class="textbox-descuento efecto" type="text" name="descuento">
@@ -208,11 +232,11 @@
                 <?php session_unset(); } ?>
                 <!-- BOTONES -->
                 <div class="botones-actualizar">
-                    <form class="boton boton-agregar" action="<?php echo SERVERURL;?>agregar-producto-preparado/<?php echo $vendedor;?>" method="POST">
+                    <form class="boton" action="<?php echo SERVERURL;?>agregar-producto-preparado/<?php echo $vendedor;?>" method="POST">
                         <input class="efecto-botones animate__animated animate__fadeIn animate__delay-1s animacion4" name="agregar-producto" type="submit" value="Agregar">                   
                     </form>
                     <form class="boton-2" action="<?php echo SERVERURL;?>eliminar-producto-lista-preparado.php?vendedor=<?php echo $vendedor;?>&id=<?php echo $idPedido;?>&gestionar=<?php echo $tipo;?>" method="POST">
-                        <input class="efecto-botones animate__animated animate__fadeIn animate__delay-1s animacion5" type="submit" name="boton-volver" value="Volver">
+                        <button class="efecto-botones animate__animated animate__fadeIn animate__delay-1s animacion5" type="submit" name="boton-volver">Volver</button>
                     </form>
                 </div>
             </form>

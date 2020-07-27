@@ -19,6 +19,8 @@
     $tipo = '';
     $ruta = '';
     $titulo = '';
+    $id_producto = '';
+    $estado = '';
 
     if(isset($_GET['vendedor']))
     {
@@ -40,12 +42,19 @@
         }
     }
 
-    $sql="SELECT * FROM clientes WHERE $idPedido";
+    $sql="SELECT * FROM id_pedido WHERE id = '$idPedido'";
     $resultado = mysqli_query($conecta, $sql);
     while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
-    {        
-        $cliente = $filas['nombre'];
-    }
+    {
+        $id_cliente = $filas['id_cliente'];
+
+        $sql="SELECT * FROM clientes WHERE id = '$id_cliente'";
+        $resultado = mysqli_query($conecta, $sql);
+        while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+        {        
+            $cliente = $filas['nombre'];
+        }
+    }  
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -100,7 +109,10 @@
                 <table>
                     <tr>
                         <th>Cantidad</th>
-                        <th>Descripcion</th>
+                        <th>Descripcion</th>                        
+                        <th>Dto.</th>
+                        <th>Precio</th>
+                        <th>Precio x kg o un</th>
                         <th>Controles</th>
                     </tr>
                     <tr>
@@ -110,8 +122,36 @@
                         while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
                         {
                             $id = $filas['id'];
+                            $id_producto = $filas['id_producto'];
                             $cantidadListaPreparar = $filas['cantidad'];
-                            $descripcionListaPreparar = $filas['descripcion'];
+                            $descripcionListaPreparar = $filas['descripcion'];                            
+                            $descuento = $filas['descuento'];
+                            $precio = $filas['precio'];
+
+                            $sql2="SELECT * FROM productos WHERE id = '$id_producto'";
+                            $resultado2 = mysqli_query($conecta, $sql2);
+                            while($fila = mysqli_fetch_array($resultado2, MYSQLI_ASSOC))
+                            {
+                                $precio_productos = $fila['preciominorista']; 
+                            }
+
+                            $sql3="SELECT * FROM lista WHERE id_pedido = '$idPedido'";
+                            $resultado3 = mysqli_query($conecta, $sql3);
+                            while($fila = mysqli_fetch_array($resultado3, MYSQLI_ASSOC))
+                            {
+                                $descripcion_producto = $fila['descripcion'];
+                                $cantidad_producto = $fila['cantidad'];
+                            }
+                        
+                            $id_medida = $filas['medida'];
+                            if($id_medida == '3' or $id_medida == '0')
+                            {
+                                $medida = 'un';
+                            }
+                            else
+                            {
+                                $medida = 'kg';
+                            }
 
                             $sql2= "SELECT SUM((precio * cantidad) - descuento) AS total FROM lista_preparar WHERE id_pedido = $idPedido";
                             $resultado2= mysqli_query($conecta, $sql2);
@@ -122,9 +162,40 @@
             
                             $sql3 = "UPDATE id_pedido SET total = '$total' WHERE id = '$idPedido'";
                             $resultado3 = mysqli_query($conexion,$sql3);
-                        ?>
-                            <td><?php echo $cantidadListaPreparar?></td>
-                            <td><?php echo $descripcionListaPreparar?></td>
+
+                            if($descripcionListaPreparar != $descripcion_producto)
+                            {
+                                $td_descripcion = 'td-incorrecto';
+                            }
+                            else
+                            {
+                                $td_descripcion = 'td-correcto';
+                            }
+
+                            if($cantidadListaPreparar != $cantidad_producto)
+                            {
+                                $td_cantidad = 'td-incorrecto';
+                            }
+                            else
+                            {
+                                $td_cantidad = 'td-correcto';
+                            }
+
+                            if($precio != $precio_productos)
+                            {
+                                $td_precio = 'td-incorrecto';
+                            }    
+                            else
+                            {
+                                $td_precio = 'td-correcto';
+                            }
+                            ?>
+
+                            <td class="<?php echo $td_cantidad;?>"><?php echo $cantidadListaPreparar?></td>
+                            <td class="<?php echo $td_descripcion;?>"><?php echo $descripcionListaPreparar?></td>                            
+                            <td><?php echo $descuento?></td>
+                            <td class="<?php echo $td_precio;?>"><?php echo $precio;?></td>
+                            <td><?php echo $medida?></td>
                             <td class="controles">
                                 <a href="<?php echo SERVERURL;?>actualizar-pedido-preparado/<?php echo $vendedor;?>/<?php echo $id;?>/<?php echo $tipo;?>">
                                     <button type="submit" class="fas fa-edit boton-controles efecto-botones"></button>
@@ -138,19 +209,20 @@
                         }
                         mysqli_close($conexion); 
                     ?>   
-                </table>            
+                </table>
             </div>
-
+            <?php if($tipo != '')
+            {
+                $estado = 'Facturado';
+            }
+            else
+            {
+                $estado = 'Preparado';       
+            }
+            ?>
             <div class="botones ">
-                <a class="form-botones btn-finalizar" href="<?php echo SERVERURL;?>preparar-pedido-preparado.php?id_update=<?php echo $idPedido;?>&vendedor=<?php echo $vendedor;?>">
-                    <input class="efecto-botones animate__animated animate__fadeIn animate__delay-1s animacion4" type="submit" value="Preparado" 
-                    <?php if($tipo != '')
-                    {
-                    ?>
-                        disabled
-                    <?php
-                    }
-                    ?>>   
+                <a class="form-botones btn-finalizar" href="<?php echo SERVERURL;?>preparar-pedido-preparado.php?id_update=<?php echo $idPedido;?>&vendedor=<?php echo $vendedor;?>&tipo=<?php echo $estado;?>">
+                    <input class="efecto-botones animate__animated animate__fadeIn animate__delay-1s animacion4" type="submit" value="<?php echo $estado;?>">
                 </a>
                 <a href="<?php echo SERVERURL;?>agregar-producto-preparado/<?php echo $vendedor;?>/agregar/<?php echo $idPedido;?>/<?php echo $tipo;?>">
                     <input class="efecto-botones animate__animated animate__fadeIn animate__delay-1s animacion5" type="submit" value="Agregar">                

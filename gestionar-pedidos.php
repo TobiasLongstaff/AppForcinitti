@@ -111,7 +111,10 @@
                         <tr>
                             <th>ID</th>
                             <th>Cliente</th>
-                            <th>Cabecera</th>                   
+                            <th>Cabecera</th> 
+                            <th>Fecha Del Pedido</th>    
+                            <th>Entrega</th>
+                            <th>Fecha de Entrega</th>              
                             <th>Estado</th>
                             <th>Controles</th>
                         </tr>
@@ -142,7 +145,10 @@
                                     $idClienteId_pedido = $fila['id_cliente'];
                                     $estadoPedido = $fila['estado'];
                                     $cabecera = $fila['cabecera'];
-                                                                                                
+                                    $fecha_del_pedido = $fila['fecha_del_pedido'];
+                                    $entrega = $fila['entrega'];
+                                    $fecha_entrega = $fila['fecha_entrega'];
+
                                     $sql2= "SELECT * FROM clientes WHERE id = $idClienteId_pedido";
                                     $resultado2= mysqli_query($conecta, $sql2);
                                     while($filas= mysqli_fetch_array($resultado2, MYSQLI_ASSOC))
@@ -153,6 +159,9 @@
                                         <td><?php echo $idPedido;?></td>                        
                                         <td><?php echo $nombreCliente;}?></td>
                                         <td><?php echo $cabecera;?></td>
+                                        <td><?php echo $fecha_del_pedido;?></td>
+                                        <td><?php echo $entrega;?></td>
+                                        <td><?php echo $fecha_entrega;?></td>
                                         <td><?php echo $estadoPedido;?></td>
                                         <td class="controles">
                                             <a href="<?php echo SERVERURL;?>preparar-pedidos-panel/<?php echo $vendedor;?>/<?php echo $idPedido;?>/gestionar/">
@@ -180,6 +189,9 @@
                                     $idClienteId_pedido = $fila['id_cliente'];
                                     $estadoPedido = $fila['estado'];
                                     $cabecera = $fila['cabecera'];
+                                    $fecha_del_pedido = $fila['fecha_del_pedido'];
+                                    $entrega = $fila['entrega'];
+                                    $fecha_entrega = $fila['fecha_entrega'];
                                                                                                 
                                     $sql2= "SELECT * FROM clientes WHERE id = $idClienteId_pedido";
                                     $resultado2= mysqli_query($conecta, $sql2);
@@ -191,6 +203,9 @@
                                         <td><?php echo $idPedido;?></td>                        
                                         <td><?php echo $nombreCliente;}?></td>
                                         <td><?php echo $cabecera;?></td>
+                                        <td><?php echo $fecha_del_pedido;?></td>
+                                        <td><?php echo $entrega;?></td>
+                                        <td><?php echo $fecha_entrega;?></td>
                                         <td><?php echo $estadoPedido;?></td>
                                         <td class="controles">
                                             <a href="<?php echo SERVERURL;?>preparar-pedidos-panel/<?php echo $vendedor;?>/<?php echo $idPedido;?>/gestionar/">
@@ -216,6 +231,9 @@
                                     $idClienteId_pedido = $fila['id_cliente'];
                                     $estadoPedido = $fila['estado'];
                                     $cabecera = $fila['cabecera'];
+                                    $fecha_del_pedido = $fila['fecha_del_pedido'];
+                                    $entrega = $fila['entrega'];
+                                    $fecha_entrega = $fila['fecha_entrega'];
                                                                                                 
                                     $sql2= "SELECT * FROM clientes WHERE id = $idClienteId_pedido";
                                     $resultado3= mysqli_query($conecta, $sql2);
@@ -227,6 +245,9 @@
                                         <td><?php echo $idPedido;?></td>                        
                                         <td><?php echo $nombreCliente;}?></td>
                                         <td><?php echo $cabecera;?></td>
+                                        <td><?php echo $fecha_del_pedido;?></td>
+                                        <td><?php echo $entrega;?></td>
+                                        <td><?php echo $fecha_entrega;?></td>
                                         <td><?php echo $estadoPedido;?></td>
                                         <td class="controles">
                                             <a href="<?php echo SERVERURL;?>preparar-pedidos-panel/<?php echo $vendedor;?>/<?php echo $idPedido;?>/gestionar/">
@@ -245,36 +266,44 @@
                         else if($buscar != '') 
                         {
                             $nombreCliente = '';
-                            $sql = "SELECT * FROM id_pedido WHERE cabecera LIKE '%".$buscar."%' LIMIT 400";
+                            $sql = "SELECT * FROM clientes WHERE nombre LIKE '%".$buscar."%' LIMIT 400";
                             $resultado= mysqli_query($conecta, $sql);
                             while($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
                             {
-                                $idPedido =  $fila['id'];
-                                $idClienteId_pedido = $fila['id_cliente'];
-                                $estadoPedido = $fila['estado'];
-                                $cabecera = $fila['cabecera'];
-                                                                                                
-                                $sql2= "SELECT * FROM clientes WHERE id = $idClienteId_pedido";
-                                $resultado2= mysqli_query($conecta, $sql2);
-                                while($filas= mysqli_fetch_array($resultado2, MYSQLI_ASSOC))
+                                $id_cliente = $fila['id'];
+                                $cliente = $fila['nombre'];                            
+                                
+                                $sql = "SELECT * FROM id_pedido WHERE id_cliente = $id_cliente AND estado != 'Cancelado'";
+                                $resultado= mysqli_query($conecta, $sql);
+                                while($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
                                 {
-                                    $nombreCliente = $filas['cliente']; 
-                                ?>     
-                                <tr>              
-                                    <td><?php echo $idPedido;?></td>                        
-                                    <td><?php echo $nombreCliente;}?></td>
-                                    <td><?php echo $cabecera;?></td>
-                                    <td><?php echo $estadoPedido;?></td>
-                                    <td class="controles">
-                                        <a href="<?php echo SERVERURL;?>preparar-pedidos-panel/<?php echo $vendedor;?><?php echo $idPedido;?>/gestionar/">
-                                            <button type="submit" class="far fa-eye boton-controles efecto-botones"></button>
-                                        </a>
-                                        <a href="<?php echo SERVERURL;?>imprimir/<?php echo $vendedor;?>/pedido/<?php echo $idPedido;?>/">
-                                            <button type="submit" class="fas fa-print boton-controles efecto-botones"></button>
-                                        </a>
-                                    </td>                
-                                </tr>
-                                <?php
+                                    $idPedido =  $fila['id'];
+                                    $idClienteId_pedido = $fila['id_cliente'];
+                                    $estadoPedido = $fila['estado'];
+                                    $cabecera = $fila['cabecera'];
+                                    $fecha_del_pedido = $fila['fecha_del_pedido'];
+                                    $entrega = $fila['entrega'];
+                                    $fecha_entrega = $fila['fecha_entrega'];
+                                                                                                
+                                    ?>     
+                                    <tr>              
+                                        <td><?php echo $idPedido;?></td>                        
+                                        <td><?php echo $cliente;}?></td>
+                                        <td><?php echo $cabecera;?></td>
+                                        <td><?php echo $fecha_del_pedido;?></td>
+                                        <td><?php echo $entrega;?></td>
+                                        <td><?php echo $fecha_entrega;?></td>
+                                        <td><?php echo $estadoPedido;?></td>
+                                        <td class="controles">
+                                            <a href="<?php echo SERVERURL;?>preparar-pedidos-panel/<?php echo $vendedor;?><?php echo $idPedido;?>/gestionar/">
+                                                <button type="submit" class="far fa-eye boton-controles efecto-botones"></button>
+                                            </a>
+                                            <a href="<?php echo SERVERURL;?>imprimir/<?php echo $vendedor;?>/pedido/<?php echo $idPedido;?>/">
+                                                <button type="submit" class="fas fa-print boton-controles efecto-botones"></button>
+                                            </a>
+                                        </td>                
+                                    </tr>
+                                    <?php
                             }
                             mysqli_close($conecta);
                         }

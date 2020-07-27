@@ -23,6 +23,9 @@
 
     if(isset($_GET['vendedor']))
     {
+        // $url=explode("/", $_GET['vendedor']);
+        // $vendedor = $url[0];
+
         $vendedor = $_GET['vendedor'];
 
         $sql="SELECT * FROM id_pedido WHERE vendedor = '$vendedor'";
@@ -38,33 +41,6 @@
         $buscar = $_POST["search"];  
     }
 
-    if(isset($_POST['id_cliente']))
-    {        
-        $id_cliente = $_POST['id_cliente'];    
-        $domicilio = $_POST['domicilio'];
-        $sql = "UPDATE id_pedido SET id_cliente = '$id_cliente', entrega = '$domicilio' WHERE id = '$id_pedido'";
-        $resultado = mysqli_query($conexion,$sql);
-        if(!$resultado)
-        {
-            $verificacion_cliente = '0';
-        }
-        else
-        {
-            $verificacion_cliente = '1';
-        }          
-    }
-
-    //AGREGAR DATOS
-
-    if(isset($_POST['boton-agregar']))
-    {
-        $boton_agregar_cliente = $_POST['boton-agregar'];        
-    }
-
-    if($boton_agregar_cliente)
-    {
-        $_SESSION['message-correcto'] = 'Se añadio el cliente al pedido';
-    }
     mysqli_close($conexion); 
 ?>
 
@@ -130,13 +106,9 @@
                                         <?php echo $cliente?> 
                                     </td>
                                     <td>
-                                        <form method="POST" action="<?php echo SERVERURL;?>clientes/<?php echo $vendedor;?>">
-                                            <div class="ocultar">
-                                                <input type="text" name="id_cliente" value="<?php echo $id_cliente;?>">    
-                                                <input type="text" name="domicilio" value="<?php echo $domicilio;?>">                                     
-                                            </div>
-                                            <input class="boton-controles efecto-botones" type="submit" name="boton-agregar" value="Agregar">          
-                                        </form>
+                                        <a href="<?php echo SERVERURL;?>agregar-cliente.php?vendedor=<?php echo $vendedor;?>&id=<?php echo $id_pedido;?>&id_cliente=<?php echo $id_cliente;?>">
+                                            <button class="boton-controles efecto-botones fas fa-user-plus" type="submit" name="boton-agregar" value="Agregar"></button>
+                                        </a> 
                                     </td>
                                 </tr>
                     <?php
@@ -161,13 +133,9 @@
                                         <?php echo $cliente;?> 
                                     </td>
                                     <td>
-                                        <form method="POST" action="<?php echo SERVERURL;?>clientes/<?php echo $vendedor;?>">
-                                            <div class="ocultar">
-                                                <input type="text" name="id_cliente" value="<?php echo $id_cliente;?>">  
-                                                <input type="text" name="domicilio" value="<?php echo $domicilio;?>">                                     
-                                            </div>
-                                            <input class="boton-controles efecto-botones" type="submit" name="boton-agregar" value="Agregar">          
-                                        </form>
+                                        <a href="<?php echo SERVERURL;?>agregar-cliente.php?vendedor=<?php echo $vendedor;?>&id=<?php echo $id_pedido;?>&id_cliente=<?php echo $id_cliente;?>">                                            
+                                            <button class="fas fa-user-plus boton-controles efecto-botones" type="submit" name="boton-agregar" value="Agregar"></button>
+                                        </a>
                                     </td>
                                 </tr>
                         <?php

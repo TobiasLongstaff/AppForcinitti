@@ -74,17 +74,16 @@
                                                                                     disabled
                                                                             <?php } ?>>   
             </form>
-             
-            <a href="<?php echo SERVERURL;?>gestionar-pedidos/<?php echo $vendedor;?>">
-                <input class="efecto-botones animate__animated animate__fadeIn animate__delay-1s boton2" type="button" value="Gestionar Pedidos" <?php if($nivel != '2' && $nivel != '1'){?> 
+            <a href="<?php echo SERVERURL;?>preparar-pedidos/<?php echo $vendedor?>">
+                <input class="efecto-botones animate__animated animate__fadeIn animate__delay-1s boton2" type="button" value="Preparar Pedidos"  <?php if($nivel != '3' && $nivel != '1'){?> 
                                                                                         disabled
                                                                                       <?php } ?>>                
             </a>            
-            <a href="<?php echo SERVERURL;?>preparar-pedidos/<?php echo $vendedor?>">
-                <input class="efecto-botones animate__animated animate__fadeIn animate__delay-1s boton3" type="button" value="Preparar Pedidos"  <?php if($nivel != '3' && $nivel != '1'){?> 
+            <a href="<?php echo SERVERURL;?>gestionar-pedidos/<?php echo $vendedor;?>">
+                <input class="efecto-botones animate__animated animate__fadeIn animate__delay-1s boton3" type="button" value="Gestionar Pedidos" <?php if($nivel != '2' && $nivel != '1'){?> 
                                                                                         disabled
                                                                                       <?php } ?>>                
-            </a>
+            </a>  
             <a href="<?php echo SERVERURL;?>agregar-productos.php">
                 <input class="efecto-botones animate__animated animate__fadeIn animate__delay-1s boton4" type="button" value="Agregar Producto"  <?php if($nivel != '1'){?> 
                                                                                         disabled

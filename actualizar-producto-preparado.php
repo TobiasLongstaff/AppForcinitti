@@ -150,8 +150,23 @@
     {
         if(!empty($nombre))
         {
-            $sql = "UPDATE lista_preparar SET id_producto = '$id_producto', cantidad = '$cantidad', descuento = '$descuento', condicionIva = '$condicionIva', descripcion = '$nombre', precio = '$precio', medida = '$idmedida' WHERE id = '$idActualizar'";
-            $resultado = mysqli_query($conexion,$sql);            
+            if($cantidad != '0')
+            {
+                $sql = "UPDATE lista_preparar SET id_producto = '$id_producto', cantidad = '$cantidad', descuento = '$descuento', condicionIva = '$condicionIva', descripcion = '$nombre', precio = '$precio', medida = '$idmedida' WHERE id = '$idActualizar'";
+                $resultado = mysqli_query($conexion,$sql);  
+                if(!$resultado)
+                {
+                    $_SESSION['message-error'] = 'Error al editar'; 
+                }
+                else
+                {
+                    $_SESSION['message-correcto'] = 'El producto de edito correctamente';
+                }
+            }
+            else
+            {
+                $_SESSION['message-error'] = 'La cantidad no puede ser cero'; 
+            }
         }
         else
         {
@@ -210,7 +225,19 @@
                         <span class="leable-iva">IVA</span>                
                     </div>
                     <div class="contenedor-textbox animate__animated animate__fadeIn animate__delay-1s animacion2">
-                        <input class="textbox-cantidad efecto" type="text" name="cantidad" required="" pattern="[1-9]+" value="<?php echo $cantidad;?>">
+                        <input class="textbox-cantidad efecto" type="text" name="cantidad" required="" <?php if($medida == 'un')
+                                                                                                            {
+                                                                                                        ?>
+                                                                                                                pattern="[0-9]+"
+                                                                                                        <?php  
+                                                                                                            }
+                                                                                                            elseif($medida == 'kg')
+                                                                                                            {
+                                                                                                        ?>
+                                                                                                                pattern="[0-9]+(\.[0-9][0-9]?)?"
+                                                                                                        <?php      
+                                                                                                            }
+                                                                                                        ?> value="<?php echo $cantidad;?>">
                         <input class="textbox-iva efecto" type="text" name="cantidad" value="<?php echo $medida;?>"disabled>
                         <input class="textbox-precio efecto" type="text" name="precio" required="" pattern="[0-9]+.[0-9]+" value="<?php echo $precio;?>">
                         <input class="textbox-descuento efecto" type="text" name="descuento" value="<?php echo $descuento; ?>">

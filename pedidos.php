@@ -29,6 +29,7 @@
     $cabecera = '';
     $vendedor = '';
     $idmedida = '';
+    $cliente = '';
     //EXTRAER DATOS
     
 
@@ -79,6 +80,18 @@
             $fechaEntrega = $filas['fecha_entrega'];
             $id_cliente = $filas['id_cliente'];
             $cabecera = $filas['cabecera'];
+
+        }
+            
+        if(!empty($id_cliente))
+        {
+            $sql="SELECT * FROM clientes WHERE id = '$id_cliente'";
+            $resultado = mysqli_query($conecta, $sql);
+            while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+            {
+                $cliente = $filas['nombre'];
+                $domicilio = $filas['direccion'];
+            }
         }
     }
 
@@ -120,22 +133,29 @@
     {
         if(!empty($id_producto))
         {
-            $sql = "INSERT INTO lista (id_producto, id_pedido, cantidad, descuento, condicionIva, descripcion, precio, medida) VALUES ('$id_producto', '$id_pedido', '$cantidad', '$descuento', '$condicionIva', '$nombre', '$precio', '$idmedida')";
-            $resultado = mysqli_query($conexion,$sql);
-
-            $sql2 = "INSERT INTO lista_preparar (id_producto, id_pedido, cantidad, descuento, condicionIva, descripcion, precio, medida) VALUES ('$id_producto', '$id_pedido', '$cantidad', '$descuento', '$condicionIva', '$nombre', '$precio', '$idmedida')";
-            $resultado2 = mysqli_query($conexion,$sql2);
-    
-            $sql3 = "UPDATE id_pedido SET entrega = '$domicilio', id_cliente = '$id_cliente', fecha_entrega = '$fechaEntrega' WHERE id = '$id_pedido'";
-            $resultado3 = mysqli_query($conexion,$sql3);
-            if(!$resultado && !$resultado3)
+            if($cantidad != '0')
             {
-                $_SESSION['message-error'] = 'No se a podido guardar el producto';
+                $sql = "INSERT INTO lista (id_producto, id_pedido, cantidad, descuento, condicionIva, descripcion, precio, medida) VALUES ('$id_producto', '$id_pedido', '$cantidad', '$descuento', '$condicionIva', '$nombre', '$precio', '$idmedida')";
+                $resultado = mysqli_query($conexion,$sql);
+
+                $sql2 = "INSERT INTO lista_preparar (id_producto, id_pedido, cantidad, descuento, condicionIva, descripcion, precio, medida) VALUES ('$id_producto', '$id_pedido', '$cantidad', '$descuento', '$condicionIva', '$nombre', '$precio', '$idmedida')";
+                $resultado2 = mysqli_query($conexion,$sql2);
+        
+                $sql3 = "UPDATE id_pedido SET entrega = '$domicilio', id_cliente = '$id_cliente', fecha_entrega = '$fechaEntrega' WHERE id = '$id_pedido'";
+                $resultado3 = mysqli_query($conexion,$sql3);
+                if(!$resultado && !$resultado3)
+                {
+                    $_SESSION['message-error'] = 'No se a podido guardar el producto';
+                }
+                else
+                {
+                    $_SESSION['message-correcto'] = 'Producto Guardado';
+                }                 
             }
             else
             {
-                $_SESSION['message-correcto'] = 'Producto Guardado';
-            } 
+                $_SESSION['message-error'] = 'La cantidad no puede ser cero';
+            }
         }          
         else
         {
@@ -173,17 +193,22 @@
             <header class="titulo">
                 <h2>Pedidos</h2>
             </header>
+            <span class="span-cliente">Cliente: <?php echo $cliente; ?></span>
             <a class="boton clientes" href="<?php echo SERVERURL;?>clientes/<?php echo $vendedor;?>">
                 <input class="efecto-botones" type="button" value="Clientes">
             </a>
             <!-- CABECERA -->
-            <form class="cabecera" method="POST" action="<?php echo SERVERURL;?>pedidos/<?php echo $vendedor;?>/">
-                <div class="label-productos">
-                    <span>Nombre de cabecera</span>                
-                </div>
-                <input class="textbox-cabecera efecto" type="search" name="cabecera" required="" value="<?php echo $cabecera;?>">
-                <button type="submit" class="fas fa-user-plus boton efecto-botones"></button>             
-            </form>
+                <form class="cabecera" method="POST" action="<?php echo SERVERURL;?>pedidos/<?php echo $vendedor;?>/">
+                <?php if($cliente == 'consumidor final')
+                { ?>    
+                    <div class="label-productos">
+                        <span>Observacion</span>                
+                    </div>
+                    <input class="textbox-cabecera efecto" type="search" name="cabecera" required="" value="<?php echo $cabecera;?>">
+                    <button type="submit" class="fas fa-user-plus boton efecto-botones"></button>   
+                <?php } ?>           
+                </form>            
+
             <!-- PRODUCTOS -->
             <form class="productos" method="POST" action="<?php echo SERVERURL;?>productos/<?php echo $vendedor;?>/">
                 <div class="label-productos">
@@ -203,7 +228,19 @@
                         <span class="leable-iva">IVA</span>                
                     </div>
                     <div class="contenedor-textbox">
-                        <input class="textbox-cantidad efecto" type="text" name="cantidad" required="" pattern="[1-9]+" value="<?php echo $cantidad;?>">
+                        <input class="textbox-cantidad efecto" type="text" name="cantidad" required="" <?php if($medida == 'un')
+                                                                                                            {
+                                                                                                        ?>
+                                                                                                                pattern="[0-9]+"
+                                                                                                        <?php  
+                                                                                                            }
+                                                                                                            elseif($medida == 'kg')
+                                                                                                            {
+                                                                                                        ?>
+                                                                                                                pattern="[0-9]+(\.[0-9][0-9]?)?"
+                                                                                                        <?php      
+                                                                                                            }
+                                                                                                        ?> value="<?php echo $cantidad;?>">
                         <input class="textbox-iva efecto" type="text" name="cantidad" value="<?php echo $medida;?>"disabled>
                         <input class="textbox-precio efecto" type="text" name="precio" required="" pattern="[0-9]+.[0-9]+" value="<?php echo $precio;?>">
                         <input class="textbox-descuento efecto" type="text" name="descuento">
@@ -241,7 +278,7 @@
                 <?php session_unset(); } ?>
                 <!-- BOTONES -->
                 <div class="botones">
-                    <form class="boton boton-agregar" action="<?php echo SERVERURL;?>pedidos/<?php echo $vendedor;?>/" method="POST">
+                    <form class="boton" action="<?php echo SERVERURL;?>pedidos/<?php echo $vendedor;?>/" method="POST">
                         <input class="efecto-botones" name="agregar-producto" type="submit" value="Agregar">                    
                     </form>
                     <a class="boton-2" href="<?php echo SERVERURL;?>lista/<?php echo $vendedor;?>/">

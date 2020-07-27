@@ -109,7 +109,7 @@
                         if($buscar == '')
                         {
                             $nombreCliente = '';
-                            $sql= "SELECT * FROM id_pedido WHERE estado = 'Listo'";
+                            $sql= "SELECT * FROM id_pedido WHERE estado = 'Listo' OR estado = 'Listo-fac'";
                             $resultado= mysqli_query($conecta, $sql);
                             while($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
                             {
@@ -146,30 +146,32 @@
                         elseif( $buscar != '')
                         {
                             $nombreCliente = '';
-                            $sql = "SELECT * FROM id_pedido WHERE cabecera LIKE '%".$buscar."%' LIMIT 400";
+
+                            $sql = "SELECT * FROM clientes WHERE nombre LIKE '%".$buscar."%' LIMIT 400";
                             $resultado= mysqli_query($conecta, $sql);
                             while($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
                             {
-                                $idPedido =  $fila['id'];
-                                $estadoPedido = $fila['estado'];
-                                $idClienteId_pedido = $fila['id_cliente'];
-                                $fechaDeEntrega = $fila['fecha_entrega'];
-                                $direccion = $fila['entrega'];
-                                $cabecera = $fila['cabecera'];
-                                                        
-                                $sql2= "SELECT * FROM clientes WHERE id = $idClienteId_pedido";
-                                $resultado2= mysqli_query($conecta, $sql2);
-                                while($filas= mysqli_fetch_array($resultado2, MYSQLI_ASSOC))
+                                $id_cliente = $fila['id'];
+                                $cliente = $fila['nombre'];       
+
+                                $sql = "SELECT * FROM id_pedido WHERE id_cliente = $id_cliente AND estado != 'Cancelado'";
+                                $resultado= mysqli_query($conecta, $sql);
+                                while($fila = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
                                 {
-                                    $nombreCliente = $filas['cliente']; 
+                                    $idPedido =  $fila['id'];
+                                    $estadoPedido = $fila['estado'];
+                                    $idClienteId_pedido = $fila['id_cliente'];
+                                    $fechaDeEntrega = $fila['fecha_entrega'];
+                                    $direccion = $fila['entrega'];
+                                    $cabecera = $fila['cabecera'];
 
                                     if($estadoPedido == 'Listo')
                                     {
                                         $idPedido =  $fila['id'];         
-                    ?>     
-                    <tr>              
+                        ?>     
+                        <tr>              
                                         <td><?php echo $idPedido;?></td>                        
-                                        <td><?php echo $nombreCliente;?></td>
+                                        <td><?php echo $cliente;?></td>
                                         <td><?php echo $cabecera;?></td>
                                         <td><?php echo $estadoPedido;?></td>
                                         <td><?php echo $fechaDeEntrega;?></td>
@@ -179,11 +181,11 @@
                                                 <button type="button" class="fas fa-edit boton-controles efecto-botones"></button>
                                             </a>  
                                         </td>                
-                    </tr>                                    
-                    <?php
-                                    }                                
-                                }  
-                            } 
+                        </tr>                                    
+                        <?php                                   
+                                    }  
+                                } 
+                            }
                             mysqli_close($conecta);  
                         }
                         else
