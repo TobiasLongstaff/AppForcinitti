@@ -132,7 +132,10 @@
     if($boton_agregar)
     {
         if(!empty($id_producto))
-        {
+        {                
+            $sql3 = "UPDATE id_pedido SET entrega = '$domicilio', id_cliente = '$id_cliente', fecha_entrega = '$fechaEntrega' WHERE id = '$id_pedido'";
+            $resultado3 = mysqli_query($conexion,$sql3);
+
             if($cantidad != '0')
             {
                 $sql = "INSERT INTO lista (id_producto, id_pedido, cantidad, descuento, condicionIva, descripcion, precio, medida) VALUES ('$id_producto', '$id_pedido', '$cantidad', '$descuento', '$condicionIva', '$nombre', '$precio', '$idmedida')";
@@ -141,9 +144,7 @@
                 $sql2 = "INSERT INTO lista_preparar (id_producto, id_pedido, cantidad, descuento, condicionIva, descripcion, precio, medida) VALUES ('$id_producto', '$id_pedido', '$cantidad', '$descuento', '$condicionIva', '$nombre', '$precio', '$idmedida')";
                 $resultado2 = mysqli_query($conexion,$sql2);
         
-                $sql3 = "UPDATE id_pedido SET entrega = '$domicilio', id_cliente = '$id_cliente', fecha_entrega = '$fechaEntrega' WHERE id = '$id_pedido'";
-                $resultado3 = mysqli_query($conexion,$sql3);
-                if(!$resultado && !$resultado3)
+                if(!$resultado && !$resultado2)
                 {
                     $_SESSION['message-error'] = 'No se a podido guardar el producto';
                 }
@@ -193,7 +194,7 @@
             <header class="titulo">
                 <h2>Pedidos</h2>
             </header>
-            <span class="span-cliente">Cliente: <?php echo $cliente; ?></span>
+            <span class="span-cliente">Cliente: <?= $cliente ?></span>
             <a class="boton clientes" href="<?php echo SERVERURL;?>clientes/<?php echo $vendedor;?>">
                 <input class="efecto-botones" type="button" value="Clientes">
             </a>
@@ -242,7 +243,7 @@
                                                                                                             }
                                                                                                         ?> value="<?php echo $cantidad;?>">
                         <input class="textbox-iva efecto" type="text" name="cantidad" value="<?php echo $medida;?>"disabled>
-                        <input class="textbox-precio efecto" type="text" name="precio" required="" pattern="[0-9]+.[0-9]+" value="<?php echo $precio;?>">
+                        <input class="textbox-precio efecto" type="text" name="precio" required="" value="<?php echo $precio;?>"disabled>
                         <input class="textbox-descuento efecto" type="text" name="descuento">
                         <input class="textbox-iva efecto" type="text" value="<?php echo $iva.'%';?>">                 
                     </div>   

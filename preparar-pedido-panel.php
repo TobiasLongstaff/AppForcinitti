@@ -21,6 +21,8 @@
     $titulo = '';
     $id_producto = '';
     $estado = '';
+    $precio = '';
+    $descuento = '';
 
     if(isset($_GET['vendedor']))
     {
@@ -109,10 +111,15 @@
                 <table>
                     <tr>
                         <th>Cantidad</th>
-                        <th>Descripcion</th>                        
-                        <th>Dto.</th>
-                        <th>Precio</th>
-                        <th>Precio x kg o un</th>
+                        <th>Descripcion</th>
+                        <?php
+                            if($tipo != '')
+                            { ?>
+                                <th>Precio</th> 
+                                <th>Dto.</th> 
+                        <?php                                
+                            } ?>
+                        <th>Precio x kg o un</th>                
                         <th>Controles</th>
                     </tr>
                     <tr>
@@ -121,12 +128,14 @@
                         $resultado = mysqli_query($conecta, $sql);
                         while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
                         {
-                            $id = $filas['id'];
+                            echo 'id_pedido: '.$idPedido;
+                            echo 'id: '.$id = $filas['id'];
                             $id_producto = $filas['id_producto'];
-                            $cantidadListaPreparar = $filas['cantidad'];
-                            $descripcionListaPreparar = $filas['descripcion'];                            
+                            echo 'cantidad_Preparado: '.$cantidadListaPreparar = $filas['cantidad'];
+                            $descripcionListaPreparar = $filas['descripcion'];  
+                            $id_medida = $filas['medida'];
                             $descuento = $filas['descuento'];
-                            $precio = $filas['precio'];
+                            $precio = $filas['precio']; 
 
                             $sql2="SELECT * FROM productos WHERE id = '$id_producto'";
                             $resultado2 = mysqli_query($conecta, $sql2);
@@ -135,15 +144,42 @@
                                 $precio_productos = $fila['preciominorista']; 
                             }
 
-                            $sql3="SELECT * FROM lista WHERE id_pedido = '$idPedido'";
+                            $sql3="SELECT * FROM lista WHERE id = '$id'";
                             $resultado3 = mysqli_query($conecta, $sql3);
-                            while($fila = mysqli_fetch_array($resultado3, MYSQLI_ASSOC))
+                            while($fila1 = mysqli_fetch_array($resultado3, MYSQLI_ASSOC))
                             {
-                                $descripcion_producto = $fila['descripcion'];
-                                $cantidad_producto = $fila['cantidad'];
+                                $descripcion_producto = $fila1['descripcion'];
+                                echo 'cantidad_Lista: '.$cantidad_producto = $fila1['cantidad'];
                             }
-                        
-                            $id_medida = $filas['medida'];
+
+                            if($cantidadListaPreparar != $cantidad_producto)
+                            {
+                                echo $cantidadListaPreparar.' = '.$cantidad_producto;  
+                                $td_cantidad = 'td-incorrecto';
+                            }
+                            else
+                            {
+                                $td_cantidad = 'td-correcto';
+                            }
+
+                            if($descripcionListaPreparar != $descripcion_producto)
+                            {
+                                $td_descripcion = 'td-incorrecto';
+                            }
+                            else
+                            {
+                                $td_descripcion = 'td-correcto';
+                            }
+
+                            if($precio != $precio_productos)
+                            {
+                                $td_precio = 'td-incorrecto';
+                            }    
+                            else
+                            {
+                                $td_precio = 'td-correcto';
+                            }  
+
                             if($id_medida == '3' or $id_medida == '0')
                             {
                                 $medida = 'un';
@@ -163,38 +199,19 @@
                             $sql3 = "UPDATE id_pedido SET total = '$total' WHERE id = '$idPedido'";
                             $resultado3 = mysqli_query($conexion,$sql3);
 
-                            if($descripcionListaPreparar != $descripcion_producto)
-                            {
-                                $td_descripcion = 'td-incorrecto';
-                            }
-                            else
-                            {
-                                $td_descripcion = 'td-correcto';
-                            }
-
-                            if($cantidadListaPreparar != $cantidad_producto)
-                            {
-                                $td_cantidad = 'td-incorrecto';
-                            }
-                            else
-                            {
-                                $td_cantidad = 'td-correcto';
-                            }
-
-                            if($precio != $precio_productos)
-                            {
-                                $td_precio = 'td-incorrecto';
-                            }    
-                            else
-                            {
-                                $td_precio = 'td-correcto';
-                            }
                             ?>
 
                             <td class="<?php echo $td_cantidad;?>"><?php echo $cantidadListaPreparar?></td>
-                            <td class="<?php echo $td_descripcion;?>"><?php echo $descripcionListaPreparar?></td>                            
-                            <td><?php echo $descuento?></td>
-                            <td class="<?php echo $td_precio;?>"><?php echo $precio;?></td>
+                            <td class="<?php echo $td_descripcion;?>"><?php echo $descripcionListaPreparar?></td>
+                            <?php
+                                if($tipo != '')
+                                {
+                            ?>
+                                    <td class="<?php echo $td_precio;?>"><?php echo $precio;?></td> 
+                                    <td><?php echo $descuento?></td>  
+                            <?php                             
+                                }
+                            ?>                            
                             <td><?php echo $medida?></td>
                             <td class="controles">
                                 <a href="<?php echo SERVERURL;?>actualizar-pedido-preparado/<?php echo $vendedor;?>/<?php echo $id;?>/<?php echo $tipo;?>">

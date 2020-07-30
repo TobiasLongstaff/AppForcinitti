@@ -19,9 +19,9 @@
 
     if(isset($_GET['id']) && isset($_GET['vendedor']) && isset($_GET['id_cliente']))
     { 
-        echo $id_pedido = $_GET['id'];
-        echo $vendedor = $_GET['vendedor'];
-        echo $id_cliente = $_GET['id_cliente'];
+        $id_pedido = $_GET['id'];
+        $vendedor = $_GET['vendedor'];
+        $id_cliente = $_GET['id_cliente'];
 
         $sql = "UPDATE id_pedido SET id_cliente = '$id_cliente' WHERE id = '$id_pedido'";
         $resultado = mysqli_query($conexion,$sql);
