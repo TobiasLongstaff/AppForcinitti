@@ -6,13 +6,13 @@
     {
         function Header()
         {
-            $this->Image('assets/img/logo.png', 5, 5, 20);
+            $this->Image('assets/img/logo.png', 15, 10, 13);
             $this->SetTextColor(112,112,112);
-            $this->SetFont('Arial','',25);
-            $this->Cell(30);
-            $this->Cell(0, 20, 'Pedidos Forcinitti', 0, 0, 'L');
+            $this->SetFont('Arial','',20);
+            $this->Cell(20);
+            $this->Cell(0, 12, 'Pedidos Forcinitti', 0, 0, 'L');
 
-            $this->Ln(30);
+            $this->Ln(15);
         }
     }
 

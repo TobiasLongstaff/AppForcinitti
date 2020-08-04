@@ -19,7 +19,7 @@
     $total = '';
     $estado = '';
 
-    $pdf = new FPDF('P','mm',array(100,150)); 
+    $pdf = new PDF('P','mm',array(100,150)); 
     $pdf->AliasNbPages();
     $pdf->AddPage();
 
@@ -29,6 +29,7 @@
         $vendedor = $url[0];
         $idPedido = $url[1];
 
+            $pdf->Cell(-5);
             $pdf->SetFillColor(999, 999, 999);
             $pdf->SetTextColor(112,112,112);
             $pdf->SetDrawColor(999, 999, 999);
@@ -38,6 +39,7 @@
             $resultado = mysqli_query($conecta, $sql);
             while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
             {
+                
                 $idCliente = $filas['id_cliente'];
                 $idPedido = $filas['id']; 
                 $entrega = $filas['entrega'];
@@ -52,24 +54,26 @@
                 {
                     $cliente = $filas['nombre'];
                 }
-
-                $pdf->Cell (25,6,'Pedido ID: '.$idPedido,1,1,'L',1); 
-                $pdf->Cell (17,6,'Cliente: '.$cliente,1,1,'L',1); 
-                $pdf->Cell (25,6,'Domicilio: '.$entrega,1,1,'L',1); 
-                $pdf->Cell (25,6,'Fecha de entrega: '.$fechaDeEntrega,1,1,'L',1);
-                $pdf->Cell (25,6,'Estado: '.$estado,1,1,'L',1);
-                $pdf->Cell (25,6,'Cabecera: '.$cabecera,1,1,'L',1);
-                $pdf->Ln(5);         
+                $pdf->Cell (0,6,'Pedido ID: '.$idPedido,1,1,'L',1); 
+                $pdf->Cell(-5);
+                $pdf->Cell (0,6,'Cliente: '.$cliente,1,1,'L',1); 
+                $pdf->Cell(-5);
+                $pdf->Cell (0,6,'Domicilio: '.$entrega,1,1,'L',1); 
+                $pdf->Cell(-5);
+                $pdf->Cell (0,6,'Fecha de entrega: '.$fechaDeEntrega,1,1,'L',1);
+                $pdf->Cell(-5);
+                $pdf->Cell (0,6,'Estado: '.$estado,1,1,'L',1);
+                $pdf->Cell(-5);
+                $pdf->Cell (0,6,'Cabecera: '.$cabecera,1,1,'L',1);
+                $pdf->Ln(6);         
                 $pdf->SetFillColor(5, 85, 189);
 
                 $pdf->SetTextColor(999,999,999);
                 $pdf->SetDrawColor(5, 85, 189);
+                $pdf->Cell(-5);
                 $pdf->SetFont('Arial','B',11);
-                $pdf->Cell(25,6, 'Cantidad', 1,0,'C',1);
-                $pdf->Cell(35,6,'Descuento',1,0,'C',1);
-                $pdf->Cell(40,6,'IVA condicional',1,0,'C',1);
-                $pdf->Cell(70,6,'Descripcion',1,0,'C',1);
-                $pdf->Cell(20,6,'Precio',1,0,'C',1);
+                $pdf->Cell(10,6, 'Cant.', 1,0,'C',1);
+                $pdf->Cell(80,6,'Descripcion',1,0,'C',1);
 
                 $pdf->SetFillColor(999,999,999);
                 $pdf->SetTextColor(112,112,112);
@@ -80,12 +84,9 @@
                 while($filas = mysqli_fetch_array($resultado3, MYSQLI_ASSOC))
                 {   
                     $pdf->Cell (25,6,'',0,1,'C',0); 
-                    $pdf->Cell (25,6, $filas['cantidad'],1,0,'C',1);  
-                    $pdf->Cell (35,6, $filas['descuento'],1,0,'C',1);
-                    $pdf->Cell (40,6, $filas['condicionIva'].'%',1,0,'C',1);
-                    $pdf->Cell (70,6, $filas['descripcion'],1,0,'C',1);
-                    $pdf->Cell (20,6,'$'.$filas['precio'],1,0,'C',1); 
-                    $pdf->AddPage();              
+                    $pdf->Cell(-5);
+                    $pdf->Cell (10,6, $filas['cantidad'],1,0,'C',1);
+                    $pdf->Cell (80,6, $filas['descripcion'],1,0,'C',1);          
                 } 
                 $pdf->Ln(10); 
                 $pdf->Cell (25,6,'Total: $'.$total,1,1,'L',1); 
