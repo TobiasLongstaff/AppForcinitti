@@ -67,7 +67,7 @@
     <link rel="icon" href="<?php echo SERVERURL;?>assets/img/logo.ico">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/lista.css">
+    <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/lista-preparar.css">
     <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/message.css">
 
     <!-- ICONOS -->

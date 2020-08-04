@@ -70,7 +70,7 @@
     <link rel="icon" href="<?php echo SERVERURL;?>assets/img/logo.ico">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/lista.css">
+    <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/lista-preparar.css">
     <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/message.css">
     
     <!-- ICONOS -->
@@ -121,7 +121,7 @@
                                 <th>Dto.</th> 
                         <?php                                
                             } ?>
-                        <th>Precio x kg o un</th>                
+                        <th>kg o un</th>                
                         <th>Controles</th>
                     </tr>
                     <tr>
@@ -238,7 +238,7 @@
                 $estado = 'Preparado';       
             }
             ?>
-            <div class="botones ">
+            <div class="botones-panel">
                 <a class="form-botones btn-finalizar" href="<?php echo SERVERURL;?>preparar-pedido-preparado.php?id_update=<?php echo $idPedido;?>&vendedor=<?php echo $vendedor;?>&tipo=<?php echo $estado;?>">
                     <input class="efecto-botones animate__animated animate__fadeIn animate__delay-1s animacion4" type="submit" value="<?php echo $estado;?>">
                 </a>
