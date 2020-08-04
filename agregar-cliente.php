@@ -15,15 +15,17 @@
     $id_cliente = '';
     $vendedor = '';
     $id_pedido = '';
+    $direccion = '';
 
 
-    if(isset($_GET['id']) && isset($_GET['vendedor']) && isset($_GET['id_cliente']))
+    if(isset($_GET['id']) && isset($_GET['vendedor']) && isset($_GET['id_cliente']) && isset($_GET['direccion']))
     { 
         $id_pedido = $_GET['id'];
         $vendedor = $_GET['vendedor'];
         $id_cliente = $_GET['id_cliente'];
+        $direccion = $_GET['direccion'];
 
-        $sql = "UPDATE id_pedido SET id_cliente = '$id_cliente' WHERE id = '$id_pedido'";
+        $sql = "UPDATE id_pedido SET id_cliente = '$id_cliente', entrega = '$direccion' WHERE id = '$id_pedido'";
         $resultado = mysqli_query($conexion,$sql);
         if(!$resultado)
         {

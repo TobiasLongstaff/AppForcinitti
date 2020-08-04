@@ -21,6 +21,8 @@ RewriteRule ^gestionar-pedidos/([a-zA-Z0-9/]+)$ gestionar-pedidos.php?vendedor=$
 
 RewriteRule ^imprimir/([a-zA-Z0-9/]+)$ imprimir.php?vendedor=$1
 
+RewriteRule ^imprimir-ticket/([a-zA-Z0-9/]+)$ imprimir-ticket.php?vendedor=$1
+
 RewriteRule ^preparar-pedidos/([a-zA-Z0-9/]+)$ preparar-pedidos.php?vendedor=$1
 
 RewriteRule ^preparar-pedidos-panel/([a-zA-Z0-9/]+)$ preparar-pedido-panel.php?vendedor=$1

@@ -23,6 +23,8 @@
     $estado = '';
     $precio = '';
     $descuento = '';
+    $cantidad_producto = '';
+    $descripcion_producto = '';
 
     if(isset($_GET['vendedor']))
     {
@@ -128,10 +130,9 @@
                         $resultado = mysqli_query($conecta, $sql);
                         while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
                         {
-                            echo 'id_pedido: '.$idPedido;
-                            echo 'id: '.$id = $filas['id'];
+                            $id = $filas['id'];
                             $id_producto = $filas['id_producto'];
-                            echo 'cantidad_Preparado: '.$cantidadListaPreparar = $filas['cantidad'];
+                            $cantidadListaPreparar = $filas['cantidad'];
                             $descripcionListaPreparar = $filas['descripcion'];  
                             $id_medida = $filas['medida'];
                             $descuento = $filas['descuento'];
@@ -144,17 +145,17 @@
                                 $precio_productos = $fila['preciominorista']; 
                             }
 
-                            $sql3="SELECT * FROM lista WHERE id = '$id'";
+                            $sql3="SELECT * FROM lista WHERE id_pedido = '$idPedido' AND cantidad = '$cantidadListaPreparar' AND descripcion = '$descripcionListaPreparar'";
                             $resultado3 = mysqli_query($conecta, $sql3);
                             while($fila1 = mysqli_fetch_array($resultado3, MYSQLI_ASSOC))
                             {
                                 $descripcion_producto = $fila1['descripcion'];
-                                echo 'cantidad_Lista: '.$cantidad_producto = $fila1['cantidad'];
+                                $cantidad_producto = $fila1['cantidad'];
+                                break;
                             }
 
                             if($cantidadListaPreparar != $cantidad_producto)
-                            {
-                                echo $cantidadListaPreparar.' = '.$cantidad_producto;  
+                            { 
                                 $td_cantidad = 'td-incorrecto';
                             }
                             else

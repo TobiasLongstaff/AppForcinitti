@@ -30,6 +30,7 @@
     $vendedor = '';
     $idmedida = '';
     $cliente = '';
+    $id_producto_lista = '';
     //EXTRAER DATOS
     
 
@@ -80,7 +81,6 @@
             $fechaEntrega = $filas['fecha_entrega'];
             $id_cliente = $filas['id_cliente'];
             $cabecera = $filas['cabecera'];
-
         }
             
         if(!empty($id_cliente))
@@ -90,7 +90,6 @@
             while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
             {
                 $cliente = $filas['nombre'];
-                $domicilio = $filas['direccion'];
             }
         }
     }
@@ -111,58 +110,70 @@
         {
             $_SESSION['message-correcto'] = 'Producto Guardado';
         } 
-
-    }
-
-    if(isset($_POST['cantidad']) && isset($_POST['descuento']) && isset($_POST['condicionIva']) && isset($_POST['domicilio']) && isset($_POST['fechaEntrega']) && isset($_POST['precio']))
-    {
-        $cantidad = $_POST['cantidad'];     
-        $descuento = $_POST['descuento'];       
-        $condicionIva = $_POST['condicionIva'];
-        $domicilio = $_POST['domicilio'];
-        $fechaEntrega = $_POST['fechaEntrega'];  
-        $precio = $_POST['precio'];     
     }
 
     if(isset($_POST['agregar-producto']))
     {
         $boton_agregar = $_POST['agregar-producto'];
     }
-    
-    if($boton_agregar)
+
+    if(isset($_POST['cantidad']) && isset($_POST['descuento']) && isset($_POST['condicionIva']) && isset($_POST['domicilio']) && isset($_POST['fechaEntrega']))
     {
-        if(!empty($id_producto))
-        {                
-            $sql3 = "UPDATE id_pedido SET entrega = '$domicilio', id_cliente = '$id_cliente', fecha_entrega = '$fechaEntrega' WHERE id = '$id_pedido'";
-            $resultado3 = mysqli_query($conexion,$sql3);
+        $cantidad = $_POST['cantidad'];     
+        $descuento = $_POST['descuento'];       
+        $condicionIva = $_POST['condicionIva'];
+        $domicilio = $_POST['domicilio'];
+        $fechaEntrega = $_POST['fechaEntrega'];  
 
-            if($cantidad != '0')
-            {
-                $sql = "INSERT INTO lista (id_producto, id_pedido, cantidad, descuento, condicionIva, descripcion, precio, medida) VALUES ('$id_producto', '$id_pedido', '$cantidad', '$descuento', '$condicionIva', '$nombre', '$precio', '$idmedida')";
-                $resultado = mysqli_query($conexion,$sql);
+        $sql3 = "UPDATE id_pedido SET entrega = '$domicilio', id_cliente = '$id_cliente', fecha_entrega = '$fechaEntrega' WHERE id = '$id_pedido'";
+        $resultado3 = mysqli_query($conexion,$sql3);
 
-                $sql2 = "INSERT INTO lista_preparar (id_producto, id_pedido, cantidad, descuento, condicionIva, descripcion, precio, medida) VALUES ('$id_producto', '$id_pedido', '$cantidad', '$descuento', '$condicionIva', '$nombre', '$precio', '$idmedida')";
-                $resultado2 = mysqli_query($conexion,$sql2);
-        
-                if(!$resultado && !$resultado2)
+        if($boton_agregar)
+        {
+            if(!empty($id_producto))
+            {                
+                if($cantidad != '0')
                 {
-                    $_SESSION['message-error'] = 'No se a podido guardar el producto';
+                    $sql="SELECT * FROM lista WHERE id_pedido = '$id_pedido'";
+                    $resultado = mysqli_query($conecta, $sql);
+                    while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+                    {
+                        $id_producto_lista = $filas['id_producto'];         
+                    } 
+                    if($id_producto != $id_producto_lista)
+                    {
+                        $sql1 = "INSERT INTO lista (id_producto, id_pedido, cantidad, descuento, condicionIva, descripcion, precio, medida) VALUES ('$id_producto', '$id_pedido', '$cantidad', '$descuento', '$condicionIva', '$nombre', '$precio', '$idmedida')";
+                        $resultado1 = mysqli_query($conexion,$sql1);
+
+                        $sql2 = "INSERT INTO lista_preparar (id_producto, id_pedido, cantidad, descuento, condicionIva, descripcion, precio, medida) VALUES ('$id_producto', '$id_pedido', '$cantidad', '$descuento', '$condicionIva', '$nombre', '$precio', '$idmedida')";
+                        $resultado2 = mysqli_query($conexion,$sql2);
+                    
+                        if(!$resultado && !$resultado1 && !$resultado2 && !$resultado3)
+                        {
+                            $_SESSION['message-error'] = 'No se a podido guardar el producto';
+                        }
+                        else
+                        {
+                            $_SESSION['message-correcto'] = 'Producto Guardado';
+                        }                         
+                    }                       
+                    else
+                    {
+                        $_SESSION['message-error'] = 'Ya agregaste este producto a la lista';
+                    } 
                 }
                 else
                 {
-                    $_SESSION['message-correcto'] = 'Producto Guardado';
-                }                 
-            }
+                    $_SESSION['message-error'] = 'La cantidad no puede ser cero';
+                }
+            }          
             else
             {
-                $_SESSION['message-error'] = 'La cantidad no puede ser cero';
-            }
-        }          
-        else
-        {
-            $_SESSION['message-error'] = 'Seleccione un producto';
-        }        
+                $_SESSION['message-error'] = 'Seleccione un producto';
+            }        
+        }     
     }
+
     mysqli_close($conexion); 
 ?>
 <!DOCTYPE html>
@@ -194,7 +205,7 @@
             <header class="titulo">
                 <h2>Pedidos</h2>
             </header>
-            <span class="span-cliente">Cliente: <?= $cliente ?></span>
+            <span class="span-cliente">Cliente: <?php echo $cliente; ?></span>
             <a class="boton clientes" href="<?php echo SERVERURL;?>clientes/<?php echo $vendedor;?>">
                 <input class="efecto-botones" type="button" value="Clientes">
             </a>
@@ -242,9 +253,9 @@
                                                                                                         <?php      
                                                                                                             }
                                                                                                         ?> value="<?php echo $cantidad;?>">
-                        <input class="textbox-iva efecto" type="text" name="cantidad" value="<?php echo $medida;?>"disabled>
-                        <input class="textbox-precio efecto" type="text" name="precio" required="" value="<?php echo $precio;?>"disabled>
-                        <input class="textbox-descuento efecto" type="text" name="descuento">
+                        <input class="textbox-iva efecto" type="text" value="<?php echo $medida;?>"disabled>
+                        <input class="textbox-precio efecto" type="text" required="" value="<?php echo $precio;?>"disabled>
+                        <input class="textbox-descuento efecto" type="text" name="descuento" value="<?php echo $descuento; ?>">
                         <input class="textbox-iva efecto" type="text" value="<?php echo $iva.'%';?>">                 
                     </div>   
                 </div>

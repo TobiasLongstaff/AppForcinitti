@@ -106,7 +106,7 @@
                                         <?php echo $cliente?> 
                                     </td>
                                     <td>
-                                        <a href="<?php echo SERVERURL;?>agregar-cliente.php?vendedor=<?php echo $vendedor;?>&id=<?php echo $id_pedido;?>&id_cliente=<?php echo $id_cliente;?>">
+                                        <a href="<?php echo SERVERURL;?>agregar-cliente.php?vendedor=<?php echo $vendedor;?>&id=<?php echo $id_pedido;?>&id_cliente=<?php echo $id_cliente;?>&direccion=<?php echo $domicilio;?>">
                                             <button class="boton-controles efecto-botones fas fa-user-plus" type="submit" name="boton-agregar" value="Agregar"></button>
                                         </a> 
                                     </td>
@@ -133,7 +133,7 @@
                                         <?php echo $cliente;?> 
                                     </td>
                                     <td>
-                                        <a href="<?php echo SERVERURL;?>agregar-cliente.php?vendedor=<?php echo $vendedor;?>&id=<?php echo $id_pedido;?>&id_cliente=<?php echo $id_cliente;?>">                                            
+                                        <a href="<?php echo SERVERURL;?>agregar-cliente.php?vendedor=<?php echo $vendedor;?>&id=<?php echo $id_pedido;?>&id_cliente=<?php echo $id_cliente;?>&direccion=<? echo $domicilio;?>">                                            
                                             <button class="fas fa-user-plus boton-controles efecto-botones" type="submit" name="boton-agregar" value="Agregar"></button>
                                         </a>
                                     </td>

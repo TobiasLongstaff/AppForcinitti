@@ -120,6 +120,7 @@
                 $iva = $filas['condicionIva'];
                 $nombre = $filas['descripcion'];
                 $precio = $filas['precio'];
+                $idmedida = $filas['medida'];
 
                 if($idmedida == 3 or $idmedida == 1)
                 {

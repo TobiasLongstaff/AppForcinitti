@@ -26,6 +26,9 @@
     $idmedida = '';
     $medida = '';
     $tipo = '';
+    $id_pedido = '';
+    $id_producto_lista = '';
+    $id_producto = '';
 
 
     if(isset($_GET['vendedor']))
@@ -94,47 +97,58 @@
         }
     }
 
-    if(isset($_POST['cantidad']) && isset($_POST['descuento']) && isset($_POST['condicionIva']) && isset($_POST['precio']))
-    {
-        $cantidad = $_POST['cantidad'];     
-        $descuento = $_POST['descuento'];       
-        $condicionIva = $_POST['condicionIva'];
-        $precio = $_POST['precio'];     
-    }
-
     if(isset($_POST['agregar-producto']))
     {
         $boton_agregar = $_POST['agregar-producto'];
     }
-    
-    if($boton_agregar)
+
+    if(isset($_POST['cantidad']) && isset($_POST['descuento']) && isset($_POST['condicionIva']))
     {
-        if(!empty($id_producto))
+        $cantidad = $_POST['cantidad'];     
+        $descuento = $_POST['descuento'];       
+        $condicionIva = $_POST['condicionIva'];  
+
+        if($boton_agregar)
         {
-            if($cantidad != '0')
+            if(!empty($id_producto))
             {
-                $sql = "UPDATE lista_preparar SET id_producto = '$id_producto', cantidad = '$cantidad', descuento = '$descuento', condicionIva = '$condicionIva', descripcion = '$nombre', precio = '$precio', medida = '$idmedida' WHERE id_producto = ''";
-                $resultado = mysqli_query($conexion,$sql);
-                if($resultado)
+                if($cantidad != '0')
                 {
-                    $_SESSION['message-correcto'] = 'Producto Agregardo';
+                    $sql="SELECT * FROM lista_preparar WHERE id_pedido = '$id_pedido'";
+                    $resultado = mysqli_query($conecta, $sql);
+                    while($filas = mysqli_fetch_array($resultado, MYSQLI_ASSOC))
+                    {
+                        $id_producto_lista = $filas['id_producto'];         
+                    } 
+                    if($id_producto != $id_producto_lista)
+                    {
+                        $sql1 = "UPDATE lista_preparar SET id_producto = '$id_producto', cantidad = '$cantidad', descuento = '$descuento', condicionIva = '$condicionIva', descripcion = '$nombre', precio = '$precio', medida = '$idmedida' WHERE id_producto = ''";
+                        $resultado1 = mysqli_query($conexion,$sql1);
+                        if($resultado && $resultado1)
+                        {
+                            $_SESSION['message-correcto'] = 'Producto Agregardo';
+                        }
+                        else
+                        {
+                            $_SESSION['message-error'] = 'Error al agregar el producto';
+                        }                    
+                    }
+                    else
+                    {
+                        $_SESSION['message-error'] = 'Este producto ya esta agregardo a la lista';
+                    }                        
                 }
                 else
                 {
-                    $_SESSION['message-error'] = 'Error al agregar el producto';
+                    $_SESSION['message-error'] = 'La cantidad no puede ser cero';
                 }
             }
             else
             {
-                $_SESSION['message-error'] = 'La cantidad no puede ser cero';
+                $_SESSION['message-error'] = 'Colocar Producto';
             }
-
-        }
-        else
-        {
-            $_SESSION['message-error'] = 'Colocar Producto';
-        }
-    }
+        }     
+    }    
 
     if(isset($_POST['boton-volver']))
     {
@@ -207,7 +221,7 @@
                                                                                                             }
                                                                                                         ?> value="<?php echo $cantidad;?>">
                         <input class="textbox-iva efecto" type="text" name="cantidad" value="<?php echo $medida;?>"disabled>
-                        <input class="textbox-precio efecto" type="text" name="precio" required="" pattern="[0-9]+.[0-9]+" value="<?php echo $precio;?>">
+                        <input class="textbox-precio efecto" type="text" required="" value="<?php echo $precio;?>"disabled>
                         <input class="textbox-descuento efecto" type="text" name="descuento">
                         <input class="textbox-iva efecto" type="text" value="<?php echo $iva.'%';?>">                 
                     </div>   

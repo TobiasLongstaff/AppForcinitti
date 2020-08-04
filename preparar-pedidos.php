@@ -179,7 +179,7 @@
                                         <td class="controles">
                                             <a href="<?php echo SERVERURL;?>preparar-pedidos-panel/<?php echo $vendedor;?>/<?php echo $idPedido; ?>/">
                                                 <button type="button" class="fas fa-edit boton-controles efecto-botones"></button>
-                                            </a>  
+                                            </a> 
                                         </td>                
                         </tr>                                    
                         <?php                                   
