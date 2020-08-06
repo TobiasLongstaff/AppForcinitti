@@ -348,6 +348,21 @@ a
 
 }
 
+@media screen and (min-width: 1000px)
+{
+    .contenido
+    {
+        width: 750px;
+        padding: 2% 5% 20% 5%;
+        margin: 40px;
+    }
+
+    .botones
+    {
+        padding-bottom: 20px;
+    }
+}
+
 @media screen and (min-width: 1060px)
 {
     .contenido
@@ -357,12 +372,108 @@ a
     }
 }
 
-@media screen and (min-width: 1600px)
+@media screen and (min-width: 1150px)
 {
     .contenido
     {
+        margin-top: 3%;
+        width: 850px;
+        height: 400px;
+    }
+}
+
+@media screen and (min-width: 1270px)
+{
+    .contenido
+    {
+        width: 900px;
+        height: 300px;
+    }
+
+    .tabla-lista
+    {
+        height: 300px;
+    }
+}
+
+
+@media screen and (min-width: 1340px)
+{
+    .contenido
+    {
+        margin-top: 3%;
+        padding-top: 3%;
+        height: 250px;
+    }
+
+    .tabla-lista
+    {
+        height: 250px;
+    }
+
+    .botones
+    {
+        padding-bottom: 10px;
+    }
+}
+
+@media screen and (min-width: 1390px)
+{
+    .contenido
+    {
+        margin-top: 5%;
+        padding-top: 5%;
+        height: 400px;
+    }
+
+    .tabla-lista
+    {
+        height: 400px;
+    }
+}
+
+@media screen and (min-width: 1430px)
+{
+    .contenido
+    {
+        margin-top: 5%;
+        padding-top: 5%;
+        height: 300px;
+    }
+
+    .tabla-lista
+    {
+        height: 300px;
+    }
+}
+
+@media screen and (min-width: 1590px)
+{
+    .contenido
+    {
+        margin-top: 3%;
+        padding-top: 3%;
         width: 1000px;
-        height: 600px;
+        height: 300px;
+    }
+
+    .tabla-lista
+    {
+        height: 325px;
+    }
+}
+
+@media screen and (min-width: 1670px)
+{
+    .contenido
+    {
+        margin-top: 5%;
+        padding-top: 5%;
+    }
+
+    .tabla-lista
+    {
+        height: 350px;
     }
 }
 
