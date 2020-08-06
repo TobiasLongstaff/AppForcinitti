@@ -26,3 +26,16 @@
     margin-bottom: 10px;
     margin-top: 10px;
 }
+
+@media screen and (min-width: 1800px)
+{
+    .mensaje-correcto
+    {
+        height: 50px;
+    }
+
+    .mensaje-error
+    {
+        height: 50px;
+    }
+}

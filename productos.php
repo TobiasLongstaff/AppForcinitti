@@ -66,7 +66,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet"> 
     
     <!-- CSS -->
-    <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/lista.css">
+    <link rel="stylesheet" href="<?php echo SERVERURL;?>assets/styles/lista-preparar.css">
 
     <!-- ICONOS -->
     <script src="https://kit.fontawesome.com/1b601aa92b.js" crossorigin="anonymous"></script>
